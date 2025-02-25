@@ -59,7 +59,7 @@
 
         // Projects Section - FIXED VERSION
         async function loadProjects() {
-            const token = process.env.TOKEN;
+            const token = config.token;
             try {
                 const projectsGrid = document.getElementById('projects-grid');
                 if (!projectsGrid) {
