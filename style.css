@@ -194,8 +194,6 @@
 
         /* Hero Section */
         .hero {
-            min-height: 100vh; /* Fallback */
-            min-height: calc(var(--vh, 1vh) * 100); /* Mobile browser fix */
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -648,13 +646,11 @@
         }
 
         .github-link {
-            display: flex; /* Change from inline-flex */
-            justify-content: center; /* Center horizontally */
+            display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             padding: 0.75rem 1.5rem;
             transition: all 0.3s ease;
-            text-align: center; /* Ensure text is centered */
         }
 
         .github-link:hover {
@@ -664,65 +660,4 @@
 
         .github-link i {
             font-size: 1.2em;
-        }
-
-        @media (max-width: 480px) {
-            .hero-buttons {
-                flex-direction: column;
-                width: 100%;
-                gap: 16px; /* Add spacing between stacked buttons */
-            }
-        
-            .btn:not(:last-child) {
-                margin-right: 0; /* Remove the horizontal margin */
-                margin-bottom: 16px; /* Add vertical margin instead */
-            }
-        }
-
-        .github-link {
-            display: flex; /* Change from inline-flex */
-            justify-content: center; /* Center horizontally */
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            transition: all 0.3s ease;
-            text-align: center; /* Ensure text is centered */
-        }
-
-        @media (max-width: 768px) {
-            .nav-links li a, 
-            .btn,
-            .footer-links a {
-                padding: 12px; /* Ensure at least 44px touch target */
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .section-subtitle {
-                font-size: 18px;
-            }
-            
-            .project-content h3 {
-                font-size: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .form-control {
-                padding: 14px;
-                margin-bottom: 8px; /* Add some spacing */
-            }
-        
-            .contact-form {
-                gap: 16px; /* Reduce gap slightly on mobile */
-            }
-        }
-
-        @media (max-width: 480px) {
-            .skill-card {
-                padding: 24px; /* Slightly smaller padding */
-            }
         }
