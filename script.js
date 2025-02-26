@@ -258,6 +258,19 @@ window.addEventListener('resize', setVhUnit);
 window.addEventListener('orientationchange', setVhUnit);
 setVhUnit();
 
+// Add this to your script.js
+function setMobileHeight() {
+    // First we get the viewport height and multiply it by 1% to get a value for a vh unit
+    let vh = window.innerHeight * 0.01;
+    // Then we set the value in the --vh custom property to the root of the document
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+// We call the function when the page loads
+setMobileHeight();
+// We listen to the resize event
+window.addEventListener('resize', setMobileHeight);
+
 // Document ready handler - ensure all DOM is loaded
 document.addEventListener('DOMContentLoaded', function () {
     // Load projects
