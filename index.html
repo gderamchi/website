@@ -2,129 +2,152 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guillaume Deramchi | Software Engineer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guillaume Deramchi | Software & Prompt Engineer</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
-    
-    <!-- EmailJS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    
-    <!-- Custom JavaScript (add at the end of body) -->
-    <script src="script.js" defer></script>
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  
+  <!-- Custom JavaScript (add at the end of body) -->
+  <script src="script.js" defer></script>
 </head>
 
 <body>
-    <!-- Header & Navigation -->
-    <header id="header">
-        <div class="container">
-            <nav>
-                <a href="#" class="logo">Guillaume Deramchi</a>
-                <ul class="nav-links" id="nav-links">
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#projects" class="nav-link">Projects</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
-                </ul>
-                <div class="menu-toggle" id="menu-toggle">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                        <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                        <path d="M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                    </svg>
-                </div>
-            </nav>
+  <!-- Header & Navigation -->
+  <header id="header">
+    <div class="container">
+      <nav>
+        <a href="#" class="logo">Guillaume Deramchi</a>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+          <li><button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+            <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 1V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 21V23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.22 4.22L5.64 5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M18.36 18.36L19.78 19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M1 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21 12H23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.22 19.78L5.64 18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button></li>
+        </ul>
+        <div class="menu-toggle" id="menu-toggle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
         </div>
-    </header>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Building exceptional digital experiences</h1>
-                <p class="hero-subtitle">Software engineer specializing in creating elegant, high-performance
-                    applications that solve real-world problems.</p>
-                <div class="hero-buttons">
-                    <a href="#projects" class="btn">View Projects</a>
-                    <a href="#contact" class="btn btn-outline">Get in Touch</a>
-                </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <p class="section-subtitle">I craft digital solutions with a focus on clean code, intuitive interfaces, and
-                scalable architectures.</p>
-
-            <div class="skills-container" id="skills-container">
-                <!-- Skills will be loaded dynamically -->
-            </div>
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">Building Exceptional Digital Experiences & Intelligent AI Prompts</h1>
+        <p class="hero-subtitle">
+          I am a software & prompt engineer specializing in creating elegant, high-performance applications and crafting intelligent AI prompts that solve real-world problems.
+        </p>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn">View Projects</a>
+          <a href="#contact" class="btn btn-outline">Get in Touch</a>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Projects Section -->
-    <section class="projects" id="projects">
-        <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-            <p class="section-subtitle">A selection of my recent work, showcasing my range of technical expertise and
-                problem-solving abilities.</p>
+  <!-- About Section -->
+  <section class="about" id="about">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <p class="section-subtitle">
+        I craft digital solutions with a focus on clean code, intuitive interfaces, scalable architectures, and intelligent prompt engineering. My work combines traditional software development with innovative AI prompt techniques to deliver tailored, high-impact solutions.
+      </p>
 
-            <div id="projects-container">
-                <div id="projects-grid" class="projects-grid"></div>
-                <!-- Show more button will be inserted here -->
-            </div>
+      <div class="skills-container" id="skills-container">
+        <!-- Skills will be loaded dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="projects" id="projects">
+    <div class="container">
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-subtitle">
+        A selection of my recent work showcasing my technical expertise, problem-solving abilities, and innovative prompt engineering solutions.
+      </p>
+
+      <div id="projects-container">
+        <div id="projects-grid" class="projects-grid"></div>
+        <!-- Show more button will be inserted here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <h2 class="section-title">Get in Touch</h2>
+      <p class="section-subtitle">
+        Let's discuss how we can work together on your next project.
+      </p>
+
+      <div class="contact-card" id="contact-card">
+        <div class="contact-header">
+          <h3 class="contact-title">Send a Message</h3>
+          <p>I'll get back to you as soon as possible.</p>
         </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <h2 class="section-title">Get in Touch</h2>
-            <p class="section-subtitle">Let's discuss how we can work together on your next project.</p>
-
-            <div class="contact-card" id="contact-card">
-                <div class="contact-header">
-                    <h3 class="contact-title">Send a Message</h3>
-                    <p>I'll get back to you as soon as possible.</p>
-                </div>
-                <div class="contact-content">
-                    <form class="contact-form" id="contact-form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" class="form-control" id="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="subject" placeholder="Subject" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control" id="message" placeholder="Your Message" required></textarea>
-                        </div>
-                        <button type="submit" class="btn">Send Message</button>
-                    </form>
-                </div>
+        <div class="contact-content">
+          <form class="contact-form" id="contact-form">
+            <div class="form-group">
+              <input type="text" class="form-control" id="name" placeholder="Your Name" required>
             </div>
+            <div class="form-group">
+              <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="subject" placeholder="Subject" required>
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" id="message" placeholder="Your Message" required></textarea>
+            </div>
+            <button type="submit" class="btn">Send Message</button>
+          </form>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">Guillaume Deramchi</div>
-                <ul class="footer-links">
-                    <li><a href="https://github.com/Guillaume18100" target="_blank" rel="noopener">GitHub</a></li>
-                    <li><a href="https://www.linkedin.com/in/guillaume-deramchi/" target="_blank" rel="noopener">LinkedIn</a></li>
-                </ul>
-            </div>
-            <div class="copyright">
-                &copy; 2025 Guillaume Deramchi. All rights reserved.
-            </div>
-        </div>
-    </footer>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">Guillaume Deramchi</div>
+        <ul class="footer-links">
+          <li><a href="https://github.com/Guillaume18100" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/guillaume-deramchi/" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+      <div class="copyright">
+        &copy; 2025 Guillaume Deramchi. All rights reserved.
+      </div>
+    </div>
+  </footer>
 </body>
 
 </html>

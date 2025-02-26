@@ -1,11 +1,13 @@
 :root {
-    --primary-color: #111;
-    --secondary-color: #555;
-    --accent-color: #0071e3;
-    --background-color: #fbfbfd;
-    --section-bg: #f5f5f7;
-    --text-color: #1d1d1f;
-    --card-bg: #fff;
+    --primary-color: #2d3748;      /* Dark slate blue for text */
+    --secondary-color: #718096;    /* Medium slate for secondary text */
+    --accent-color: #4299e1;       /* Bright blue accent */
+    --accent-hover: #3182ce;       /* Slightly darker blue for hover states */
+    --background-color: #f7fafc;   /* Very light cool gray for background */
+    --section-bg: #edf2f7;         /* Light cool gray for alternating sections */
+    --text-color: #1a202c;         /* Very dark blue-gray for primary text */
+    --card-bg: #ffffff;            /* White for cards */
+    --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Modern shadow */
     --transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
@@ -354,7 +356,7 @@ nav {
 
 .contact-header {
     padding: 40px;
-    background: linear-gradient(135deg, var(--accent-color), #5e9eff);
+    background: linear-gradient(135deg, var(--accent-color), #90cdf4);
     color: white;
 }
 
@@ -402,10 +404,15 @@ textarea.form-control {
 
 /* Footer */
 footer {
-    background-color: var(--primary-color);
+    background-color: #2d3748; /* Keep dark background in both modes */
     color: white;
     padding: 60px 0;
     width: 100%;
+    transition: var(--transition);
+}
+
+body.dark-mode footer {
+    background-color: #1a202c; /* Even darker in dark mode */
 }
 
 .footer-content {
@@ -419,6 +426,12 @@ footer {
 .footer-logo {
     font-size: 24px;
     font-weight: 500;
+    color: #999; /* Change to light grey like other footer text */
+}
+
+/* Keep the same color in dark mode for consistency */
+body.dark-mode .footer-logo {
+    color: #999; /* Same grey color in dark mode */
 }
 
 .footer-links {
@@ -437,7 +450,8 @@ footer {
 }
 
 .footer-links a:hover {
-    color: white;
+    color: var(--accent-color); /* Use accent color on hover instead of white */
+    opacity: 1; /* Override default opacity change */
 }
 
 .copyright {
@@ -684,4 +698,188 @@ footer {
         margin-bottom: 0;
         /* No bottom margin on the last button */
     }
+}
+
+.project-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 450px;
+    /* Set a minimum height for consistent card sizing */
+}
+
+.project-content {
+    flex-grow: 1;
+    padding-bottom: 70px;
+    /* Add space for the buttons */
+}
+
+.project-links {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 24px;
+    background-color: var(--card-bg);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    gap: 10px;
+}
+
+.btn-sm {
+    font-size: 14px;
+    padding: 8px 16px;
+}
+
+/* Updated Skills Container Layout */
+.skills-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Two per row by default */
+    gap: 32px;
+    margin-top: 60px;
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .skills-container {
+        grid-template-columns: repeat(4, 1fr);
+        /* Four per row on larger screens */
+    }
+}
+
+/* Default (Light Mode) */
+:root {
+    --primary-color: #2d3748;      /* Dark slate blue for text */
+    --secondary-color: #718096;    /* Medium slate for secondary text */
+    --accent-color: #4299e1;       /* Bright blue accent */
+    --accent-hover: #3182ce;       /* Slightly darker blue for hover states */
+    --background-color: #f7fafc;   /* Very light cool gray for background */
+    --section-bg: #edf2f7;         /* Light cool gray for alternating sections */
+    --text-color: #1a202c;         /* Very dark blue-gray for primary text */
+    --card-bg: #ffffff;            /* White for cards */
+    --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Modern shadow */
+}
+
+/* Global styles using the variables */
+body {
+    background: var(--background-color);
+    color: var(--text-color);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+header,
+footer {
+    background: var(--card-bg);
+    transition: background 0.3s ease;
+}
+
+section {
+    background: var(--section-bg);
+    transition: background 0.3s ease;
+}
+
+/* Dark Mode Overrides */
+body.dark-mode {
+    --primary-color: #e2e8f0;      /* Light gray for text */
+    --secondary-color: #a0aec0;    /* Medium gray for secondary text */
+    --accent-color: #63b3ed;       /* Lighter blue accent for dark mode */
+    --accent-hover: #4299e1;       /* Blue for hover states */
+    --background-color: #1a202c;   /* Dark blue-gray background */
+    --section-bg: #2d3748;         /* Slate for sections */
+    --text-color: #f7fafc;         /* Very light gray text */
+    --card-bg: #2d3748;            /* Slate for cards */
+    --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -2px rgba(0, 0, 0, 0.15); /* Darker shadow */
+}
+
+.contact-header p {
+    color: white;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    background: transparent;
+    border: none;
+    color: var(--secondary-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    height: 24px;
+    width: 24px;
+    transition: var(--transition);
+    position: relative;
+}
+
+.theme-toggle:hover {
+    color: var(--accent-color);
+}
+
+.sun-icon, .moon-icon {
+    position: absolute;
+    transition: var(--transition);
+}
+
+.sun-icon {
+    opacity: 1;
+}
+
+.moon-icon {
+    opacity: 0;
+}
+
+body.dark-mode .sun-icon {
+    opacity: 0;
+}
+
+body.dark-mode .moon-icon {
+    opacity: 1;
+}
+
+/* Update header background for dark mode */
+body.dark-mode header {
+    background-color: rgba(26, 32, 44, 0.8);
+}
+
+/* Mobile navigation adjustments for dark mode toggle */
+@media (max-width: 768px) {
+    .theme-toggle {
+        margin: 0;
+        position: absolute;
+        top: 20px;
+        right: 70px;
+    }
+}
+
+/* Fix for card shadows and contrast in dark mode */
+.skill-card, .project-card, .contact-card {
+    box-shadow: var(--card-shadow);
+}
+
+body.dark-mode .skill-card,
+body.dark-mode .project-card,
+body.dark-mode .contact-card {
+    box-shadow: 0 8px 30px rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .project-card:hover,
+body.dark-mode .skill-card:hover {
+    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.1);
+}
+
+/* Improve border visibility in dark mode */
+body.dark-mode .project-links {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Improve form inputs in dark mode */
+body.dark-mode .form-control {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--text-color);
+}
+
+body.dark-mode .form-control:focus {
+    border-color: var(--accent-color);
 }
