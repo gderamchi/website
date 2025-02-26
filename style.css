@@ -231,9 +231,11 @@
         }
 
         .hero-buttons {
+            display: flex;
             justify-content: center;
-            /* Ensure buttons remain centered */
-        }
+            align-items: center;
+            margin-top: 32px;
+        }        
 
         .hero-image {
             position: absolute;
