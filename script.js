@@ -8,6 +8,124 @@ const CONFIG = {
   emailjsPublicKey: "aN3NQG_4ipvqqgquR"
 };
 
+// Language translations
+const TRANSLATIONS = {
+  en: {
+    nav: {
+      about: 'About',
+      projects: 'Projects',
+      contact: 'Contact'
+    },
+    hero: {
+      title: 'Mixing Software Engineering with GenAI',
+      subtitle: 'I am a software & prompt engineer specializing in creating elegant, high-performance applications and crafting intelligent AI prompts that solve real-world problems.',
+      viewProjects: 'View Projects',
+      getInTouch: 'Get in Touch'
+    },
+    about: {
+      title: 'About Me',
+      subtitle: 'I combine software engineering with AI prompt techniques to create intuitive, high-performance solutions for modern digital challenges.',
+      journey: {
+        title: 'My Journey',
+        content: 'With a strong foundation in computer science, I\'ve developed expertise in both traditional software development and emerging AI technologies. My experience spans from building responsive web applications to specializing in advanced AI prompt engineering.'
+      },
+      approach: {
+        title: 'My Approach',
+        content: 'I focus on creating solutions that solve real problems while delivering exceptional user experiences. My work follows principles of clean architecture, test-driven development, and continuous improvement to ensure both technical excellence and accessibility.'
+      },
+      toolkit: {
+        title: 'Technical Toolkit',
+        content: 'I work with modern JavaScript frameworks, backend technologies including Node.js and Python, and cross-platform mobile development. In AI, I specialize in prompt engineering for large language models and creating AI solutions that enhance human capabilities.',
+        frontend: 'Frontend Development',
+        backend: 'Backend Engineering',
+        ai: 'AI Prompt Engineering'
+      },
+      skills: 'Core Skills'
+    },
+    projects: {
+      title: 'Featured Projects',
+      subtitle: 'A selection of my recent work showcasing my technical expertise, problem-solving abilities, and innovative prompt engineering solutions.',
+      showMore: 'Show More Projects',
+      viewAll: 'View All Projects on GitHub',
+      liveDemo: 'Live Demo',
+      viewRepo: 'View Repository'
+    },
+    contact: {
+      title: 'Get in Touch',
+      subtitle: 'Let\'s discuss how we can work together on your next project.',
+      formTitle: 'Send a Message',
+      formSubtitle: 'I\'ll get back to you as soon as possible.',
+      name: 'Your Name',
+      email: 'Your Email',
+      subject: 'Subject',
+      message: 'Your Message',
+      send: 'Send Message',
+      success: 'Message sent successfully!',
+      error: 'Failed to send message. Please try again.'
+    },
+    footer: {
+      copyright: '© 2025 Guillaume Deramchi. All rights reserved.'
+    }
+  },
+  fr: {
+    nav: {
+      about: 'À propos',
+      projects: 'Projets',
+      contact: 'Contact'
+    },
+    hero: {
+      title: 'Mélanger le code et l\'IA générative',
+      subtitle: 'Je suis un développeur et prompt engineer spécialisé dans la création d\'applications élégantes et performantes, ainsi que dans la conception de prompts d\'IA structurés et réfléchis qui résolvent des problèmes concrets.',
+      viewProjects: 'Voir les projets',
+      getInTouch: 'Me contacter'
+    },
+    about: {
+      title: 'À propos de moi',
+      subtitle: 'Je combine l\'ingénierie logicielle avec des techniques de prompt pour l\'IA afin de créer des solutions intuitives et performantes pour les défis numériques modernes.',
+      journey: {
+        title: 'Mon parcours',
+        content: 'Avec une solide formation en informatique, j\'ai développé une expertise dans le développement logiciel traditionnel et les technologies d\'IA émergentes. Mon expérience s\'étend de la création d\'applications web réactives à la spécialisation en ingénierie avancée de prompts pour l\'IA.'
+      },
+      approach: {
+        title: 'Mon approche',
+        content: 'Je me concentre sur la création de solutions qui résolvent de vrais problèmes tout en offrant des expériences utilisateur exceptionnelles. Mon travail suit les principes d\'architecture propre, de développement piloté par les tests et d\'amélioration continue pour assurer l\'excellence technique et l\'accessibilité.'
+      },
+      toolkit: {
+        title: 'Mes outils',
+        content: 'Je travaille avec des frameworks JavaScript modernes, des technologies backend incluant Node.js et Python, et le développement mobile multiplateforme. En IA, je suis spécialisé dans l\'ingénierie de prompts pour les LLM et la création de solutions d\'IA qui améliorent les capacités humaines.',
+        frontend: 'Développement frontend',
+        backend: 'Ingénierie backend',
+        ai: 'Prompt engineering'
+      },
+      skills: 'Compétences principales'
+    },
+    projects: {
+      title: 'Projets',
+      subtitle: 'Une sélection de mes travaux récents démontrant mon expertise technique, mes capacités de résolution de problèmes et mes solutions innovantes de prompt engineering.',
+      showMore: 'Voir plus de projets',
+      viewAll: 'Voir tous les projets sur GitHub',
+      liveDemo: 'Démo en ligne',
+      viewRepo: 'Voir le repository'
+    },
+    contact: {
+      title: 'Me contacter',
+      subtitle: 'Discutons de comment nous pouvons travailler ensemble sur votre prochain projet.',
+      formTitle: 'Envoyer un message',
+      formSubtitle: 'Je vous répondrai dès que possible.',
+      name: 'Votre nom',
+      email: 'Votre email',
+      subject: 'Sujet',
+      message: 'Votre message',
+      send: 'Envoyer le message',
+      success: 'Message envoyé avec succès !',
+      error: 'Échec de l\'envoi du message. Veuillez réessayer.'
+    },
+    footer: {
+      copyright: '© 2025 Guillaume Deramchi. Tous droits réservés.'
+    }
+  }
+};
+
 // Create reusable IntersectionObserver
 function createAnimationObserver(callback, options = {}) {
   return new IntersectionObserver(callback, {
@@ -69,66 +187,108 @@ setVhUnit();
 const skills = [
   {
     icon: '⚛️',
-    title: 'Front-End Development',
-    description: 'Crafting responsive, intuitive interfaces using modern frameworks like React and Vue.'
+    title: {
+      en: 'Front-End Development',
+      fr: 'Développement Front-End'
+    },
+    description: {
+      en: 'Crafting responsive, intuitive interfaces using modern frameworks like React and Vue.',
+      fr: 'Création d\'interfaces réactives et intuitives à l\'aide de frameworks modernes comme React et Vue.'
+    }
   },
   {
     icon: '🔧',
-    title: 'Back-End Engineering',
-    description: 'Designing scalable APIs and robust server architectures with Node.js, Python, and cloud services.'
+    title: {
+      en: 'Back-End Engineering',
+      fr: 'Back-End'
+    },
+    description: {
+      en: 'Designing scalable APIs and robust server architectures with Node.js, Python, and cloud services.',
+      fr: 'Conception d\'API évolutives et d\'architectures serveur robustes avec Node.js, Python et les services cloud.'
+    }
   },
   {
     icon: '📱',
-    title: 'Mobile Development',
-    description: 'Developing cross-platform mobile applications with React Native and Flutter for seamless user experiences.'
+    title: {
+      en: 'Mobile Development',
+      fr: 'Développement Mobile'
+    },
+    description: {
+      en: 'Developing cross-platform mobile applications with React Native and Flutter for seamless user experiences.',
+      fr: 'Développement d\'applications mobiles multiplateformes avec React Native et Flutter pour des expériences utilisateur fluides.'
+    }
   },
   {
     icon: '🤖',
-    title: 'Prompt Engineering',
-    description: 'Creating effective AI prompts and fine-tuning language models to generate intelligent, context-aware responses.'
+    title: {
+      en: 'Prompt Engineering',
+      fr: 'Prompt Engineering'
+    },
+    description: {
+      en: 'Creating effective AI prompts and fine-tuning language models to generate intelligent, context-aware responses.',
+      fr: 'Création de prompts d\'IA efficaces et ajustement de modèles de langage pour générer des réponses intelligentes et contextuelles.'
+    }
   }
 ];
 
-// Projects data - static implementation for reliability
+// Projects data - static implementation with multilingual support
 const projects = [
   {
     name: "Doctolib AI Hackathon",
-    description: "AI chatbot which helps general health practitioners with prevention strategies",
+    description: {
+      en: "AI chatbot which helps general health practitioners with prevention strategies",
+      fr: "Chatbot IA qui aide les médecins généralistes avec des stratégies de prévention"
+    },
     image: "images/projects/default.jpg",
     topics: ["AI", "Healthcare", "Python", "Chatbot"],
     html_url: "https://github.com/Guillaume18100/hackathon_doctolib"
   },
   {
     name: "Adopte un Candidat",
-    description: "Flutter mobile/web application connecting job candidates with companies",
+    description: {
+      en: "Flutter mobile/web application connecting job candidates with companies",
+      fr: "Application mobile/web Flutter connectant les candidats aux entreprises"
+    },
     image: "images/projects/default.jpg",
     topics: ["Flutter", "Dart", "Job Matching", "Mobile Development"],
     html_url: "https://github.com/algosup/2023-2024-project-5-flutter-team-1"
   },
   {
     name: "Sia GenAI Hackathon",
-    description: "Generative AI hackathon project",
+    description: {
+      en: "Generative AI hackathon project",
+      fr: "Projet de hackathon sur l'IA générative"
+    },
     image: "images/projects/default.jpg",
     topics: ["AI", "Hackathon", "Python"],
     html_url: "https://github.com/GuillotSamuel/GenAI_hackaton"
   },
   {
     name: "Blockchain Hackathon",
-    description: "Blockchain hackathon Vierzon 2024",
+    description: {
+      en: "Blockchain hackathon Vierzon 2024",
+      fr: "Hackathon Blockchain Vierzon 2024"
+    },
     image: "images/projects/default.jpg",
     topics: ["Blockchain", "JavaScript", "Hackathon"],
     html_url: "https://github.com/0xBelnadris/hackaton-blockchain-vierzon-2024"
   },
   {
     name: "Virtual Processor",
-    description: "Building a virtual processor with assembler and interpreter",
+    description: {
+      en: "Building a virtual processor with assembler and interpreter",
+      fr: "Création d'un processeur virtuel avec assembleur et interpréteur"
+    },
     image: "images/projects/default.jpg",
     topics: ["assembler", "interpreter", "virtual-processor", "c", "c++", "cmake"],
     html_url: "https://github.com/algosup/2023-2024-project-3-virtual-processor-team-2"
   },
   {
     name: "x86 Retrogaming",
-    description: "Recreating Pac-Man in Assembly",
+    description: {
+      en: "Recreating Pac-Man in Assembly",
+      fr: "Recréation de Pac-Man en Assembly"
+    },
     image: "images/projects/default.jpg",
     topics: ["assembly", "x86", "retrogaming", "pacman", "dosbox"],
     html_url: "https://github.com/algosup/2023-2024-project-2-x86-retrogaming-team-5"
@@ -155,24 +315,36 @@ function loadSkills() {
 
 // Function to create a project card element
 function createProjectCard(project) {
+  const currentLang = localStorage.getItem('language') || 'en';
   const projectCard = document.createElement('div');
   projectCard.classList.add('project-card');
+  projectCard.dataset.projectId = project.name.replace(/\s+/g, '-').toLowerCase();
 
   // Extract topics as tags
   const tagsHTML = project.topics && project.topics.length > 0 
     ? project.topics.map(tag => `<span class="project-tag">${tag}</span>`).join('')
     : '<span class="project-tag">Project</span>';
 
+  // Get description in current language or fallback to English
+  const description = project.description && project.description[currentLang] ? 
+    project.description[currentLang] : 
+    (project.description && project.description.en ? project.description.en : 'A personal project');
+
+  const buttonTexts = {
+    liveDemo: TRANSLATIONS[currentLang].projects.liveDemo,
+    viewRepo: TRANSLATIONS[currentLang].projects.viewRepo
+  };
+
   projectCard.innerHTML = `
     <img src="${project.image || 'images/projects/default.jpg'}" alt="${project.name}" class="project-image">
     <div class="project-content">
       <h3>${project.name.replace(/-/g, ' ')}</h3>
-      <p>${project.description || 'A personal project'}</p>
+      <p>${description}</p>
       <div class="project-tags">${tagsHTML}</div>
     </div>
     <div class="project-links">
-      ${project.homepage ? `<a href="${project.homepage}" target="_blank" class="btn btn-sm">Live Demo</a>` : ''}
-      <a href="${project.html_url}" target="_blank" class="btn btn-sm btn-outline">View Repository</a>
+      ${project.homepage ? `<a href="${project.homepage}" target="_blank" class="btn btn-sm">${buttonTexts.liveDemo}</a>` : ''}
+      <a href="${project.html_url}" target="_blank" class="btn btn-sm btn-outline">${buttonTexts.viewRepo}</a>
     </div>
   `;
 
@@ -439,6 +611,187 @@ function init() {
   initSectionDividers();
   initContactCard();
   initEmailJS();
+  initLanguageSwitcher(); // Initialize language switching
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', init);
+// Language switching functionality
+function initLanguageSwitcher() {
+  const languageToggle = document.getElementById('language-toggle');
+  const langOptions = document.querySelectorAll('.lang-option');
+  
+  if (!languageToggle) return;
+  
+  // Get saved language preference
+  let currentLang = localStorage.getItem('language') || 'en';
+  
+  // Set initial active state
+  langOptions.forEach(option => {
+    if (option.dataset.lang === currentLang) {
+      option.classList.add('active');
+    } else {
+      option.classList.remove('active');
+    }
+  });
+  
+  // Apply translations on page load
+  applyTranslations(currentLang);
+  
+  // Set up click handlers for language options
+  langOptions.forEach(option => {
+    option.addEventListener('click', function() {
+      const newLang = this.dataset.lang;
+      
+      // Only proceed if this is a different language
+      if (newLang !== currentLang) {
+        // Update active states
+        langOptions.forEach(opt => opt.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Save preference
+        localStorage.setItem('language', newLang);
+        currentLang = newLang;
+        
+        // Apply translations
+        applyTranslations(newLang);
+      }
+    });
+  });
+}
+
+// Apply translations to the page
+function applyTranslations(lang) {
+  const translations = TRANSLATIONS[lang];
+  if (!translations) return;
+  
+  // Update navigation
+  document.querySelector('.nav-links li:nth-child(1) a').textContent = translations.nav.about;
+  document.querySelector('.nav-links li:nth-child(2) a').textContent = translations.nav.projects;
+  document.querySelector('.nav-links li:nth-child(3) a').textContent = translations.nav.contact;
+  
+  // Update hero section
+  document.querySelector('.hero-title').textContent = translations.hero.title;
+  document.querySelector('.hero-subtitle').textContent = translations.hero.subtitle;
+  document.querySelector('.hero-buttons .btn:first-child').textContent = translations.hero.viewProjects;
+  document.querySelector('.hero-buttons .btn-outline').textContent = translations.hero.getInTouch;
+  
+  // Update about section
+  document.querySelector('#about .section-title').textContent = translations.about.title;
+  document.querySelector('#about .section-subtitle').textContent = translations.about.subtitle;
+  
+  document.querySelector('#about .about-section:nth-child(1) h3').textContent = translations.about.journey.title;
+  document.querySelector('#about .about-section:nth-child(1) p').textContent = translations.about.journey.content;
+  
+  document.querySelector('#about .about-section:nth-child(2) h3').textContent = translations.about.approach.title;
+  document.querySelector('#about .about-section:nth-child(2) p').textContent = translations.about.approach.content;
+  
+  document.querySelector('#about .about-section:nth-child(3) h3').textContent = translations.about.toolkit.title;
+  document.querySelector('#about .about-section:nth-child(3) p').textContent = translations.about.toolkit.content;
+  
+  // Update expertise labels
+  document.querySelectorAll('.expertise-area .expertise-label')[0].textContent = translations.about.toolkit.frontend;
+  document.querySelectorAll('.expertise-area .expertise-label')[1].textContent = translations.about.toolkit.backend;
+  document.querySelectorAll('.expertise-area .expertise-label')[2].textContent = translations.about.toolkit.ai;
+  
+  document.querySelector('.skills-title').textContent = translations.about.skills;
+  
+  // Update projects section
+  document.querySelector('#projects .section-title').textContent = translations.projects.title;
+  document.querySelector('#projects .section-subtitle').textContent = translations.projects.subtitle;
+  
+  // Update buttons (if they exist)
+  const showMoreBtn = document.querySelector('.show-more-btn');
+  if (showMoreBtn) showMoreBtn.textContent = translations.projects.showMore;
+  
+  const githubLink = document.querySelector('.github-link');
+  if (githubLink) githubLink.innerHTML = `<i class="fab fa-github"></i> ${translations.projects.viewAll}`;
+  
+  // Update project card buttons
+  document.querySelectorAll('.project-links .btn').forEach(btn => {
+    if (btn.classList.contains('btn-outline')) {
+      btn.textContent = translations.projects.viewRepo;
+    } else {
+      btn.textContent = translations.projects.liveDemo;
+    }
+  });
+  
+  // Update contact section
+  document.querySelector('#contact .section-title').textContent = translations.contact.title;
+  document.querySelector('#contact .section-subtitle').textContent = translations.contact.subtitle;
+  document.querySelector('.contact-title').textContent = translations.contact.formTitle;
+  document.querySelector('.contact-header p').textContent = translations.contact.formSubtitle;
+  
+  // Update form placeholders
+  document.getElementById('name').placeholder = translations.contact.name;
+  document.getElementById('email').placeholder = translations.contact.email;
+  document.getElementById('subject').placeholder = translations.contact.subject;
+  document.getElementById('message').placeholder = translations.contact.message;
+  document.querySelector('.contact-form button').textContent = translations.contact.send;
+  
+  // Update footer copyright
+  document.querySelector('.copyright').textContent = translations.footer.copyright;
+  
+  // Update skill cards with translations
+  updateSkillsWithCurrentLanguage(lang);
+  
+  // Update project card content
+  updateProjectsWithCurrentLanguage(lang);
+}
+
+// Update skill cards with current language
+function updateSkillsWithCurrentLanguage(lang) {
+  const skillCards = document.querySelectorAll('.skill-card');
+  if (!skillCards.length) return;
+  
+  skillCards.forEach((card, index) => {
+    if (index >= skills.length) return;
+    
+    const skill = skills[index];
+    const titleElement = card.querySelector('h3');
+    const descriptionElement = card.querySelector('p');
+    
+    if (titleElement && skill.title && skill.title[lang]) {
+      titleElement.textContent = skill.title[lang];
+    }
+    
+    if (descriptionElement && skill.description && skill.description[lang]) {
+      descriptionElement.textContent = skill.description[lang];
+    }
+  });
+}
+
+// Update project cards with current language
+function updateProjectsWithCurrentLanguage(lang) {
+  const projectCards = document.querySelectorAll('.project-card');
+  if (!projectCards.length) return;
+  
+  projectCards.forEach(card => {
+    const projectId = card.dataset.projectId;
+    if (!projectId) return;
+    
+    // Find matching project
+    const project = projects.find(p => p.name.replace(/\s+/g, '-').toLowerCase() === projectId);
+    if (!project) return;
+    
+    // Update description
+    const descriptionEl = card.querySelector('.project-content p');
+    if (descriptionEl && project.description) {
+      descriptionEl.textContent = project.description[lang] || project.description.en;
+    }
+    
+    // Update button texts
+    const liveDemo = card.querySelector('.project-links .btn:not(.btn-outline)');
+    const viewRepo = card.querySelector('.project-links .btn.btn-outline');
+    
+    if (liveDemo) {
+      liveDemo.textContent = TRANSLATIONS[lang].projects.liveDemo;
+    }
+    
+    if (viewRepo) {
+      viewRepo.textContent = TRANSLATIONS[lang].projects.viewRepo;
+    }
+  });
 }
 
 // Initialize when DOM is ready
