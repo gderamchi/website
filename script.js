@@ -5,7 +5,12 @@ const CONFIG = {
   initialProjectsToShow: 3,
   emailjsServiceId: "service_b3nl9bi",
   emailjsTemplateId: "template_ke9hrg9",
-  emailjsPublicKey: "aN3NQG_4ipvqqgquR"
+  emailjsPublicKey: "aN3NQG_4ipvqqgquR",
+  imageLazyLoading: true, // Enable lazy loading for images
+  metaDescription: {
+    en: 'Software & AI Prompt Engineer specializing in building high-performance applications and crafting intelligent AI solutions',
+    fr: 'Ingénieur logiciel et prompt IA spécialisé dans la création d\'applications performantes et de solutions IA intelligentes'
+  }
 };
 
 // Language translations
@@ -335,16 +340,20 @@ function createProjectCard(project) {
     viewRepo: TRANSLATIONS[currentLang].projects.viewRepo
   };
 
+  // Improve SEO with proper alt text and loading attribute
+  const imagePath = project.image || 'images/projects/default.jpg';
+  const imgAlt = `${project.name} project screenshot`;
+
   projectCard.innerHTML = `
-    <img src="${project.image || 'images/projects/default.jpg'}" alt="${project.name}" class="project-image">
+    <img src="${imagePath}" alt="${imgAlt}" class="project-image" loading="lazy">
     <div class="project-content">
       <h3>${project.name.replace(/-/g, ' ')}</h3>
       <p>${description}</p>
       <div class="project-tags">${tagsHTML}</div>
     </div>
     <div class="project-links">
-      ${project.homepage ? `<a href="${project.homepage}" target="_blank" class="btn btn-sm">${buttonTexts.liveDemo}</a>` : ''}
-      <a href="${project.html_url}" target="_blank" class="btn btn-sm btn-outline">${buttonTexts.viewRepo}</a>
+      ${project.homepage ? `<a href="${project.homepage}" target="_blank" rel="noopener" class="btn btn-sm">${buttonTexts.liveDemo}</a>` : ''}
+      <a href="${project.html_url}" target="_blank" rel="noopener" class="btn btn-sm btn-outline">${buttonTexts.viewRepo}</a>
     </div>
   `;
 
@@ -612,6 +621,20 @@ function init() {
   initContactCard();
   initEmailJS();
   initLanguageSwitcher(); // Initialize language switching
+  initMobileNav();
+  
+  // Add event listener for skip to content link
+  const skipLink = document.querySelector('.skip-to-content');
+  if (skipLink) {
+    skipLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const mainContent = document.querySelector('main');
+      if (mainContent) {
+        mainContent.tabIndex = -1;
+        mainContent.focus();
+      }
+    });
+  }
 }
 
 // Initialize when DOM is ready
@@ -737,6 +760,12 @@ function applyTranslations(lang) {
   
   // Update project card content
   updateProjectsWithCurrentLanguage(lang);
+  
+  // Update meta description for SEO
+  updateMetaDescription(lang);
+  
+  // Update html lang attribute for accessibility and SEO
+  document.documentElement.setAttribute('lang', lang);
 }
 
 // Update skill cards with current language
@@ -791,6 +820,40 @@ function updateProjectsWithCurrentLanguage(lang) {
     if (viewRepo) {
       viewRepo.textContent = TRANSLATIONS[lang].projects.viewRepo;
     }
+  });
+}
+
+// Function to update meta description based on language
+function updateMetaDescription(lang) {
+  const metaDescription = document.querySelector('meta[name="description"]');
+  if (metaDescription && CONFIG.metaDescription[lang]) {
+    metaDescription.setAttribute('content', CONFIG.metaDescription[lang]);
+  }
+  
+  // Also update Open Graph and Twitter descriptions
+  const ogDescription = document.querySelector('meta[property="og:description"]');
+  const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+  
+  if (ogDescription && CONFIG.metaDescription[lang]) {
+    ogDescription.setAttribute('content', CONFIG.metaDescription[lang]);
+  }
+  
+  if (twitterDescription && CONFIG.metaDescription[lang]) {
+    twitterDescription.setAttribute('content', CONFIG.metaDescription[lang]);
+  }
+}
+
+// Improve mobile navigation for accessibility
+function initMobileNav() {
+  const menuToggle = document.getElementById('menu-toggle');
+  const navLinks = document.getElementById('nav-links');
+  
+  if (!menuToggle || !navLinks) return;
+  
+  menuToggle.addEventListener('click', () => {
+    const isExpanded = navLinks.classList.contains('active');
+    navLinks.classList.toggle('active');
+    menuToggle.setAttribute('aria-expanded', !isExpanded);
   });
 }
 

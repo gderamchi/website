@@ -5,12 +5,76 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guillaume Deramchi | Software & Prompt Engineer</title>
-
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Guillaume Deramchi - Software Engineer and AI Prompt Engineer specializing in creating elegant, high-performance applications and intelligent AI solutions.">
+  <meta name="keywords" content="software engineer, prompt engineer, web development, AI, frontend, backend, mobile development">
+  <meta name="author" content="Guillaume Deramchi">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://guillaumeDeramchi.com/">
+  
+  <!-- Open Graph / Facebook Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://guillaumeDeramchi.com/">
+  <meta property="og:title" content="Guillaume Deramchi | Software & Prompt Engineer">
+  <meta property="og:description" content="Specializing in creating elegant, high-performance applications and crafting intelligent AI prompts that solve real-world problems.">
+  <meta property="og:image" content="https://guillaumeDeramchi.com/images/profile-photo.jpg">
+  
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://guillaumeDeramchi.com/">
+  <meta name="twitter:title" content="Guillaume Deramchi | Software & Prompt Engineer">
+  <meta name="twitter:description" content="Specializing in creating elegant applications and intelligent AI solutions.">
+  <meta name="twitter:image" content="https://guillaumeDeramchi.com/images/profile-photo.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  
+  <!-- Preload Critical Resources -->
+  <link rel="preload" href="style.css" as="style">
+  <link rel="preload" href="script.js" as="script">
+  <link rel="preload" href="images/profile-photo.jpg" as="image" fetchpriority="high">
+  
   <!-- CSS -->
   <link rel="stylesheet" href="style.css">
+  
+  <!-- Structured Data / Schema.org -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Guillaume Deramchi",
+      "url": "https://guillaumeDeramchi.com/",
+      "image": "https://guillaumeDeramchi.com/images/profile-photo.jpg",
+      "sameAs": [
+        "https://github.com/Guillaume18100",
+        "https://www.linkedin.com/in/guillaume-deramchi/"
+      ],
+      "jobTitle": "Software & Prompt Engineer",
+      "description": "Software engineer and AI prompt engineer specializing in creating elegant applications and intelligent AI solutions.",
+      "knowsAbout": ["Software Engineering", "AI Prompt Engineering", "Frontend Development", "Backend Engineering", "Mobile Development"]
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://guillaumeDeramchi.com/",
+      "name": "Guillaume Deramchi | Software & Prompt Engineer",
+      "description": "Portfolio website of Guillaume Deramchi, Software & Prompt Engineer",
+      "author": {
+        "@type": "Person",
+        "name": "Guillaume Deramchi"
+      }
+    }
+  </script>
 
   <!-- EmailJS -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
 
   <!-- Custom JavaScript (add at the end of body) -->
   <script src="script.js" defer></script>
@@ -20,8 +84,8 @@
   <!-- Header & Navigation -->
   <header id="header">
     <div class="container">
-      <nav>
-        <a href="#" class="logo">Guillaume Deramchi</a>
+      <nav aria-label="Main navigation">
+        <a href="#" class="logo" aria-label="Guillaume Deramchi homepage">Guillaume Deramchi</a>
         <ul class="nav-links" id="nav-links">
           <li><a href="#about" class="nav-link">About</a></li>
           <li><a href="#projects" class="nav-link">Projects</a></li>
@@ -37,7 +101,7 @@
           </li>
           <li><button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
               <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
+                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path
                   d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17Z"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -59,208 +123,214 @@
                   stroke-linejoin="round" />
               </svg>
               <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
+                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 A7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2"
                   stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </button></li>
         </ul>
-        <div class="menu-toggle" id="menu-toggle">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="nav-links">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             <path d="M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
           </svg>
-        </div>
+        </button>
       </nav>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero" id="home">
-    <div class="container">
-      <div class="hero-content">
-        <h1 class="hero-title">Mixing Software Engineering with GenAI</h1>
-        <p class="hero-subtitle">
-          I am a software & prompt engineer specializing in creating elegant, high-performance applications and crafting
-          intelligent AI prompts that solve real-world problems.
-        </p>
-        <div class="hero-buttons">
-          <a href="#projects" class="btn">View Projects</a>
-          <a href="#contact" class="btn btn-outline">Get in Touch</a>
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="home" aria-label="Introduction">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">Mixing Software Engineering with GenAI</h1>
+          <p class="hero-subtitle">
+            I am a software & prompt engineer specializing in creating elegant, high-performance applications and crafting
+            intelligent AI prompts that solve real-world problems.
+          </p>
+          <div class="hero-buttons">
+            <a href="#projects" class="btn">View Projects</a>
+            <a href="#contact" class="btn btn-outline">Get in Touch</a>
+          </div>
         </div>
+        <img src="images/profile-photo.jpg" alt="Guillaume Deramchi - Software and Prompt Engineer" class="hero-image" width="320" height="320" fetchpriority="high">
       </div>
-      <img src="images/profile-photo.jpg" alt="Guillaume Deramchi" class="hero-image">
-    </div>
-  </section>
+    </section>
 
-  <!-- Section Divider -->
-  <div class="section-divider">
-    <div class="divider-container">
-      <div class="divider-line-left"></div>
-      <div class="divider-circle">
-        <div class="divider-icon">👤</div>
+    <!-- Section Divider -->
+    <div class="section-divider">
+      <div class="divider-container">
+        <div class="divider-line-left"></div>
+        <div class="divider-circle">
+          <div class="divider-icon">👤</div>
+        </div>
+        <div class="divider-line-right"></div>
       </div>
-      <div class="divider-line-right"></div>
     </div>
-  </div>
 
-  <!-- About Section -->
-  <section class="about" id="about">
-    <div class="container">
-      <h2 class="section-title reveal-text">About Me</h2>
-      <p class="section-subtitle reveal-text">
-        I combine software engineering with AI prompt techniques to create intuitive, high-performance solutions for
-        modern digital challenges.
-      </p>
+    <!-- About Section -->
+    <section class="about" id="about" aria-label="About Me">
+      <div class="container">
+        <h2 class="section-title reveal-text">About Me</h2>
+        <p class="section-subtitle reveal-text">
+          I combine software engineering with AI prompt techniques to create intuitive, high-performance solutions for
+          modern digital challenges.
+        </p>
 
-      <div class="about-content">
-        <div class="about-text">
-          <div class="about-section fade-in">
-            <div class="section-icon">
-              <span class="icon-circle">🚀</span>
+        <div class="about-content">
+          <div class="about-text">
+            <div class="about-section fade-in">
+              <div class="section-icon">
+                <span class="icon-circle">🚀</span>
+              </div>
+              <div>
+                <h3 class="slide-in">My Journey</h3>
+                <p class="reveal-text">
+                  With a strong foundation in computer science, I've developed expertise in both traditional software
+                  development and emerging AI technologies. My experience spans from building responsive web applications
+                  to specializing in advanced AI prompt engineering.
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 class="slide-in">My Journey</h3>
-              <p class="reveal-text">
-                With a strong foundation in computer science, I've developed expertise in both traditional software
-                development and emerging AI technologies. My experience spans from building responsive web applications
-                to specializing in advanced AI prompt engineering.
-              </p>
-            </div>
-          </div>
 
-          <div class="about-section fade-in">
-            <div class="section-icon">
-              <span class="icon-circle">💡</span>
+            <div class="about-section fade-in">
+              <div class="section-icon">
+                <span class="icon-circle">💡</span>
+              </div>
+              <div>
+                <h3 class="slide-in">My Approach</h3>
+                <p class="reveal-text">
+                  I focus on creating solutions that solve real problems while delivering exceptional user experiences. My
+                  work follows principles of clean architecture, test-driven development, and continuous improvement to
+                  ensure both technical excellence and accessibility.
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 class="slide-in">My Approach</h3>
-              <p class="reveal-text">
-                I focus on creating solutions that solve real problems while delivering exceptional user experiences. My
-                work follows principles of clean architecture, test-driven development, and continuous improvement to
-                ensure both technical excellence and accessibility.
-              </p>
-            </div>
-          </div>
 
-          <div class="about-section fade-in">
-            <div class="section-icon">
-              <span class="icon-circle">⚙️</span>
-            </div>
-            <div>
-              <h3 class="slide-in">Technical Toolkit</h3>
-              <p class="reveal-text">
-                I work with modern JavaScript frameworks, backend technologies including Node.js and Python, and
-                cross-platform mobile development. In AI, I specialize in prompt engineering for large language models
-                and creating AI solutions that enhance human capabilities.
-              </p>
+            <div class="about-section fade-in">
+              <div class="section-icon">
+                <span class="icon-circle">⚙️</span>
+              </div>
+              <div>
+                <h3 class="slide-in">Technical Toolkit</h3>
+                <p class="reveal-text">
+                  I work with modern JavaScript frameworks, backend technologies including Node.js and Python, and
+                  cross-platform mobile development. In AI, I specialize in prompt engineering for large language models
+                  and creating AI solutions that enhance human capabilities.
+                </p>
 
-              <div class="expertise-areas">
-                <div class="expertise-area">
-                  <span class="expertise-label">Frontend Development</span>
-                  <div class="expertise-bar">
-                    <div class="expertise-progress" style="width: 90%"></div>
+                <div class="expertise-areas">
+                  <div class="expertise-area">
+                    <span class="expertise-label">Frontend Development</span>
+                    <div class="expertise-bar">
+                      <div class="expertise-progress" style="width: 90%"></div>
+                    </div>
                   </div>
-                </div>
-                <div class="expertise-area">
-                  <span class="expertise-label">Backend Engineering</span>
-                  <div class="expertise-bar">
-                    <div class="expertise-progress" style="width: 85%"></div>
+                  <div class="expertise-area">
+                    <span class="expertise-label">Backend Engineering</span>
+                    <div class="expertise-bar">
+                      <div class="expertise-progress" style="width: 85%"></div>
+                    </div>
                   </div>
-                </div>
-                <div class="expertise-area">
-                  <span class="expertise-label">AI Prompt Engineering</span>
-                  <div class="expertise-bar">
-                    <div class="expertise-progress" style="width: 95%"></div>
+                  <div class="expertise-area">
+                    <span class="expertise-label">AI Prompt Engineering</span>
+                    <div class="expertise-bar">
+                      <div class="expertise-progress" style="width: 95%"></div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="decorative-line"></div>
+        <div class="decorative-line"></div>
 
-      <h3 class="skills-title slide-in">Core Skills</h3>
-      <div class="skills-container" id="skills-container">
-        <!-- Skills will be loaded dynamically -->
-      </div>
-    </div>
-  </section>
-
-  <!-- Section Divider -->
-  <div class="section-divider">
-    <div class="divider-container">
-      <div class="divider-line-left"></div>
-      <div class="divider-circle">
-        <div class="divider-icon">🚀</div>
-      </div>
-      <div class="divider-line-right"></div>
-    </div>
-  </div>
-
-  <!-- Projects Section -->
-  <section class="projects" id="projects">
-    <div class="container">
-      <h2 class="section-title">Featured Projects</h2>
-      <p class="section-subtitle">
-        A selection of my recent work showcasing my technical expertise, problem-solving abilities, and innovative
-        prompt engineering solutions.
-      </p>
-
-      <div id="projects-container">
-        <div id="projects-grid" class="projects-grid"></div>
-        <!-- Show more button will be inserted here -->
-      </div>
-    </div>
-  </section>
-
-  <!-- Section Divider -->
-  <div class="section-divider">
-    <div class="divider-container">
-      <div class="divider-line-left"></div>
-      <div class="divider-circle">
-        <div class="divider-icon">📧</div>
-      </div>
-      <div class="divider-line-right"></div>
-    </div>
-  </div>
-
-  <!-- Contact Section -->
-  <section class="contact" id="contact">
-    <div class="container">
-      <h2 class="section-title">Get in Touch</h2>
-      <p class="section-subtitle">
-        Let's discuss how we can work together on your next project.
-      </p>
-
-      <div class="contact-card" id="contact-card">
-        <div class="contact-header">
-          <h3 class="contact-title">Send a Message</h3>
-          <p>I'll get back to you as soon as possible.</p>
-        </div>
-        <div class="contact-content">
-          <form class="contact-form" id="contact-form">
-            <div class="form-group">
-              <input type="text" class="form-control" id="name" placeholder="Your Name" required>
-            </div>
-            <div class="form-group">
-              <input type="email" class="form-control" id="email" placeholder="Your Email" required>
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" id="subject" placeholder="Subject" required>
-            </div>
-            <div class="form-group">
-              <textarea class="form-control" id="message" placeholder="Your Message" required></textarea>
-            </div>
-            <button type="submit" class="btn">Send Message</button>
-          </form>
+        <h3 class="skills-title slide-in">Core Skills</h3>
+        <div class="skills-container" id="skills-container">
+          <!-- Skills will be loaded dynamically -->
         </div>
       </div>
+    </section>
+
+    <!-- Section Divider -->
+    <div class="section-divider">
+      <div class="divider-container">
+        <div class="divider-line-left"></div>
+        <div class="divider-circle">
+          <div class="divider-icon">🚀</div>
+        </div>
+        <div class="divider-line-right"></div>
+      </div>
     </div>
-  </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects" aria-label="My Projects">
+      <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-subtitle">
+          A selection of my recent work showcasing my technical expertise, problem-solving abilities, and innovative
+          prompt engineering solutions.
+        </p>
+
+        <div id="projects-container">
+          <div id="projects-grid" class="projects-grid"></div>
+          <!-- Show more button will be inserted here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Divider -->
+    <div class="section-divider">
+      <div class="divider-container">
+        <div class="divider-line-left"></div>
+        <div class="divider-circle">
+          <div class="divider-icon">📧</div>
+        </div>
+        <div class="divider-line-right"></div>
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact" aria-label="Contact Information">
+      <div class="container">
+        <h2 class="section-title">Get in Touch</h2>
+        <p class="section-subtitle">
+          Let's discuss how we can work together on your next project.
+        </p>
+
+        <div class="contact-card" id="contact-card">
+          <div class="contact-header">
+            <h3 class="contact-title">Send a Message</h3>
+            <p>I'll get back to you as soon as possible.</p>
+          </div>
+          <div class="contact-content">
+            <form class="contact-form" id="contact-form" aria-label="Contact form">
+              <div class="form-group">
+                <label for="name" class="visually-hidden">Your Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+              </div>
+              <div class="form-group">
+                <label for="email" class="visually-hidden">Your Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+              </div>
+              <div class="form-group">
+                <label for="subject" class="visually-hidden">Subject</label>
+                <input type="text" class="form-control" id="subject" placeholder="Subject" required>
+              </div>
+              <div class="form-group">
+                <label for="message" class="visually-hidden">Your Message</label>
+                <textarea class="form-control" id="message" placeholder="Your Message" required></textarea>
+              </div>
+              <button type="submit" class="btn">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer>
@@ -268,8 +338,8 @@
       <div class="footer-content">
         <div class="footer-logo">Guillaume Deramchi</div>
         <ul class="footer-links">
-          <li><a href="https://github.com/Guillaume18100" target="_blank" rel="noopener">GitHub</a></li>
-          <li><a href="https://www.linkedin.com/in/guillaume-deramchi/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://github.com/Guillaume18100" target="_blank" rel="noopener" aria-label="GitHub profile">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/guillaume-deramchi/" target="_blank" rel="noopener" aria-label="LinkedIn profile">LinkedIn</a></li>
         </ul>
       </div>
       <div class="copyright">
