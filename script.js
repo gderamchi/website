@@ -104,23 +104,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Dark Mode Toggle
   const themeToggle = document.getElementById('theme-toggle');
-  
+
   // Check for saved user preference
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'dark') {
-      document.body.classList.add('dark-mode');
+    document.body.classList.add('dark-mode');
   }
-  
+
   // Toggle dark/light mode
-  themeToggle.addEventListener('click', function() {
-      document.body.classList.toggle('dark-mode');
-      
-      // Save user preference
-      if (document.body.classList.contains('dark-mode')) {
-          localStorage.setItem('theme', 'dark');
-      } else {
-          localStorage.setItem('theme', 'light');
-      }
+  themeToggle.addEventListener('click', function () {
+    document.body.classList.toggle('dark-mode');
+
+    // Save user preference
+    if (document.body.classList.contains('dark-mode')) {
+      localStorage.setItem('theme', 'dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+    }
   });
 
   // Initialize about section animations
@@ -345,10 +345,10 @@ contactForm.addEventListener('submit', function (e) {
 function initAboutAnimations() {
   // Elements to animate
   const animatedElements = document.querySelectorAll('.reveal-text, .slide-in, .fade-in');
-  
+
   // Expertise bars
   const expertiseBars = document.querySelectorAll('.expertise-progress');
-  
+
   // Intersection Observer for text animations
   const elementObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -358,7 +358,7 @@ function initAboutAnimations() {
       }
     });
   }, { threshold: 0.2 });
-  
+
   // Intersection Observer for expertise bars
   const barObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -368,12 +368,12 @@ function initAboutAnimations() {
       }
     });
   }, { threshold: 0.5 });
-  
+
   // Observe all animated elements
   animatedElements.forEach(element => {
     elementObserver.observe(element);
   });
-  
+
   // Observe expertise bars
   expertiseBars.forEach(bar => {
     barObserver.observe(bar);
