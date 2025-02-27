@@ -388,16 +388,20 @@ function initSectionDividers() {
   const dividerObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // Animate the line
-        const line = entry.target.querySelector('.divider-line');
-        if (line) line.classList.add('animate');
+        // Animate the left line
+        const leftLine = entry.target.querySelector('.divider-line-left');
+        if (leftLine) leftLine.classList.add('animate');
         
-        // Animate the icon with a slight delay
-        const icon = entry.target.querySelector('.divider-icon');
-        if (icon) {
+        // Animate the right line
+        const rightLine = entry.target.querySelector('.divider-line-right');
+        if (rightLine) rightLine.classList.add('animate');
+        
+        // Animate the circle with a slight delay
+        const circle = entry.target.querySelector('.divider-circle');
+        if (circle) {
           setTimeout(() => {
-            icon.classList.add('animate');
-          }, 300); // Small delay for sequential animation
+            circle.classList.add('animate');
+          }, 300);
         }
       } else {
         // Optional: reset animations when scrolling away
