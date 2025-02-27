@@ -282,6 +282,47 @@ nav {
     color: var(--accent-color);
 }
 
+/* Enhanced About Section Styles */
+.about-content {
+  margin-bottom: 60px;
+}
+
+.about-text {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-text h3 {
+  color: var(--primary-color);
+  margin-top: 32px;
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.about-text p {
+  margin-bottom: 24px;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.skills-title {
+  text-align: center;
+  margin-bottom: 32px;
+  color: var(--primary-color);
+  font-size: 28px;
+}
+
+@media (max-width: 768px) {
+  .about-text h3 {
+    font-size: 22px;
+    margin-top: 28px;
+  }
+  
+  .skills-title {
+    font-size: 24px;
+  }
+}
+
 /* Projects Section */
 .projects {
     width: 100%;
