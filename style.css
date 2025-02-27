@@ -305,31 +305,24 @@ nav {
 
 .skills-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+    /* Two per row by default */
     gap: 32px;
     margin-top: 60px;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .skill-card {
     background-color: var(--card-bg);
     border-radius: 16px;
-    padding: 32px;
+    padding: 24px;  /* Slightly reduced padding */
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
     transition: var(--transition);
     transform: translateY(40px);
     opacity: 0;
-}
-
-.skill-card:hover {
-    transform: translateY(-8px) !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-}
-
-.skill-icon {
-    font-size: 36px;
-    margin-bottom: 24px;
-    color: var(--accent-color);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Enhanced About Section Styles */
@@ -703,6 +696,10 @@ body.dark-mode .footer-logo {
     .projects-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
+
+    .skills-container {
+        gap: 24px; /* Slightly reduced gap for medium screens */
+    }
 }
 
 @media (max-width: 992px) {
@@ -798,6 +795,11 @@ body.dark-mode .footer-logo {
 
     .skills-container {
         grid-template-columns: 1fr;
+        gap: 20px; /* Further reduced gap for mobile */
+    }
+
+    .skill-card {
+        padding: 20px; /* Reduced padding for mobile */
     }
 
     .footer-content {
@@ -811,6 +813,12 @@ body.dark-mode .footer-logo {
 
     .footer-links li:first-child {
         margin-left: 0;
+    }
+
+    .container {
+        padding: 0 16px; /* Slightly reduced container padding */
+        width: 100%;
+        box-sizing: border-box;
     }
 }
 
@@ -846,6 +854,53 @@ body.dark-mode .footer-logo {
 
     .hero-content {
         padding-top: 180px; /* Adjust padding to accommodate smaller image */
+    }
+
+    .skill-card {
+        padding: 16px; /* Even smaller padding for very small screens */
+    }
+    
+    .section-title {
+        font-size: 32px;
+        margin-bottom: 50px;
+    }
+    
+    .section-subtitle {
+        font-size: 18px;
+        margin-bottom: 40px;
+    }
+    
+    .skills-container {
+        margin-top: 40px;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+    .container {
+        padding: 0 12px;
+    }
+    
+    .skill-card {
+        padding: 14px;
+    }
+    
+    .skill-icon {
+        font-size: 28px;
+        margin-bottom: 16px;
+    }
+    
+    h3 {
+        font-size: 20px;
+    }
+    
+    p {
+        font-size: 15px;
+        margin-bottom: 16px;
+    }
+    
+    .section-title {
+        font-size: 28px;
     }
 }
 
