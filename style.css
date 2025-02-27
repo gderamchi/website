@@ -250,12 +250,11 @@ nav {
 }
 
 .hero-content {
-    max-width: 750px;
+    max-width: 650px; /* Reduced from 750px to leave space for image */
     z-index: 1;
-    margin: 0 auto;
-    /* Add this line to center the content */
-    text-align: center;
-    /* Add this line for centered text */
+    padding-right: 50px; /* Add padding to prevent text from getting too close to image */
+    margin: 0; /* Remove auto margins to position it to the left */
+    text-align: left; /* Align text to the left */
 }
 
 .hero-title {
@@ -284,12 +283,17 @@ nav {
 
 .hero-image {
     position: absolute;
-    right: -5%;
+    right: 5%;
     top: 50%;
     transform: translateY(-50%);
-    width: 50%;
-    max-width: 600px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%; /* Make the image circular */
+    border: 6px solid var(--accent-color); /* Colored border using accent color */
+    box-shadow: 0 10px 25px rgba(66, 153, 225, 0.3); /* Add subtle shadow */
     opacity: 0;
+    object-fit: cover; /* Ensure the image fills the circle properly */
+    z-index: 2; /* Ensure it appears above background elements */
     animation: fadeIn 1.5s forwards 1.2s;
 }
 
@@ -691,7 +695,9 @@ body.dark-mode .footer-logo {
     }
 
     .hero-image {
-        width: 45%;
+        width: 280px;
+        height: 280px;
+        right: 2%;
     }
 
     .projects-grid {
@@ -705,7 +711,14 @@ body.dark-mode .footer-logo {
     }
 
     .hero-image {
-        width: 40%;
+        width: 240px;
+        height: 240px;
+        border-width: 5px;
+    }
+
+    .hero-content {
+        max-width: 580px;
+        padding-right: 40px;
     }
 }
 
@@ -757,19 +770,26 @@ body.dark-mode .footer-logo {
     .hero {
         min-height: auto;
         padding: 150px 0 100px;
+        text-align: center;
     }
 
     .hero-content {
         text-align: center;
         margin: 0 auto;
-    }
-
-    .hero-buttons {
-        justify-content: center;
+        padding-right: 0;
+        padding-top: 210px; /* Add space above content for the image */
     }
 
     .hero-image {
-        display: none;
+        display: block; /* Show image on mobile */
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        border-width: 4px;
+        top: 100px; /* Position from top */
+        left: 50%; /* Center horizontally */
+        transform: translateX(-50%); /* Center horizontally */
+        right: auto; /* Reset right value */
     }
 
     .projects-grid {
@@ -816,6 +836,16 @@ body.dark-mode .footer-logo {
     .contact-header,
     .contact-content {
         padding: 24px;
+    }
+
+    .hero-image {
+        width: 150px;
+        height: 150px;
+        top: 90px; /* Adjust top position */
+    }
+
+    .hero-content {
+        padding-top: 180px; /* Adjust padding to accommodate smaller image */
     }
 }
 
