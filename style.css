@@ -85,13 +85,47 @@ a:hover {
 }
 
 section {
-    padding: 100px 0;
+    padding: 120px 0; /* Increased padding */
+    position: relative;
+    overflow: hidden;
     width: 100%;
 }
 
+section:nth-child(odd)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(var(--accent-color) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.03;
+    pointer-events: none;
+}
+
+body.dark-mode section:nth-child(odd)::before {
+    opacity: 0.05;
+}
+
 .section-title {
+    position: relative;
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 70px;
+    font-size: 38px;
+    letter-spacing: -0.5px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-color), #90cdf4);
+    border-radius: 2px;
 }
 
 .section-subtitle {
@@ -101,6 +135,7 @@ section {
     text-align: center;
     max-width: 700px;
     margin: 0 auto 60px;
+    margin-top: 30px; /* Increase space after the title line */
 }
 
 /* Button Styles */
@@ -320,6 +355,121 @@ nav {
   
   .skills-title {
     font-size: 24px;
+  }
+}
+
+/* Enhanced About Section with Animations */
+.about-section {
+  display: flex;
+  margin-bottom: 48px;
+  align-items: flex-start;
+}
+
+.section-icon {
+  margin-right: 24px;
+  flex-shrink: 0;
+}
+
+.icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--accent-color), #90cdf4);
+  border-radius: 50%;
+  font-size: 24px;
+  color: white;
+  box-shadow: 0 8px 16px rgba(66, 153, 225, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-section:hover .icon-circle {
+  transform: scale(1.1);
+  box-shadow: 0 12px 20px rgba(66, 153, 225, 0.4);
+}
+
+.expertise-areas {
+  margin-top: 20px;
+}
+
+.expertise-area {
+  margin-bottom: 16px;
+}
+
+.expertise-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+.expertise-bar {
+  height: 8px;
+  background-color: rgba(66, 153, 225, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.expertise-progress {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-color), #90cdf4);
+  border-radius: 4px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.5s cubic-bezier(0.17, 0.67, 0.32, 1.33);
+}
+
+.expertise-progress.animate {
+  transform: scaleX(1);
+}
+
+.decorative-line {
+  height: 4px;
+  width: 80px;
+  background: linear-gradient(90deg, var(--accent-color), #90cdf4);
+  margin: 60px auto 40px;
+  border-radius: 2px;
+}
+
+/* Animation Classes */
+.reveal-text {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.slide-in {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.reveal-text.visible,
+.slide-in.visible,
+.fade-in.visible {
+  opacity: 1;
+  transform: translate(0);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .about-section {
+    flex-direction: column;
+  }
+  
+  .section-icon {
+    margin-right: 0;
+    margin-bottom: 16px;
+  }
+  
+  .expertise-progress {
+    transition-duration: 1.2s;
   }
 }
 
@@ -923,4 +1073,31 @@ body.dark-mode .form-control {
 
 body.dark-mode .form-control:focus {
     border-color: var(--accent-color);
+}
+
+/* Add this to your style.css file */
+.section-divider {
+  position: relative;
+  height: 8px;
+  background: linear-gradient(90deg, var(--background-color), var(--accent-color), var(--background-color));
+  margin: 0;
+  width: 100%;
+  opacity: 0.5;
+}
+
+.section-divider::before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  background: var(--accent-color);
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(66, 153, 225, 0.6);
+}
+
+body.dark-mode .section-divider {
+  background: linear-gradient(90deg, var(--background-color), var(--accent-color), var(--background-color));
 }

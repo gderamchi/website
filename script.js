@@ -122,6 +122,9 @@ document.addEventListener('DOMContentLoaded', function () {
           localStorage.setItem('theme', 'light');
       }
   });
+
+  // Initialize about section animations
+  initAboutAnimations();
 });
 
 // Projects Section - FIXED VERSION
@@ -337,3 +340,42 @@ contactForm.addEventListener('submit', function (e) {
     submitButton.disabled = false;
   });
 });
+
+// Animation for About Section
+function initAboutAnimations() {
+  // Elements to animate
+  const animatedElements = document.querySelectorAll('.reveal-text, .slide-in, .fade-in');
+  
+  // Expertise bars
+  const expertiseBars = document.querySelectorAll('.expertise-progress');
+  
+  // Intersection Observer for text animations
+  const elementObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        elementObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  
+  // Intersection Observer for expertise bars
+  const barObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate');
+        barObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  
+  // Observe all animated elements
+  animatedElements.forEach(element => {
+    elementObserver.observe(element);
+  });
+  
+  // Observe expertise bars
+  expertiseBars.forEach(bar => {
+    barObserver.observe(bar);
+  });
+}
