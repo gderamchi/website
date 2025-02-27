@@ -387,7 +387,11 @@ function initAboutAnimations() {
 function initSectionDividers() {
   const dividerObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
+      // Only run animation if element is intersecting AND hasn't been animated yet
+      if (entry.isIntersecting && !entry.target.hasAttribute('data-animated')) {
+        // Mark this divider as already animated
+        entry.target.setAttribute('data-animated', 'true');
+        
         // Animate the left line
         const leftLine = entry.target.querySelector('.divider-line-left');
         if (leftLine) leftLine.classList.add('animate');
@@ -403,11 +407,8 @@ function initSectionDividers() {
             circle.classList.add('animate');
           }, 300);
         }
-      } else {
-        // Optional: reset animations when scrolling away
-        const elements = entry.target.querySelectorAll('.animate');
-        elements.forEach(el => el.classList.remove('animate'));
       }
+      // Remove the else block entirely to prevent animations from being reset
     });
   }, { threshold: 0.5 });
   
