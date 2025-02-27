@@ -125,6 +125,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Initialize about section animations
   initAboutAnimations();
+
+  // Initialize section dividers
+  initSectionDividers();
 });
 
 // Projects Section - FIXED VERSION
@@ -377,5 +380,78 @@ function initAboutAnimations() {
   // Observe expertise bars
   expertiseBars.forEach(bar => {
     barObserver.observe(bar);
+  });
+}
+
+// Section Divider Animations
+function initSectionDividers() {
+  // Create and place particles
+  const particleContainers = document.querySelectorAll('.section-divider .particles');
+  particleContainers.forEach(container => {
+    // Add 15 particles to each divider
+    for (let i = 0; i < 15; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      
+      // Random positions around the center icon
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 20 + Math.random() * 80;
+      const tx = Math.cos(angle) * distance;
+      const ty = Math.sin(angle) * distance;
+      
+      // Set CSS variables for animation
+      particle.style.setProperty('--tx', `${tx}px`);
+      particle.style.setProperty('--ty', `${ty}px`);
+      
+      // Random starting positions
+      particle.style.left = `${50 + (Math.random() * 20 - 10)}%`;
+      particle.style.top = `${50 + (Math.random() * 20 - 10)}%`;
+      
+      // Random sizes
+      const size = 4 + Math.random() * 6;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      
+      // Random transparency
+      particle.style.opacity = 0.3 + Math.random() * 0.7;
+      
+      container.appendChild(particle);
+    }
+  });
+  
+  // Observer for animation triggers
+  const dividerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Animate the accent shape
+        const accentShape = entry.target.querySelector('.shape.accent');
+        if (accentShape) accentShape.classList.add('animate');
+        
+        // Animate the icon
+        const icon = entry.target.querySelector('.divider-icon');
+        if (icon) icon.classList.add('animate');
+        
+        // Animate particles with staggered delay
+        const particles = entry.target.querySelectorAll('.particle');
+        particles.forEach((particle, index) => {
+          setTimeout(() => {
+            particle.classList.add('animate');
+            
+            // Remove animation class after it completes to allow re-animation
+            setTimeout(() => {
+              particle.classList.remove('animate');
+            }, 3000);
+          }, index * 100);
+        });
+        
+        // Continue observing for scroll up/down re-animations
+        // dividerObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  
+  // Observe all dividers
+  document.querySelectorAll('.section-divider').forEach(divider => {
+    dividerObserver.observe(divider);
   });
 }
