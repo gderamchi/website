@@ -1,0 +1,56 @@
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.hero-content {
+    max-width: 650px; /* Reduced from 750px to leave space for image */
+    z-index: 1;
+    padding-right: 50px; /* Add padding to prevent text from getting too close to image */
+    margin: 0; /* Remove auto margins to position it to the left */
+    text-align: left; /* Align text to the left */
+}
+
+.hero-title {
+    font-size: 56px;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 1s forwards 0.5s;
+}
+
+.hero-subtitle {
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--secondary-color);
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 1s forwards 0.7s;
+}
+
+.hero-buttons {
+    justify-content: center;
+    /* Ensure buttons remain centered */
+}
+
+.hero-image {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 320px;
+    height: 320px;
+    border-radius: 50%; /* Make the image circular */
+    border: 6px solid var(--accent-color); /* Colored border using accent color */
+    box-shadow: 0 10px 25px rgba(66, 153, 225, 0.3); /* Add subtle shadow */
+    opacity: 0;
+    object-fit: cover; /* Ensure the image fills the circle properly */
+    z-index: 2; /* Ensure it appears above background elements */
+    animation: fadeIn 1.5s forwards 1.2s;
+}

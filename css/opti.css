@@ -1,0 +1,87 @@
+/* Accessibility enhancement for form labels */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  /* Focus states for better keyboard navigation */
+  a:focus,
+  button:focus,
+  input:focus,
+  textarea:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+  }
+  
+  /* Skip to content link for accessibility */
+  .skip-to-content {
+    position: absolute;
+    left: -9999px;
+    top: 1em;
+    z-index: 9999;
+    background: var(--accent-color);
+    color: white;
+    padding: 1em;
+    transform: translateY(-100%);
+    transition: transform 0.3s;
+  }
+  
+  .skip-to-content:focus {
+    left: 1em;
+    transform: translateY(0);
+  }
+  
+  /* Improved contrast ratios for accessibility */
+  body.dark-mode .project-tag {
+    background-color: rgba(99, 179, 237, 0.2);
+    color: #90cdf4;
+  }
+  
+  /* Ensure proper text contrast */
+  body.dark-mode .secondary-color {
+    color: #cbd5e0; /* Lighter color for better contrast in dark mode */
+  }
+  
+  /* Performance Optimizations */
+  .project-card,
+  .skill-card,
+  .contact-card {
+    contain: content;  /* CSS containment for better rendering performance */
+    will-change: transform, opacity;  /* Hint to browser about properties that will animate */
+  }
+  
+  /* Optimize animations to use compositor-only properties */
+  .hero-title,
+  .hero-subtitle,
+  .hero-buttons,
+  .hero-image {
+    will-change: transform, opacity;
+    backface-visibility: hidden; /* Force GPU acceleration */
+  }
+  
+  /* Optimize frequently animated elements */
+  .expertise-progress {
+    will-change: transform;
+    transform: translateZ(0); /* Force GPU acceleration */
+  }
+  
+  .section-divider .divider-line-left,
+  .section-divider .divider-line-right,
+  .section-divider .divider-circle {
+    will-change: transform, opacity;
+  }
+  
+  /* Optimize focus states for better performance */
+  a:focus,
+  button:focus,
+  input:focus,
+  textarea:focus {
+    will-change: outline, outline-offset;
+  }

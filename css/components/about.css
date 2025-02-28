@@ -1,0 +1,254 @@
+.about {
+    background-color: var(--section-bg);
+    width: 100%;
+}
+
+/* Fix for skills container layout to ensure consistent widths and spacing */
+.skills-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Two per row by default */
+    gap: 32px;
+    margin-top: 60px;
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .skills-container {
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 1fr; /* Ensure all rows have equal height */
+    }
+}
+
+.skill-card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    padding: 24px;  /* Slightly reduced padding */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    transition: var(--transition);
+    transform: translateY(40px);
+    opacity: 0;
+    width: 100%; /* Full width relative to grid cell */
+    box-sizing: border-box;
+    height: 100%; /* Ensure all cards take full height of grid cell */
+    display: flex;
+    flex-direction: column; /* Create a flex column layout */
+    margin: 0; /* Reset any margins that might cause inconsistency */
+}
+
+/* Add hover effect back for skill cards */
+.skill-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Fix for dark mode - ensure consistent hover effect */
+body.dark-mode .skill-card:hover {
+    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.1);
+}
+
+.skill-icon {
+    font-size: 36px;
+    margin-bottom: 24px;
+    color: var(--accent-color);
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+.skill-card h3 {
+    margin-bottom: 12px; /* Slightly reduced margin for better spacing */
+    flex-shrink: 0; /* Prevent heading from shrinking */
+    /* Fix height consistency issues between modes */
+    min-height: 24px; /* Ensure consistent height for title */
+    width: 100%;
+}
+
+.skill-card p {
+    flex-grow: 1; /* Allow paragraph to grow and fill space */
+    margin-bottom: 0; /* Remove bottom margin to avoid inconsistent spacing */
+    /* Fix text wrapping consistency issues */
+    width: 100%;
+    word-break: break-word; /* Ensure consistent word breaking */
+    hyphens: auto; /* Allow hyphenation for better text wrapping */
+}
+
+/* Fix for skill card titles - ensure consistent wrapping between light/dark modes */
+@media (min-width: 1024px) {
+    .skill-card h3 {
+        /* Ensure consistent height regardless of font rendering differences */
+        font-size: 22px; /* Slightly reduced size to avoid potential wrapping issues */
+        line-height: 1.2;
+        height: auto;
+        min-height: 26px;
+    }
+
+    /* Force the height to be the same in both modes */
+    body.dark-mode .skill-card,
+    .skill-card {
+        min-height: 280px; /* Set explicit min-height */
+    }
+
+    /* Fix specific issue with Prompt Engineering text */
+    .skill-card h3:contains("Prompt Engineering"),
+    .skill-card h3:contains("Prompt Engineering") {
+        white-space: nowrap; /* Prevent wrapping for this specific title */
+    }
+}
+
+/* Enhanced About Section Styles */
+.about-content {
+    margin-bottom: 60px;
+}
+
+.about-text {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.about-text h3 {
+    color: var(--primary-color);
+    margin-top: 32px;
+    margin-bottom: 16px;
+    font-size: 24px;
+}
+
+.about-text p {
+    margin-bottom: 24px;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.skills-title {
+    text-align: center;
+    margin-bottom: 32px;
+    color: var(--primary-color);
+    font-size: 28px;
+}
+
+@media (max-width: 768px) {
+    .about-text h3 {
+        font-size: 22px;
+        margin-top: 28px;
+    }
+
+    .skills-title {
+        font-size: 24px;
+    }
+}
+
+/* Enhanced About Section with Animations */
+.about-section {
+    display: flex;
+    margin-bottom: 48px;
+    align-items: flex-start;
+}
+
+.section-icon {
+    margin-right: 24px;
+    flex-shrink: 0;
+}
+
+.icon-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--accent-color), #90cdf4);
+    border-radius: 50%;
+    font-size: 24px;
+    color: white;
+    box-shadow: 0 8px 16px rgba(66, 153, 225, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-section:hover .icon-circle {
+    transform: scale(1.1);
+    box-shadow: 0 12px 20px rgba(66, 153, 225, 0.4);
+}
+
+.expertise-areas {
+    margin-top: 20px;
+}
+
+.expertise-area {
+    margin-bottom: 16px;
+}
+
+.expertise-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.expertise-bar {
+    height: 8px;
+    background-color: rgba(66, 153, 225, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.expertise-progress {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-color), #90cdf4);
+    border-radius: 4px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1.5s cubic-bezier(0.17, 0.67, 0.32, 1.33);
+}
+
+.expertise-progress.animate {
+    transform: scaleX(1);
+}
+
+.decorative-line {
+    height: 4px;
+    width: 80px;
+    background: linear-gradient(90deg, var(--accent-color), #90cdf4);
+    margin: 60px auto 40px;
+    border-radius: 2px;
+}
+
+.reveal-text {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.slide-in {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.reveal-text.visible,
+.slide-in.visible,
+.fade-in.visible {
+    opacity: 1;
+    transform: translate(0);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .about-section {
+        flex-direction: column;
+    }
+
+    .section-icon {
+        margin-right: 0;
+        margin-bottom: 16px;
+    }
+
+    .expertise-progress {
+        transition-duration: 1.2s;
+    }
+
+    .skill-card h3 {
+        font-size: 20px; /* Slightly smaller heading on mobile */
+    }
+}
