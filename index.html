@@ -37,6 +37,9 @@
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <!-- Preload Critical Resources -->
   <link rel="preload" href="style.css" as="style">
   <link rel="preload" href="script.js" as="script">
@@ -77,14 +80,17 @@
     }
   </script>
 
-  <!-- EmailJS - Remove async attribute to ensure proper loading order -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
+  <!-- EmailJS - Load before main script to ensure it's available -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
   <!-- Custom JavaScript - Load with defer to not block parsing -->
   <script src="script.js" defer></script>
 </head>
 
 <body>
+  <!-- Skip to content link for accessibility -->
+  <a href="#main-content" class="skip-to-content">Skip to content</a>
+
   <!-- Header & Navigation -->
   <header id="header">
     <div class="container">
@@ -144,7 +150,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <!-- Hero Section -->
     <section class="hero" id="home" aria-label="Introduction">
       <div class="container">
