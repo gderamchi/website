@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://guillaumeDeramchi.com/sitemap.xml
+Sitemap: https://guillaume18100.github.io/website/sitemap.xml
