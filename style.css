@@ -331,6 +331,17 @@ nav {
     margin: 0; /* Reset any margins that might cause inconsistency */
 }
 
+/* Add hover effect back for skill cards */
+.skill-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Fix for dark mode - ensure consistent hover effect */
+body.dark-mode .skill-card:hover {
+    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.1);
+}
+
 .skill-icon {
     font-size: 36px;
     margin-bottom: 24px;
@@ -341,11 +352,41 @@ nav {
 .skill-card h3 {
     margin-bottom: 12px; /* Slightly reduced margin for better spacing */
     flex-shrink: 0; /* Prevent heading from shrinking */
+    /* Fix height consistency issues between modes */
+    min-height: 24px; /* Ensure consistent height for title */
+    width: 100%;
 }
 
 .skill-card p {
     flex-grow: 1; /* Allow paragraph to grow and fill space */
     margin-bottom: 0; /* Remove bottom margin to avoid inconsistent spacing */
+    /* Fix text wrapping consistency issues */
+    width: 100%;
+    word-break: break-word; /* Ensure consistent word breaking */
+    hyphens: auto; /* Allow hyphenation for better text wrapping */
+}
+
+/* Fix for skill card titles - ensure consistent wrapping between light/dark modes */
+@media (min-width: 1024px) {
+    .skill-card h3 {
+        /* Ensure consistent height regardless of font rendering differences */
+        font-size: 22px; /* Slightly reduced size to avoid potential wrapping issues */
+        line-height: 1.2;
+        height: auto;
+        min-height: 26px;
+    }
+
+    /* Force the height to be the same in both modes */
+    body.dark-mode .skill-card,
+    .skill-card {
+        min-height: 280px; /* Set explicit min-height */
+    }
+
+    /* Fix specific issue with Prompt Engineering text */
+    .skill-card h3:contains("Prompt Engineering"),
+    .skill-card h3:contains("Prompt Engineering") {
+        white-space: nowrap; /* Prevent wrapping for this specific title */
+    }
 }
 
 /* Enhanced About Section Styles */
