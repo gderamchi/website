@@ -13,10 +13,7 @@ const CONFIG = {
   },
   // Performance configurations
   debounceTime: 100, // Ms to wait before executing debounced functions
-  batchProcessLimit: 5, // Process elements in batches for smoother animations
-  // EmailJS retry configuration
-  emailJSMaxRetries: 5,
-  emailJSRetryInterval: 200 // ms
+  batchProcessLimit: 5 // Process elements in batches for smoother animations
 };
 
 // Performance utilities
@@ -508,32 +505,44 @@ function loadProjects() {
   }
 }
 
-// Initialize EmailJS - with improved retry logic
+// Initialize EmailJS - with more robust checks
 function initEmailJS() {
-  let retryCount = 0;
-  
-  const initializeEmailJS = () => {
-    if (typeof emailjs !== 'undefined') {
-      try {
-        emailjs.init(CONFIG.emailjsPublicKey);
-        console.log('EmailJS initialized successfully');
-        setupContactForm();
-      } catch (error) {
-        console.error('Error initializing EmailJS:', error);
-        showContactFormError('Service initialization failed. Please try again later.');
-      }
-    } else if (retryCount < CONFIG.emailJSMaxRetries) {
-      retryCount++;
-      console.log(`EmailJS not loaded yet, retrying... (${retryCount}/${CONFIG.emailJSMaxRetries})`);
-      setTimeout(initializeEmailJS, CONFIG.emailJSRetryInterval);
-    } else {
-      console.error('EmailJS failed to load after multiple attempts');
-      showContactFormError('Contact service unavailable. Please try again later or reach out directly via email.');
+  // Check if EmailJS is available now
+  if (typeof emailjs !== 'undefined') {
+    try {
+      emailjs.init(CONFIG.emailjsPublicKey);
+      setupContactForm();
+    } catch (error) {
+      console.error('Error initializing EmailJS:', error);
     }
-  };
-  
-  // Start the initialization process
-  initializeEmailJS();
+  } else {
+    // EmailJS not loaded yet, set up a check for when it becomes available
+    console.log('EmailJS not loaded yet, waiting for script to load...');
+    
+    // Check every 200ms if EmailJS has loaded (with a timeout)
+    let attempts = 0;
+    const maxAttempts = 20; // 4 seconds max wait time
+    
+    const checkEmailJSLoaded = setInterval(() => {
+      attempts++;
+      
+      if (typeof emailjs !== 'undefined') {
+        clearInterval(checkEmailJSLoaded);
+        console.log('EmailJS now available, initializing...');
+        try {
+          emailjs.init(CONFIG.emailjsPublicKey);
+          setupContactForm();
+        } catch (error) {
+          console.error('Error initializing EmailJS after wait:', error);
+          showContactFormError('Service initialization failed. Please try again later.');
+        }
+      } else if (attempts >= maxAttempts) {
+        clearInterval(checkEmailJSLoaded);
+        console.error('EmailJS failed to load after multiple attempts');
+        showContactFormError('Contact service unavailable. Please try again later or reach out directly via email.');
+      }
+    }, 200);
+  }
 }
 
 // Setup contact form submission with improved feedback
@@ -791,18 +800,8 @@ function initScrollPosition() {
 
 // Main initialization function - with performance optimizations
 function init() {
-  // Create the observer first since it's needed by other functions
-  observer = createAnimationObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        requestAnimationFrame(() => {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        });
-        observer.unobserve(entry.target);
-      }
-    });
-  });
+  // Split work into microtasks using setTimeout with 0 delay
+  // This prevents long-running scripts from blocking the main thread
   
   // Initialize immediate UI requirements
   initScrollPosition();
@@ -826,7 +825,6 @@ function init() {
     initEmailJS();
     initLanguageSwitcher();
     initMobileNav();
-    initLazyImages();
   }, 20);
   
   // Add event listener for skip to content link
@@ -834,7 +832,7 @@ function init() {
   if (skipLink) {
     skipLink.addEventListener('click', (e) => {
       e.preventDefault();
-      const mainContent = document.getElementById('main-content');
+      const mainContent = document.querySelector('main');
       if (mainContent) {
         mainContent.tabIndex = -1;
         mainContent.focus();
@@ -929,61 +927,45 @@ function initLanguageSwitcher() {
   });
 }
 
-// Apply translations to the page - with improved error handling
+// Apply translations to the page
 function applyTranslations(lang) {
   const translations = TRANSLATIONS[lang];
-  if (!translations) {
-    console.error(`No translations found for language: ${lang}`);
-    return;
-  }
-  
-  // Helper function to safely update text content
-  const safelyUpdateTextContent = (selector, text) => {
-    const element = document.querySelector(selector);
-    if (element) {
-      element.textContent = text;
-    } else {
-      console.warn(`Element not found for selector: ${selector}`);
-    }
-  };
+  if (!translations) return;
   
   // Update navigation
-  safelyUpdateTextContent('.nav-links li:nth-child(1) a', translations.nav.about);
-  safelyUpdateTextContent('.nav-links li:nth-child(2) a', translations.nav.projects);
-  safelyUpdateTextContent('.nav-links li:nth-child(3) a', translations.nav.contact);
+  document.querySelector('.nav-links li:nth-child(1) a').textContent = translations.nav.about;
+  document.querySelector('.nav-links li:nth-child(2) a').textContent = translations.nav.projects;
+  document.querySelector('.nav-links li:nth-child(3) a').textContent = translations.nav.contact;
   
   // Update hero section
-  safelyUpdateTextContent('.hero-title', translations.hero.title);
-  safelyUpdateTextContent('.hero-subtitle', translations.hero.subtitle);
-  safelyUpdateTextContent('.hero-buttons .btn:first-child', translations.hero.viewProjects);
-  safelyUpdateTextContent('.hero-buttons .btn-outline', translations.hero.getInTouch);
+  document.querySelector('.hero-title').textContent = translations.hero.title;
+  document.querySelector('.hero-subtitle').textContent = translations.hero.subtitle;
+  document.querySelector('.hero-buttons .btn:first-child').textContent = translations.hero.viewProjects;
+  document.querySelector('.hero-buttons .btn-outline').textContent = translations.hero.getInTouch;
   
   // Update about section
-  safelyUpdateTextContent('#about .section-title', translations.about.title);
-  safelyUpdateTextContent('#about .section-subtitle', translations.about.subtitle);
+  document.querySelector('#about .section-title').textContent = translations.about.title;
+  document.querySelector('#about .section-subtitle').textContent = translations.about.subtitle;
   
-  safelyUpdateTextContent('#about .about-section:nth-child(1) h3', translations.about.journey.title);
-  safelyUpdateTextContent('#about .about-section:nth-child(1) p', translations.about.journey.content);
+  document.querySelector('#about .about-section:nth-child(1) h3').textContent = translations.about.journey.title;
+  document.querySelector('#about .about-section:nth-child(1) p').textContent = translations.about.journey.content;
   
-  safelyUpdateTextContent('#about .about-section:nth-child(2) h3', translations.about.approach.title);
-  safelyUpdateTextContent('#about .about-section:nth-child(2) p', translations.about.approach.content);
+  document.querySelector('#about .about-section:nth-child(2) h3').textContent = translations.about.approach.title;
+  document.querySelector('#about .about-section:nth-child(2) p').textContent = translations.about.approach.content;
   
-  safelyUpdateTextContent('#about .about-section:nth-child(3) h3', translations.about.toolkit.title);
-  safelyUpdateTextContent('#about .about-section:nth-child(3) p', translations.about.toolkit.content);
+  document.querySelector('#about .about-section:nth-child(3) h3').textContent = translations.about.toolkit.title;
+  document.querySelector('#about .about-section:nth-child(3) p').textContent = translations.about.toolkit.content;
   
   // Update expertise labels
-  const expertiseLabels = document.querySelectorAll('.expertise-area .expertise-label');
-  if (expertiseLabels.length >= 3) {
-    expertiseLabels[0].textContent = translations.about.toolkit.frontend;
-    expertiseLabels[1].textContent = translations.about.toolkit.backend;
-    expertiseLabels[2].textContent = translations.about.toolkit.ai;
-  }
+  document.querySelectorAll('.expertise-area .expertise-label')[0].textContent = translations.about.toolkit.frontend;
+  document.querySelectorAll('.expertise-area .expertise-label')[1].textContent = translations.about.toolkit.backend;
+  document.querySelectorAll('.expertise-area .expertise-label')[2].textContent = translations.about.toolkit.ai;
   
-  safelyUpdateTextContent('.skills-title', translations.about.skills);
+  document.querySelector('.skills-title').textContent = translations.about.skills;
   
   // Update projects section
-  safelyUpdateTextContent('#projects .section-title', translations.projects.title);
-  safelyUpdateTextContent('#projects .section-subtitle', translations.projects.subtitle);
+  document.querySelector('#projects .section-title').textContent = translations.projects.title;
+  document.querySelector('#projects .section-subtitle').textContent = translations.projects.subtitle;
   
   // Update buttons (if they exist)
   const showMoreBtn = document.querySelector('.show-more-btn');
@@ -1002,32 +984,20 @@ function applyTranslations(lang) {
   });
   
   // Update contact section
-  safelyUpdateTextContent('#contact .section-title', translations.contact.title);
-  safelyUpdateTextContent('#contact .section-subtitle', translations.contact.subtitle);
-  safelyUpdateTextContent('.contact-title', translations.contact.formTitle);
-  safelyUpdateTextContent('.contact-header p', translations.contact.formSubtitle);
+  document.querySelector('#contact .section-title').textContent = translations.contact.title;
+  document.querySelector('#contact .section-subtitle').textContent = translations.contact.subtitle;
+  document.querySelector('.contact-title').textContent = translations.contact.formTitle;
+  document.querySelector('.contact-header p').textContent = translations.contact.formSubtitle;
   
-  // Update form placeholders and aria-labels
-  const updateFormElement = (id, text) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.placeholder = text;
-      // Also update hidden label for accessibility
-      const label = document.querySelector(`label[for="${id}"]`);
-      if (label) label.textContent = text;
-    }
-  };
-  
-  updateFormElement('name', translations.contact.name);
-  updateFormElement('email', translations.contact.email);
-  updateFormElement('subject', translations.contact.subject);
-  updateFormElement('message', translations.contact.message);
-  
-  const submitBtn = document.querySelector('.contact-form button');
-  if (submitBtn) submitBtn.textContent = translations.contact.send;
+  // Update form placeholders
+  document.getElementById('name').placeholder = translations.contact.name;
+  document.getElementById('email').placeholder = translations.contact.email;
+  document.getElementById('subject').placeholder = translations.contact.subject;
+  document.getElementById('message').placeholder = translations.contact.message;
+  document.querySelector('.contact-form button').textContent = translations.contact.send;
   
   // Update footer copyright
-  safelyUpdateTextContent('.copyright', translations.footer.copyright);
+  document.querySelector('.copyright').textContent = translations.footer.copyright;
   
   // Update skill cards with translations
   updateSkillsWithCurrentLanguage(lang);
@@ -1124,41 +1094,10 @@ function initMobileNav() {
   
   if (!menuToggle || !navLinks) return;
   
-  // Set initial aria-expanded state
-  menuToggle.setAttribute('aria-expanded', 'false');
-  
   menuToggle.addEventListener('click', () => {
     const isExpanded = navLinks.classList.contains('active');
-    const newExpandedState = !isExpanded;
-    
     navLinks.classList.toggle('active');
-    menuToggle.setAttribute('aria-expanded', newExpandedState.toString());
-    
-    // Add focus management for accessibility
-    if (newExpandedState) {
-      // Focus first link when menu opens
-      const firstLink = navLinks.querySelector('a');
-      if (firstLink) setTimeout(() => firstLink.focus(), 100);
-    }
-  });
-  
-  // Close menu when clicking outside
-  document.addEventListener('click', (e) => {
-    if (navLinks.classList.contains('active') && 
-        !navLinks.contains(e.target) && 
-        e.target !== menuToggle) {
-      navLinks.classList.remove('active');
-      menuToggle.setAttribute('aria-expanded', 'false');
-    }
-  });
-  
-  // Close menu with Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navLinks.classList.contains('active')) {
-      navLinks.classList.remove('active');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      menuToggle.focus(); // Return focus to toggle button
-    }
+    menuToggle.setAttribute('aria-expanded', !isExpanded);
   });
 }
 

@@ -1457,37 +1457,19 @@ textarea:focus {
 /* Skip to content link for accessibility */
 .skip-to-content {
   position: absolute;
-  left: 0;
-  top: -40px;
+  left: -9999px;
+  top: 1em;
   z-index: 9999;
   background: var(--accent-color);
   color: white;
-  padding: 10px 15px;
-  border-radius: 0 0 5px 0;
-  transition: top 0.3s ease;
+  padding: 1em;
+  transform: translateY(-100%);
+  transition: transform 0.3s;
 }
 
 .skip-to-content:focus {
-  top: 0;
-  outline: 2px solid white;
-}
-
-/* Skip to content link for accessibility - Fixed positioning */
-.skip-to-content {
-  position: absolute;
-  left: 0;
-  top: -40px;
-  z-index: 9999;
-  background: var(--accent-color);
-  color: white;
-  padding: 10px 15px;
-  border-radius: 0 0 5px 0;
-  transition: top 0.3s ease;
-}
-
-.skip-to-content:focus {
-  top: 0;
-  outline: 2px solid white;
+  left: 1em;
+  transform: translateY(0);
 }
 
 /* Improved contrast ratios for accessibility */
