@@ -505,17 +505,47 @@ function loadProjects() {
   }
 }
 
-// Initialize EmailJS
+// Initialize EmailJS - with more robust checks
 function initEmailJS() {
-  try {
-    emailjs.init(CONFIG.emailjsPublicKey);
-    setupContactForm();
-  } catch (error) {
-    console.error('Error initializing EmailJS:', error);
+  // Check if EmailJS is available now
+  if (typeof emailjs !== 'undefined') {
+    try {
+      emailjs.init(CONFIG.emailjsPublicKey);
+      setupContactForm();
+    } catch (error) {
+      console.error('Error initializing EmailJS:', error);
+    }
+  } else {
+    // EmailJS not loaded yet, set up a check for when it becomes available
+    console.log('EmailJS not loaded yet, waiting for script to load...');
+    
+    // Check every 200ms if EmailJS has loaded (with a timeout)
+    let attempts = 0;
+    const maxAttempts = 20; // 4 seconds max wait time
+    
+    const checkEmailJSLoaded = setInterval(() => {
+      attempts++;
+      
+      if (typeof emailjs !== 'undefined') {
+        clearInterval(checkEmailJSLoaded);
+        console.log('EmailJS now available, initializing...');
+        try {
+          emailjs.init(CONFIG.emailjsPublicKey);
+          setupContactForm();
+        } catch (error) {
+          console.error('Error initializing EmailJS after wait:', error);
+          showContactFormError('Service initialization failed. Please try again later.');
+        }
+      } else if (attempts >= maxAttempts) {
+        clearInterval(checkEmailJSLoaded);
+        console.error('EmailJS failed to load after multiple attempts');
+        showContactFormError('Contact service unavailable. Please try again later or reach out directly via email.');
+      }
+    }, 200);
   }
 }
 
-// Setup contact form submission
+// Setup contact form submission with improved feedback
 function setupContactForm() {
   const contactForm = document.getElementById('contact-form');
   if (!contactForm) return;
@@ -526,8 +556,11 @@ function setupContactForm() {
     // Show loading state
     const submitButton = contactForm.querySelector('button[type="submit"]');
     const originalButtonText = submitButton.textContent;
-    submitButton.textContent = 'Sending...';
+    submitButton.innerHTML = '<span class="spinner"></span> Sending...';
     submitButton.disabled = true;
+    
+    // Hide any previous messages
+    hideFormMessages();
 
     // Get form data
     const formData = {
@@ -545,19 +578,83 @@ function setupContactForm() {
     ).then(
       function(response) {
         console.log("SUCCESS", response);
-        alert('Message sent successfully!');
+        showFormSuccess('Message sent successfully! I\'ll get back to you soon.');
         contactForm.reset();
       },
       function(error) {
         console.log("FAILED", error);
-        alert('Failed to send message. Please try again.');
+        showFormError('Failed to send message. Please try again or contact me directly.');
       }
     ).finally(() => {
       // Reset button state
-      submitButton.textContent = originalButtonText;
+      submitButton.innerHTML = originalButtonText;
       submitButton.disabled = false;
     });
   });
+}
+
+// Helper functions for improved form feedback
+function hideFormMessages() {
+  // Remove any existing message elements
+  const existingMessages = document.querySelectorAll('.form-message');
+  existingMessages.forEach(msg => msg.remove());
+}
+
+function showFormSuccess(message) {
+  const contactContent = document.querySelector('.contact-content');
+  const formMessage = document.createElement('div');
+  formMessage.className = 'form-message success-message';
+  formMessage.innerHTML = `
+    <div class="message-icon">✓</div>
+    <div class="message-content">${message}</div>
+  `;
+  contactContent.appendChild(formMessage);
+  
+  // Animate the message
+  setTimeout(() => formMessage.classList.add('visible'), 10);
+  
+  // Automatically remove after a delay
+  setTimeout(() => {
+    formMessage.classList.remove('visible');
+    setTimeout(() => formMessage.remove(), 300);
+  }, 5000);
+}
+
+function showFormError(message) {
+  const contactContent = document.querySelector('.contact-content');
+  const formMessage = document.createElement('div');
+  formMessage.className = 'form-message error-message';
+  formMessage.innerHTML = `
+    <div class="message-icon">!</div>
+    <div class="message-content">${message}</div>
+    <button class="message-close" aria-label="Dismiss message">×</button>
+  `;
+  contactContent.appendChild(formMessage);
+  
+  // Animate the message
+  setTimeout(() => formMessage.classList.add('visible'), 10);
+  
+  // Add event listener to close button
+  formMessage.querySelector('.message-close').addEventListener('click', () => {
+    formMessage.classList.remove('visible');
+    setTimeout(() => formMessage.remove(), 300);
+  });
+}
+
+// Display a persistent error for contact form when EmailJS fails to initialize
+function showContactFormError(message) {
+  const contactForm = document.getElementById('contact-form');
+  if (!contactForm) return;
+  
+  const errorNotice = document.createElement('div');
+  errorNotice.className = 'form-service-error';
+  errorNotice.innerHTML = `
+    <div class="error-icon">⚠️</div>
+    <div class="error-message">${message}</div>
+  `;
+  
+  contactForm.innerHTML = '';
+  contactForm.appendChild(errorNotice);
 }
 
 // Animation for About Section - optimized for performance
