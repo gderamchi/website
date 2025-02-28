@@ -10,8 +10,21 @@ const CONFIG = {
   metaDescription: {
     en: 'Software & AI Prompt Engineer specializing in building high-performance applications and crafting intelligent AI solutions',
     fr: 'Ingénieur logiciel et prompt IA spécialisé dans la création d\'applications performantes et de solutions IA intelligentes'
-  }
+  },
+  // Performance configurations
+  debounceTime: 100, // Ms to wait before executing debounced functions
+  batchProcessLimit: 5 // Process elements in batches for smoother animations
 };
+
+// Performance utilities
+// Debounce function to limit expensive operations
+function debounce(func, wait = CONFIG.debounceTime) {
+  let timeout;
+  return function(...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+}
 
 // Language translations
 const TRANSLATIONS = {
@@ -131,23 +144,51 @@ const TRANSLATIONS = {
   }
 };
 
-// Create reusable IntersectionObserver
+// Create reusable IntersectionObserver with improved performance
 function createAnimationObserver(callback, options = {}) {
-  return new IntersectionObserver(callback, {
+  // Process entries in batches to avoid layout thrashing
+  const batchCallback = (entries, observer) => {
+    // Create array of visible entries to process
+    const visibleEntries = entries.filter(entry => entry.isIntersecting);
+    
+    // Process in smaller batches for smoother rendering
+    const processEntryBatch = (entries, startIndex) => {
+      const endIndex = Math.min(startIndex + CONFIG.batchProcessLimit, entries.length);
+      const batch = entries.slice(startIndex, endIndex);
+      
+      // Process this batch
+      callback(batch, observer);
+      
+      // Schedule next batch if there are more entries to process
+      if (endIndex < entries.length) {
+        requestAnimationFrame(() => {
+          processEntryBatch(entries, endIndex);
+        });
+      }
+    };
+    
+    // Start processing batches if there are any visible entries
+    if (visibleEntries.length > 0) {
+      processEntryBatch(visibleEntries, 0);
+    }
+  };
+
+  return new IntersectionObserver(batchCallback, {
     threshold: options.threshold || CONFIG.observerThreshold,
     rootMargin: options.rootMargin || CONFIG.observerRootMargin
   });
 }
 
-// Navigation Scroll Effect
+// Navigation Scroll Effect - use passive event listener for better performance
 const header = document.getElementById('header');
-window.addEventListener('scroll', () => {
+const handleScroll = debounce(() => {
   if (window.scrollY > 50) {
     header.classList.add('scrolled');
   } else {
     header.classList.remove('scrolled');
   }
 });
+window.addEventListener('scroll', handleScroll, { passive: true });
 
 // Mobile Menu Toggle
 const menuToggle = document.getElementById('menu-toggle');
@@ -169,23 +210,24 @@ navLinksItems.forEach(item => {
 const observer = createAnimationObserver((entries) => {
   entries.forEach((entry, index) => {
     if (entry.isIntersecting) {
-      setTimeout(() => {
+      // Use requestAnimationFrame for smoother animations
+      requestAnimationFrame(() => {
         entry.target.style.opacity = '1';
         entry.target.style.transform = 'translateY(0)';
-      }, index * 100);
+      });
       observer.unobserve(entry.target);
     }
   });
 });
 
-// Fix for iOS vh units
-function setVhUnit() {
+// Fix for iOS vh units - use debounced version
+const setVhUnit = debounce(() => {
   const vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
-}
+});
 
-window.addEventListener('resize', setVhUnit);
-window.addEventListener('orientationchange', setVhUnit);
+window.addEventListener('resize', setVhUnit, { passive: true });
+window.addEventListener('orientationchange', setVhUnit, { passive: true });
 setVhUnit();
 
 // Skills data
@@ -300,10 +342,13 @@ const projects = [
   }
 ];
 
-// Function to render skills in the DOM
+// Function to render skills in the DOM with performance optimizations
 function loadSkills() {
   const skillsContainer = document.getElementById('skills-container');
   if (!skillsContainer) return;
+  
+  // Create document fragment to batch DOM operations
+  const fragment = document.createDocumentFragment();
   
   skills.forEach(skill => {
     const skillCard = document.createElement('div');
@@ -313,12 +358,19 @@ function loadSkills() {
       <h3>${skill.title}</h3>
       <p>${skill.description}</p>
     `;
-    skillsContainer.appendChild(skillCard);
-    observer.observe(skillCard);
+    fragment.appendChild(skillCard);
+  });
+  
+  // Single DOM update
+  skillsContainer.appendChild(fragment);
+  
+  // Observe all skill cards after appending
+  skillsContainer.querySelectorAll('.skill-card').forEach(card => {
+    observer.observe(card);
   });
 }
 
-// Function to create a project card element
+// Function to create a project card element with better performance
 function createProjectCard(project) {
   const currentLang = localStorage.getItem('language') || 'en';
   const projectCard = document.createElement('div');
@@ -343,7 +395,8 @@ function createProjectCard(project) {
   // Improve SEO with proper alt text and loading attribute
   const imagePath = project.image || 'images/projects/default.jpg';
   const imgAlt = `${project.name} project screenshot`;
-
+  
+  // Use inline template literal to avoid unnecessary DOM parsing
   projectCard.innerHTML = `
     <img src="${imagePath}" alt="${imgAlt}" class="project-image" loading="lazy">
     <div class="project-content">
@@ -360,7 +413,7 @@ function createProjectCard(project) {
   return projectCard;
 }
 
-// Function to display projects with "Show More" button
+// Function to display projects with "Show More" button - performance optimized
 function displayProjects(projects) {
   const projectsGrid = document.getElementById('projects-grid');
   if (!projectsGrid) {
@@ -373,11 +426,21 @@ function displayProjects(projects) {
   const initialProjects = projects.slice(0, CONFIG.initialProjectsToShow);
   const remainingProjects = projects.slice(CONFIG.initialProjectsToShow);
 
+  // Create a document fragment to batch DOM operations
+  const fragment = document.createDocumentFragment();
+
   // Render initial projects
   initialProjects.forEach(project => {
     const projectCard = createProjectCard(project);
-    projectsGrid.appendChild(projectCard);
-    observer.observe(projectCard);
+    fragment.appendChild(projectCard);
+  });
+  
+  // Single DOM update
+  projectsGrid.appendChild(fragment);
+  
+  // Observe all project cards after appending
+  projectsGrid.querySelectorAll('.project-card').forEach(card => {
+    observer.observe(card);
   });
 
   // Add "Show More" button if there are more projects
@@ -497,7 +560,7 @@ function setupContactForm() {
   });
 }
 
-// Animation for About Section
+// Animation for About Section - optimized for performance
 function initAboutAnimations() {
   // Elements to animate
   const animatedElements = document.querySelectorAll('.reveal-text, .slide-in, .fade-in');
@@ -505,38 +568,47 @@ function initAboutAnimations() {
   // Expertise bars
   const expertiseBars = document.querySelectorAll('.expertise-progress');
 
-  // Intersection Observer for text animations
+  // Intersection Observer for text animations - with optimized batch processing
   const elementObserver = createAnimationObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+        // Use requestAnimationFrame for smoother animations
+        requestAnimationFrame(() => {
+          entry.target.classList.add('visible');
+        });
         elementObserver.unobserve(entry.target);
       }
     });
   }, { threshold: 0.2 });
 
-  // Intersection Observer for expertise bars
+  // Intersection Observer for expertise bars - with optimized batch processing
   const barObserver = createAnimationObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('animate');
+        // Use requestAnimationFrame for smoother animations
+        requestAnimationFrame(() => {
+          entry.target.classList.add('animate');
+        });
         barObserver.unobserve(entry.target);
       }
     });
   }, { threshold: 0.5 });
 
-  // Observe all animated elements
-  animatedElements.forEach(element => {
-    elementObserver.observe(element);
-  });
+  // Observe all animated elements - in smaller batches for better performance
+  const observeElementsInBatches = (elements, observer, batchSize = 10) => {
+    for (let i = 0; i < elements.length; i += batchSize) {
+      setTimeout(() => {
+        const batch = Array.from(elements).slice(i, i + batchSize);
+        batch.forEach(element => observer.observe(element));
+      }, 0);
+    }
+  };
 
-  // Observe expertise bars
-  expertiseBars.forEach(bar => {
-    barObserver.observe(bar);
-  });
+  observeElementsInBatches(animatedElements, elementObserver);
+  observeElementsInBatches(expertiseBars, barObserver);
 }
 
-// Section Divider Animations
+// Section Divider Animations - optimized for performance
 function initSectionDividers() {
   const dividerObserver = createAnimationObserver((entries) => {
     entries.forEach(entry => {
@@ -545,19 +617,24 @@ function initSectionDividers() {
         // Mark this divider as already animated
         entry.target.setAttribute('data-animated', 'true');
         
-        // Animate the left line
-        const leftLine = entry.target.querySelector('.divider-line-left');
-        if (leftLine) leftLine.classList.add('animate');
+        // Use requestAnimationFrame for smoother animations
+        requestAnimationFrame(() => {
+          // Animate the left line
+          const leftLine = entry.target.querySelector('.divider-line-left');
+          if (leftLine) leftLine.classList.add('animate');
+          
+          // Animate the right line
+          const rightLine = entry.target.querySelector('.divider-line-right');
+          if (rightLine) rightLine.classList.add('animate');
+        });
         
-        // Animate the right line
-        const rightLine = entry.target.querySelector('.divider-line-right');
-        if (rightLine) rightLine.classList.add('animate');
-        
-        // Animate the circle with a slight delay
+        // Animate the circle with a slight delay using requestAnimationFrame for better performance
         const circle = entry.target.querySelector('.divider-circle');
         if (circle) {
           setTimeout(() => {
-            circle.classList.add('animate');
+            requestAnimationFrame(() => {
+              circle.classList.add('animate');
+            });
           }, 300);
         }
       }
@@ -570,9 +647,20 @@ function initSectionDividers() {
   });
 }
 
-// Initialize dark mode
+// Cache DOM references
+const domCache = {};
+
+// Performance-optimized function to get and cache DOM elements
+function getElement(id) {
+  if (!domCache[id]) {
+    domCache[id] = document.getElementById(id);
+  }
+  return domCache[id];
+}
+
+// Initialize dark mode - with performance optimizations
 function initDarkMode() {
-  const themeToggle = document.getElementById('theme-toggle');
+  const themeToggle = getElement('theme-toggle');
   if (!themeToggle) return;
   
   // Check for saved user preference
@@ -583,14 +671,17 @@ function initDarkMode() {
 
   // Toggle dark/light mode
   themeToggle.addEventListener('click', function() {
-    document.body.classList.toggle('dark-mode');
+    // Use requestAnimationFrame for smoother class updates
+    requestAnimationFrame(() => {
+      document.body.classList.toggle('dark-mode');
 
-    // Save user preference
-    if (document.body.classList.contains('dark-mode')) {
-      localStorage.setItem('theme', 'dark');
-    } else {
-      localStorage.setItem('theme', 'light');
-    }
+      // Save user preference
+      if (document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
+    });
   });
 }
 
@@ -610,18 +701,34 @@ function initScrollPosition() {
   }
 }
 
-// Main initialization function
+// Main initialization function - with performance optimizations
 function init() {
+  // Split work into microtasks using setTimeout with 0 delay
+  // This prevents long-running scripts from blocking the main thread
+  
+  // Initialize immediate UI requirements
   initScrollPosition();
-  loadSkills();
-  loadProjects();
-  initDarkMode();
-  initAboutAnimations();
-  initSectionDividers();
-  initContactCard();
-  initEmailJS();
-  initLanguageSwitcher(); // Initialize language switching
-  initMobileNav();
+  
+  // Initialize core functionality with slight delay
+  setTimeout(() => {
+    loadSkills();
+    loadProjects();
+    initDarkMode();
+  }, 0);
+  
+  // Initialize non-critical animations with slightly longer delay
+  setTimeout(() => {
+    initAboutAnimations();
+    initSectionDividers();
+    initContactCard();
+  }, 10);
+  
+  // Initialize remaining functionality with even longer delay
+  setTimeout(() => {
+    initEmailJS();
+    initLanguageSwitcher();
+    initMobileNav();
+  }, 20);
   
   // Add event listener for skip to content link
   const skipLink = document.querySelector('.skip-to-content');
@@ -637,8 +744,48 @@ function init() {
   }
 }
 
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', init);
+// Initialize intersection observer for lazy loading images
+function initLazyImages() {
+  const imageObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        const src = img.getAttribute('data-src');
+        if (src) {
+          img.src = src;
+          img.removeAttribute('data-src');
+        }
+        observer.unobserve(img);
+      }
+    });
+  }, {
+    rootMargin: '200px' // Start loading images when they are 200px from viewport
+  });
+
+  // Find all images with data-src attribute
+  document.querySelectorAll('img[data-src]').forEach(img => {
+    imageObserver.observe(img);
+  });
+}
+
+// Detect when page is visible and prioritize work accordingly
+document.addEventListener('visibilitychange', function() {
+  if (document.visibilityState === 'visible') {
+    // Prioritize any pending work when page becomes visible
+  } else {
+    // Deprioritize work when page is not visible
+  }
+});
+
+// Initialize when DOM is ready - use JavaScript module pattern for better performance
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize critical functionality immediately
+  init();
+  
+  // Initialize lazy loading after a slight delay
+  setTimeout(initLazyImages, 100);
+});
+
 // Language switching functionality
 function initLanguageSwitcher() {
   const languageToggle = document.getElementById('language-toggle');

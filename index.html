@@ -13,6 +13,10 @@
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://guillaumeDeramchi.com/">
   
+  <!-- Performance: DNS Prefetch and Preconnect -->
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  
   <!-- Open Graph / Facebook Meta Tags -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://guillaumeDeramchi.com/">
@@ -73,10 +77,10 @@
     }
   </script>
 
-  <!-- EmailJS -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
+  <!-- EmailJS - Load asynchronously -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer async></script>
 
-  <!-- Custom JavaScript (add at the end of body) -->
+  <!-- Custom JavaScript - Load with defer to not block parsing -->
   <script src="script.js" defer></script>
 </head>
 

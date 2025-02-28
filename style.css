@@ -1443,3 +1443,40 @@ body.dark-mode .project-tag {
 body.dark-mode .secondary-color {
   color: #cbd5e0; /* Lighter color for better contrast in dark mode */
 }
+
+/* Performance Optimizations */
+.project-card,
+.skill-card,
+.contact-card {
+  contain: content;  /* CSS containment for better rendering performance */
+  will-change: transform, opacity;  /* Hint to browser about properties that will animate */
+}
+
+/* Optimize animations to use compositor-only properties */
+.hero-title,
+.hero-subtitle,
+.hero-buttons,
+.hero-image {
+  will-change: transform, opacity;
+  backface-visibility: hidden; /* Force GPU acceleration */
+}
+
+/* Optimize frequently animated elements */
+.expertise-progress {
+  will-change: transform;
+  transform: translateZ(0); /* Force GPU acceleration */
+}
+
+.section-divider .divider-line-left,
+.section-divider .divider-line-right,
+.section-divider .divider-circle {
+  will-change: transform, opacity;
+}
+
+/* Optimize focus states for better performance */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus {
+  will-change: outline, outline-offset;
+}
