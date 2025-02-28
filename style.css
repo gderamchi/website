@@ -331,16 +331,15 @@ nav {
     margin: 0; /* Reset any margins that might cause inconsistency */
 }
 
-/* Fix hover animation by ensuring it's stronger than the animation applied by JS */
+/* Add hover effect back for skill cards */
 .skill-card:hover {
     transform: translateY(-8px) !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
 }
 
 /* Fix for dark mode - ensure consistent hover effect */
 body.dark-mode .skill-card:hover {
-    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.1) !important;
-    transform: translateY(-8px) !important;
+    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.1);
 }
 
 .skill-icon {
@@ -375,15 +374,18 @@ body.dark-mode .skill-card:hover {
         line-height: 1.2;
         height: auto;
         min-height: 26px;
-        white-space: nowrap; /* Prevent wrapping for all titles */
-        overflow: hidden; /* Ensure text doesn't overflow */
-        text-overflow: ellipsis; /* Show ellipsis if text overflows */
     }
 
     /* Force the height to be the same in both modes */
     body.dark-mode .skill-card,
     .skill-card {
         min-height: 280px; /* Set explicit min-height */
+    }
+
+    /* Fix specific issue with Prompt Engineering text */
+    .skill-card h3:contains("Prompt Engineering"),
+    .skill-card h3:contains("Prompt Engineering") {
+        white-space: nowrap; /* Prevent wrapping for this specific title */
     }
 }
 
