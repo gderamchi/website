@@ -347,42 +347,16 @@ function loadSkills() {
   const skillsContainer = document.getElementById('skills-container');
   if (!skillsContainer) return;
   
-  // Clear any existing skills first to prevent duplicates
-  skillsContainer.innerHTML = '';
-  
-  // Get current language
-  const currentLang = localStorage.getItem('language') || 'en';
-  
   // Create document fragment to batch DOM operations
   const fragment = document.createDocumentFragment();
   
-  // Limit to maximum 4 skills
-  const skillsToShow = skills.slice(0, 4);
-  
-  // Track processed skills to avoid duplicates
-  const processedSkillIds = new Set();
-  
-  skillsToShow.forEach(skill => {
-    // Create a unique ID based on title to track duplicates
-    const skillId = typeof skill.title === 'object' ? 
-      skill.title.en.toLowerCase().replace(/\s+/g, '-') : 
-      skill.title.toLowerCase().replace(/\s+/g, '-');
-    
-    // Skip if this skill has already been processed
-    if (processedSkillIds.has(skillId)) return;
-    processedSkillIds.add(skillId);
-    
-    // Get localized content
-    const title = typeof skill.title === 'object' ? skill.title[currentLang] || skill.title.en : skill.title;
-    const description = typeof skill.description === 'object' ? 
-      skill.description[currentLang] || skill.description.en : skill.description;
-    
+  skills.forEach(skill => {
     const skillCard = document.createElement('div');
     skillCard.classList.add('skill-card');
     skillCard.innerHTML = `
       <div class="skill-icon">${skill.icon}</div>
-      <h3>${title}</h3>
-      <p>${description}</p>
+      <h3>${skill.title}</h3>
+      <p>${skill.description}</p>
     `;
     fragment.appendChild(skillCard);
   });
@@ -828,14 +802,7 @@ function initScrollPosition() {
 function init() {
   // Split work into microtasks using setTimeout with 0 delay
   // This prevents long-running scripts from blocking the main thread
-  initCounter++;
-  debugSafari(`init() called ${initCounter} times`);
   
-  // Prevent multiple initializations
-  if (initCounter > 1) {
-    debugSafari('Preventing duplicate initialization');
-    return;
-  }
   // Initialize immediate UI requirements
   initScrollPosition();
   
@@ -1133,3 +1100,6 @@ function initMobileNav() {
     menuToggle.setAttribute('aria-expanded', !isExpanded);
   });
 }
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', init);
