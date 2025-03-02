@@ -344,6 +344,7 @@ const projects = [
 
 // Function to render skills in the DOM with performance optimizations
 function loadSkills() {
+  const currentLang = localStorage.getItem('language') || 'en';
   const skillsContainer = document.getElementById('skills-container');
   if (!skillsContainer) return;
   
@@ -355,8 +356,8 @@ function loadSkills() {
     skillCard.classList.add('skill-card');
     skillCard.innerHTML = `
       <div class="skill-icon">${skill.icon}</div>
-      <h3>${skill.title}</h3>
-      <p>${skill.description}</p>
+      <h3>${skill.title[currentLang]}</h3>
+      <p>${skill.description[currentLang]}</p>
     `;
     fragment.appendChild(skillCard);
   });
