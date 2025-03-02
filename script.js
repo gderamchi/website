@@ -92,7 +92,7 @@ const TRANSLATIONS = {
       contact: 'Contact'
     },
     hero: {
-      title: 'Mélanger le code et l\'IA générative',
+      title: 'Mélanger code et IA générative',
       subtitle: 'Je suis un développeur et prompt engineer spécialisé dans la création d\'applications élégantes et performantes, ainsi que dans la conception de prompts d\'IA structurés et réfléchis qui résolvent des problèmes concrets.',
       viewProjects: 'Voir les projets',
       getInTouch: 'Me contacter'
