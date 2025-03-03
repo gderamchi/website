@@ -11,17 +11,26 @@ function initThemeToggle() {
     document.body.classList.add('dark-mode');
   }
 
+  // Remove any existing event listeners to prevent duplicates
+  themeToggle.removeEventListener('click', toggleTheme);
+  
   // Toggle dark/light mode
-  themeToggle.addEventListener('click', function() {
-    document.body.classList.toggle('dark-mode');
+  themeToggle.addEventListener('click', toggleTheme);
+  
+  // Separate function to allow for easier removal of event listener
+  function toggleTheme() {
+    // Use requestAnimationFrame for smoother updates
+    requestAnimationFrame(() => {
+      document.body.classList.toggle('dark-mode');
 
-    // Save user preference
-    if (document.body.classList.contains('dark-mode')) {
-      localStorage.setItem('theme', 'dark');
-    } else {
-      localStorage.setItem('theme', 'light');
-    }
-  });
+      // Save user preference
+      if (document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  }
 }
 
 // Handle preloader
@@ -67,9 +76,68 @@ function initScrollToTop() {
   window.addEventListener('scroll', toggleScrollTopBtn, { passive: true });
 }
 
+// Enhanced language switcher functionality
+function initSharedLanguageSwitcher() {
+  const langOptions = document.querySelectorAll('.lang-option');
+  if (!langOptions.length) return;
+  
+  // Get saved language preference
+  let currentLang = localStorage.getItem('language') || 'en';
+  
+  // Set initial active state
+  langOptions.forEach(option => {
+    if (option.dataset.lang === currentLang) {
+      option.classList.add('active');
+    } else {
+      option.classList.remove('active');
+    }
+  });
+  
+  // Update HTML lang attribute
+  document.documentElement.setAttribute('lang', currentLang);
+  
+  // Set up click handlers for language options - with proper event removal
+  langOptions.forEach(option => {
+    // Remove any existing listeners to prevent duplicates
+    option.removeEventListener('click', handleLanguageSwitch);
+    // Add fresh listener
+    option.addEventListener('click', handleLanguageSwitch);
+  });
+  
+  // Handle language switch consistently
+  function handleLanguageSwitch(event) {
+    const newLang = this.dataset.lang;
+    const currentLang = localStorage.getItem('language') || 'en';
+    
+    // Only proceed if this is a different language
+    if (newLang !== currentLang) {
+      // Update active states
+      langOptions.forEach(opt => opt.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Save preference
+      localStorage.setItem('language', newLang);
+      
+      // Update HTML lang attribute
+      document.documentElement.setAttribute('lang', newLang);
+      
+      // Trigger a custom event that specific pages can listen for
+      const languageChangeEvent = new CustomEvent('languageChanged', { detail: { language: newLang, previousLanguage: currentLang }});
+      document.dispatchEvent(languageChangeEvent);
+      
+      // Default page behavior - reload if no handler picked it up
+      setTimeout(() => {
+        // If no handler prevented default, just reload the page
+        window.location.reload();
+      }, 100); 
+    }
+  }
+}
+
 // Initialize common functionality
 document.addEventListener('DOMContentLoaded', () => {
   handlePreloader();
   initThemeToggle();
   initScrollToTop();
+  initSharedLanguageSwitcher();
 });

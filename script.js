@@ -588,7 +588,14 @@ function setupProjectScrollAnimation() {
 
 // Initialize EmailJS - with more robust checks
 function initEmailJS() {
-  // Check if EmailJS is available now
+  // First check if contact form exists on this page
+  const contactForm = document.getElementById('contact-form');
+  if (!contactForm) {
+    console.log('Contact form not found on this page, skipping EmailJS initialization');
+    return; // Exit early if form doesn't exist
+  }
+  
+  // Then check if EmailJS is available
   if (typeof emailjs !== 'undefined') {
     try {
       emailjs.init(CONFIG.emailjsPublicKey);
@@ -838,6 +845,12 @@ function getElement(id) {
 
 // Initialize dark mode - with performance optimizations
 function initDarkMode() {
+  // We'll skip this since it's now handled by common.js
+  // This avoids duplicate event listeners that might interfere with each other
+  console.log('Dark mode initialization delegated to common.js');
+  
+  // The code below is commented out because common.js now handles it
+  /*
   const themeToggle = getElement('theme-toggle');
   if (!themeToggle) return;
   
@@ -861,6 +874,7 @@ function initDarkMode() {
       }
     });
   });
+  */
 }
 
 // Observe contact card for animation
@@ -894,7 +908,7 @@ function init() {
   setTimeout(() => {
     loadSkills();
     loadProjects();
-    initDarkMode();
+    // Removed initDarkMode() call since common.js handles it
   }, 0);
   
   // Non-critical animations with slight delay
@@ -970,131 +984,137 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Language switching functionality
 function initLanguageSwitcher() {
-  const languageToggle = document.getElementById('language-toggle');
-  const langOptions = document.querySelectorAll('.lang-option');
-  
-  if (!languageToggle) return;
-  
-  // Get saved language preference
-  let currentLang = localStorage.getItem('language') || 'en';
-  
-  // Set initial active state
-  langOptions.forEach(option => {
-    if (option.dataset.lang === currentLang) {
-      option.classList.add('active');
-    } else {
-      option.classList.remove('active');
-    }
+  // Add event listener for language change events from common.js
+  document.addEventListener('languageChanged', function(e) {
+    e.preventDefault(); // Prevent default reload behavior
+    const newLang = e.detail.language;
+    applyTranslations(newLang);
   });
   
   // Apply translations on page load
+  const currentLang = localStorage.getItem('language') || 'en';
   applyTranslations(currentLang);
-  
-  // Set up click handlers for language options
-  langOptions.forEach(option => {
-    option.addEventListener('click', function() {
-      const newLang = this.dataset.lang;
-      
-      // Only proceed if this is a different language
-      if (newLang !== currentLang) {
-        // Update active states
-        langOptions.forEach(opt => opt.classList.remove('active'));
-        this.classList.add('active');
-        
-        // Save preference
-        localStorage.setItem('language', newLang);
-        currentLang = newLang;
-        
-        // Apply translations
-        applyTranslations(newLang);
-      }
-    });
-  });
 }
 
-// Apply translations to the page
+// Apply translations to the page - More complete version to cover all elements
 function applyTranslations(lang) {
   const translations = TRANSLATIONS[lang];
   if (!translations) return;
   
-  // Update navigation
-  document.querySelector('.nav-links li:nth-child(1) a').textContent = translations.nav.about;
-  document.querySelector('.nav-links li:nth-child(2) a').textContent = translations.nav.projects;
-  document.querySelector('.nav-links li:nth-child(3) a').textContent = translations.nav.contact;
+  // Update navigation links
+  const aboutNavLink = document.querySelector('.nav-links li:nth-child(1) a');
+  const projectsNavLink = document.querySelector('.nav-links li:nth-child(2) a');
+  const contactNavLink = document.querySelector('.nav-links li:nth-child(3) a');
+  
+  if (aboutNavLink) aboutNavLink.textContent = translations.nav.about;
+  if (projectsNavLink) projectsNavLink.textContent = translations.nav.projects;
+  if (contactNavLink) contactNavLink.textContent = translations.nav.contact;
   
   // Update hero section
-  document.querySelector('.hero-title').textContent = translations.hero.title;
-  document.querySelector('.hero-subtitle').textContent = translations.hero.subtitle;
-  document.querySelector('.hero-buttons .btn:first-child').textContent = translations.hero.viewProjects;
-  document.querySelector('.hero-buttons .btn-outline').textContent = translations.hero.getInTouch;
+  const heroTitle = document.querySelector('.hero-title');
+  const heroSubtitle = document.querySelector('.hero-subtitle');
+  const heroProjectsBtn = document.querySelector('.hero-buttons .btn:first-child');
+  const heroContactBtn = document.querySelector('.hero-buttons .btn-outline');
+  
+  if (heroTitle) heroTitle.textContent = translations.hero.title;
+  if (heroSubtitle) heroSubtitle.textContent = translations.hero.subtitle;
+  if (heroProjectsBtn) heroProjectsBtn.textContent = translations.hero.viewProjects;
+  if (heroContactBtn) heroContactBtn.textContent = translations.hero.getInTouch;
   
   // Update about section
-  document.querySelector('#about .section-title').textContent = translations.about.title;
-  document.querySelector('#about .section-subtitle').textContent = translations.about.subtitle;
+  const aboutTitle = document.querySelector('#about .section-title');
+  const aboutSubtitle = document.querySelector('#about .section-subtitle');
+  if (aboutTitle) aboutTitle.textContent = translations.about.title;
+  if (aboutSubtitle) aboutSubtitle.textContent = translations.about.subtitle;
   
-  document.querySelector('#about .about-section:nth-child(1) h3').textContent = translations.about.journey.title;
-  document.querySelector('#about .about-section:nth-child(1) p').textContent = translations.about.journey.content;
+  // Update about sections
+  const aboutSections = document.querySelectorAll('#about .about-section');
+  if (aboutSections.length >= 1) {
+    const journeyTitle = aboutSections[0].querySelector('h3');
+    const journeyContent = aboutSections[0].querySelector('p');
+    if (journeyTitle) journeyTitle.textContent = translations.about.journey.title;
+    if (journeyContent) journeyContent.textContent = translations.about.journey.content;
+  }
   
-  document.querySelector('#about .about-section:nth-child(2) h3').textContent = translations.about.approach.title;
-  document.querySelector('#about .about-section:nth-child(2) p').textContent = translations.about.approach.content;
+  if (aboutSections.length >= 2) {
+    const approachTitle = aboutSections[1].querySelector('h3');
+    const approachContent = aboutSections[1].querySelector('p');
+    if (approachTitle) approachTitle.textContent = translations.about.approach.title;
+    if (approachContent) approachContent.textContent = translations.about.approach.content;
+  }
   
-  document.querySelector('#about .about-section:nth-child(3) h3').textContent = translations.about.toolkit.title;
-  document.querySelector('#about .about-section:nth-child(3) p').textContent = translations.about.toolkit.content;
+  if (aboutSections.length >= 3) {
+    const toolkitTitle = aboutSections[2].querySelector('h3');
+    const toolkitContent = aboutSections[2].querySelector('p');
+    if (toolkitTitle) toolkitTitle.textContent = translations.about.toolkit.title;
+    if (toolkitContent) toolkitContent.textContent = translations.about.toolkit.content;
+  }
   
   // Update expertise labels
-  document.querySelectorAll('.expertise-area .expertise-label')[0].textContent = translations.about.toolkit.frontend;
-  document.querySelectorAll('.expertise-area .expertise-label')[1].textContent = translations.about.toolkit.backend;
-  document.querySelectorAll('.expertise-area .expertise-label')[2].textContent = translations.about.toolkit.ai;
+  const expertiseLabels = document.querySelectorAll('.expertise-area .expertise-label');
+  if (expertiseLabels.length >= 1) expertiseLabels[0].textContent = translations.about.toolkit.frontend;
+  if (expertiseLabels.length >= 2) expertiseLabels[1].textContent = translations.about.toolkit.backend;
+  if (expertiseLabels.length >= 3) expertiseLabels[2].textContent = translations.about.toolkit.ai;
   
-  document.querySelector('.skills-title').textContent = translations.about.skills;
+  // Update skills title
+  const skillsTitle = document.querySelector('.skills-title');
+  if (skillsTitle) skillsTitle.textContent = translations.about.skills;
   
   // Update projects section
-  document.querySelector('#projects .section-title').textContent = translations.projects.title;
-  document.querySelector('#projects .section-subtitle').textContent = translations.projects.subtitle;
+  const projectsTitle = document.querySelector('#projects .section-title');
+  const projectsSubtitle = document.querySelector('#projects .section-subtitle');
+  if (projectsTitle) projectsTitle.textContent = translations.projects.title;
+  if (projectsSubtitle) projectsSubtitle.textContent = translations.projects.subtitle;
   
-  // Update buttons (if they exist)
-  const showMoreBtn = document.querySelector('.show-more-btn');
-  if (showMoreBtn) showMoreBtn.textContent = translations.projects.showMore;
-  
-  const githubLink = document.querySelector('.github-link');
-  if (githubLink) githubLink.innerHTML = `<i class="fab fa-github"></i> ${translations.projects.viewAll}`;
-  
-  // Update project card buttons
-  document.querySelectorAll('.project-links .btn').forEach(btn => {
-    if (btn.classList.contains('btn-outline')) {
-      btn.textContent = translations.projects.viewRepo;
-    } else {
-      btn.textContent = translations.projects.liveDemo;
-    }
-  });
+  // Update CTA button
+  const projectsCtaBtn = document.querySelector('.projects-cta-btn span');
+  if (projectsCtaBtn) projectsCtaBtn.textContent = lang === 'fr' ? 'Voir tous les projets' : 'View All Projects';
   
   // Update contact section
-  document.querySelector('#contact .section-title').textContent = translations.contact.title;
-  document.querySelector('#contact .section-subtitle').textContent = translations.contact.subtitle;
-  document.querySelector('.contact-title').textContent = translations.contact.formTitle;
-  document.querySelector('.contact-header p').textContent = translations.contact.formSubtitle;
+  const contactTitle = document.querySelector('#contact .section-title');
+  const contactSubtitle = document.querySelector('#contact .section-subtitle');
+  if (contactTitle) contactTitle.textContent = translations.contact.title;
+  if (contactSubtitle) contactSubtitle.textContent = translations.contact.subtitle;
+  
+  // Update contact form
+  const contactFormTitle = document.querySelector('.contact-title');
+  const contactFormSubtitle = document.querySelector('.contact-header p');
+  if (contactFormTitle) contactFormTitle.textContent = translations.contact.formTitle;
+  if (contactFormSubtitle) contactFormSubtitle.textContent = translations.contact.formSubtitle;
   
   // Update form placeholders
-  document.getElementById('name').placeholder = translations.contact.name;
-  document.getElementById('email').placeholder = translations.contact.email;
-  document.getElementById('subject').placeholder = translations.contact.subject;
-  document.getElementById('message').placeholder = translations.contact.message;
-  document.querySelector('.contact-form button').textContent = translations.contact.send;
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('email');
+  const subjectInput = document.getElementById('subject');
+  const messageInput = document.getElementById('message');
+  const submitButton = document.querySelector('.contact-form button');
   
-  // Update footer copyright
-  document.querySelector('.copyright').textContent = translations.footer.copyright;
+  if (nameInput) nameInput.placeholder = translations.contact.name;
+  if (emailInput) emailInput.placeholder = translations.contact.email;
+  if (subjectInput) subjectInput.placeholder = translations.contact.subject;
+  if (messageInput) messageInput.placeholder = translations.contact.message;
+  if (submitButton) submitButton.textContent = translations.contact.send;
   
-  // Update skill cards with translations
+  // Update footer
+  const copyright = document.querySelector('.copyright');
+  if (copyright) copyright.textContent = translations.footer.copyright;
+  
+  // Update tagline in footer
+  const footerTagline = document.querySelector('.footer-tagline');
+  if (footerTagline) {
+    footerTagline.textContent = lang === 'fr' ? 
+      'Étudiant en Informatique & Passionné d\'IA' : 
+      'Computer Science Student & AI Enthusiast';
+  }
+  
+  // Update skill cards
   updateSkillsWithCurrentLanguage(lang);
   
-  // Update project card content
+  // Update project cards
   updateProjectsWithCurrentLanguage(lang);
   
-  // Update meta description for SEO
+  // Update meta description
   updateMetaDescription(lang);
-  
-  // Update html lang attribute for accessibility and SEO
-  document.documentElement.setAttribute('lang', lang);
 }
 
 // Update skill cards with current language

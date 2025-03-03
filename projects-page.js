@@ -24,6 +24,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Initialize the projects page
 function initProjectsPage() {
+  // Add event listener for language changes - must be before loading projects
+  document.addEventListener('languageChanged', function(e) {
+    e.preventDefault(); // Prevent default reload behavior from common.js
+    const newLang = e.detail.language;
+    
+    // Update page-specific text
+    updateProjectsPageText(newLang);
+    
+    // Reload projects with new language
+    const projectsGrid = document.getElementById('projects-full-grid');
+    if (projectsGrid) {
+      projectsGrid.innerHTML = '<div class="projects-loading"><div class="spinner-large"></div><span>' + 
+        (newLang === 'fr' ? 'Chargement des projets...' : 'Loading projects...') + '</span></div>';
+      setTimeout(() => {
+        loadAllProjects();
+      }, 300);
+    }
+    
+    // Update footer text
+    updateFooterText(newLang);
+  });
+
   // Load all projects
   loadAllProjects();
   
@@ -33,11 +55,10 @@ function initProjectsPage() {
   // Set up project modal
   setupProjectModal();
   
-  // Apply the user's theme preference
-  applyThemePreference();
-  
-  // Initialize language switcher
-  initLanguageSwitcherForProjectsPage();
+  // Initialize language-specific text
+  const currentLang = localStorage.getItem('language') || 'en';
+  updateProjectsPageText(currentLang);
+  updateFooterText(currentLang);
 }
 
 // Function to open project modal with detailed view
@@ -283,68 +304,72 @@ function applyProjectFilter(filter) {
 
 // Apply theme preference
 function applyThemePreference() {
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
-    document.body.classList.add('dark-mode');
-  }
-  
-  // Set up theme toggle
-  const themeToggle = document.getElementById('theme-toggle');
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      
-      // Save preference
-      if (document.body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-      } else {
-        localStorage.setItem('theme', 'light');
-      }
-    });
-  }
+  // This function is now handled by common.js
+  // We can remove it or leave it empty
 }
 
-// Initialize language switcher for the projects page
-function initLanguageSwitcherForProjectsPage() {
-  const langOptions = document.querySelectorAll('.lang-option');
-  if (!langOptions.length) return;
-  
-  // Get saved language preference
-  let currentLang = localStorage.getItem('language') || 'en';
-  
-  // Set initial active state
-  langOptions.forEach(option => {
-    if (option.dataset.lang === currentLang) {
-      option.classList.add('active');
-    } else {
-      option.classList.remove('active');
+// Function to update projects page text based on language
+function updateProjectsPageText(lang) {
+  const translations = {
+    en: {
+      pageTitle: "My Projects",
+      pageSubtitle: "A comprehensive collection of my academic and personal projects, showcasing my journey and growth as a developer.",
+      allProjects: "All Projects",
+      ai: "AI",
+      webDev: "Web Development",
+      mobile: "Mobile",
+      hackathons: "Hackathons",
+      viewDetails: "View details",
+      loading: "Loading projects...",
+      backToHome: "Back to Home"
+    },
+    fr: {
+      pageTitle: "Mes Projets",
+      pageSubtitle: "Une collection complète de mes projets académiques et personnels, illustrant mon parcours et ma progression en tant que développeur.",
+      allProjects: "Tous les projets",
+      ai: "IA",
+      webDev: "Développement Web",
+      mobile: "Mobile",
+      hackathons: "Hackathons",
+      viewDetails: "Voir détails",
+      loading: "Chargement des projets...",
+      backToHome: "Retour à l'accueil"
     }
-  });
+  };
   
-  // Set up click handlers for language options
-  langOptions.forEach(option => {
-    option.addEventListener('click', function() {
-      const newLang = this.dataset.lang;
-      
-      // Only proceed if this is a different language
-      if (newLang !== currentLang) {
-        // Update active states
-        langOptions.forEach(opt => opt.classList.remove('active'));
-        this.classList.add('active');
-        
-        // Save preference
-        localStorage.setItem('language', newLang);
-        currentLang = newLang;
-        
-        // Reload projects with new language
-        const projectsGrid = document.getElementById('projects-full-grid');
-        if (projectsGrid) {
-          projectsGrid.innerHTML = '<div class="projects-loading"><div class="spinner-large"></div><span>Loading projects...</span></div>';
-          setTimeout(() => {
-            loadAllProjects();
-          }, 300);
-        }
-      }
-    });
-  });
+  const t = translations[lang] || translations.en;
+  
+  // Update page title and subtitle
+  const pageTitle = document.querySelector('.projects-page-title');
+  const pageSubtitle = document.querySelector('.projects-page-subtitle');
+  if (pageTitle) pageTitle.textContent = t.pageTitle;
+  if (pageSubtitle) pageSubtitle.textContent = t.pageSubtitle;
+  
+  // Update filter buttons
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  if (filterButtons.length > 0) {
+    filterButtons[0].textContent = t.allProjects;
+    if (filterButtons[1]) filterButtons[1].textContent = t.ai;
+    if (filterButtons[2]) filterButtons[2].textContent = t.webDev;
+    if (filterButtons[3]) filterButtons[3].textContent = t.mobile;
+    if (filterButtons[4]) filterButtons[4].textContent = t.hackathons;
+  }
+  
+  // Update loading text
+  const loadingText = document.querySelector('.projects-loading span');
+  if (loadingText) loadingText.textContent = t.loading;
+  
+  // Update back to home link
+  const backLink = document.querySelector('footer a[href="index.html"]');
+  if (backLink) backLink.textContent = t.backToHome;
+}
+
+// Update footer text
+function updateFooterText(lang) {
+  const copyright = document.querySelector('.copyright');
+  if (copyright) {
+    copyright.textContent = lang === 'fr' 
+      ? '© 2025 Guillaume Deramchi. Tous droits réservés.' 
+      : '© 2025 Guillaume Deramchi. All rights reserved.';
+  }
 }
