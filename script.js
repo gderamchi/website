@@ -1,6 +1,6 @@
 // Constants and configuration
 const CONFIG = {
-  observerThreshold: 0.1,
+  observerThreshold: 1.0,
   observerRootMargin: '0px 0px -50px 0px',
   initialProjectsToShow: 3,
   emailjsServiceId: "service_b3nl9bi",
@@ -182,29 +182,36 @@ function createAnimationObserver(callback, options = {}) {
 // Navigation Scroll Effect - use passive event listener for better performance
 const header = document.getElementById('header');
 const handleScroll = debounce(() => {
-  if (window.scrollY > 50) {
+  if (header && window.scrollY > 50) {
     header.classList.add('scrolled');
-  } else {
+  } else if (header) {
     header.classList.remove('scrolled');
   }
 });
-window.addEventListener('scroll', handleScroll, { passive: true });
 
-// Mobile Menu Toggle
+if (header) {
+  window.addEventListener('scroll', handleScroll, { passive: true });
+}
+
+// Mobile Menu Toggle - Add safety checks
 const menuToggle = document.getElementById('menu-toggle');
 const navLinks = document.getElementById('nav-links');
-const navLinksItems = document.querySelectorAll('.nav-link');
 
-menuToggle.addEventListener('click', () => {
-  navLinks.classList.toggle('active');
-});
-
-// Close menu when clicking on a link
-navLinksItems.forEach(item => {
-  item.addEventListener('click', () => {
-    navLinks.classList.remove('active');
+if (menuToggle && navLinks) {
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
   });
-});
+
+  // Close menu when clicking on a link
+  const navLinksItems = document.querySelectorAll('.nav-link');
+  if (navLinksItems.length > 0) {
+    navLinksItems.forEach(item => {
+      item.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
+    });
+  }
+}
 
 // Standard animation observer for fade-in elements
 const observer = createAnimationObserver((entries) => {
@@ -278,70 +285,6 @@ const skills = [
   }
 ];
 
-// Projects data - static implementation with multilingual support
-const projects = [
-  {
-    name: "Doctolib AI Hackathon",
-    description: {
-      en: "AI chatbot which helps general health practitioners with prevention strategies",
-      fr: "Chatbot IA qui aide les médecins généralistes avec des stratégies de prévention"
-    },
-    image: "images/projects/default.webp",
-    topics: ["AI", "Healthcare", "Python", "Chatbot"],
-    html_url: "https://github.com/Guillaume18100/hackathon_doctolib"
-  },
-  {
-    name: "Adopte un Candidat",
-    description: {
-      en: "Flutter mobile/web application connecting job candidates with companies",
-      fr: "Application mobile/web Flutter connectant les candidats aux entreprises"
-    },
-    image: "images/projects/default.webp",
-    topics: ["Flutter", "Dart", "Job Matching", "Mobile Development"],
-    html_url: "https://github.com/algosup/2023-2024-project-5-flutter-team-1"
-  },
-  {
-    name: "Sia GenAI Hackathon",
-    description: {
-      en: "Generative AI hackathon project",
-      fr: "Projet de hackathon sur l'IA générative"
-    },
-    image: "images/projects/default.webp",
-    topics: ["AI", "Hackathon", "Python"],
-    html_url: "https://github.com/GuillotSamuel/GenAI_hackaton"
-  },
-  {
-    name: "Blockchain Hackathon",
-    description: {
-      en: "Blockchain hackathon Vierzon 2024",
-      fr: "Hackathon Blockchain Vierzon 2024"
-    },
-    image: "images/projects/default.webp",
-    topics: ["Blockchain", "JavaScript", "Hackathon"],
-    html_url: "https://github.com/0xBelnadris/hackaton-blockchain-vierzon-2024"
-  },
-  {
-    name: "Virtual Processor",
-    description: {
-      en: "Building a virtual processor with assembler and interpreter",
-      fr: "Création d'un processeur virtuel avec assembleur et interpréteur"
-    },
-    image: "images/projects/default.webp",
-    topics: ["assembler", "interpreter", "virtual-processor", "c", "c++", "cmake"],
-    html_url: "https://github.com/algosup/2023-2024-project-3-virtual-processor-team-2"
-  },
-  {
-    name: "x86 Retrogaming",
-    description: {
-      en: "Recreating Pac-Man in Assembly",
-      fr: "Recréation de Pac-Man en Assembly"
-    },
-    image: "images/projects/default.webp",
-    topics: ["assembly", "x86", "retrogaming", "pacman", "dosbox"],
-    html_url: "https://github.com/algosup/2023-2024-project-2-x86-retrogaming-team-5"
-  }
-];
-
 // Function to render skills in the DOM with performance optimizations
 function loadSkills() {
   const currentLang = localStorage.getItem('language') || 'en';
@@ -371,135 +314,276 @@ function loadSkills() {
   });
 }
 
-// Function to create a project card element with better performance
-function createProjectCard(project) {
+// Global state to track active project
+let activeProjectIndex = 0;
+let projectsArray = [];
+let isAnimating = false;
+
+// Function to create a project card in tree structure
+function createProjectCard(project, index) {
   const currentLang = localStorage.getItem('language') || 'en';
-  const projectCard = document.createElement('div');
-  projectCard.classList.add('project-card');
-  projectCard.dataset.projectId = project.name.replace(/\s+/g, '-').toLowerCase();
-
-  // Extract topics as tags
-  const tagsHTML = project.topics && project.topics.length > 0 
-    ? project.topics.map(tag => `<span class="project-tag">${tag}</span>`).join('')
-    : '<span class="project-tag">Project</span>';
-
+  
   // Get description in current language or fallback to English
   const description = project.description && project.description[currentLang] ? 
     project.description[currentLang] : 
     (project.description && project.description.en ? project.description.en : 'A student project');
+
+  const shortDescription = description.length > 100 ? 
+    description.substring(0, 100) + '...' : 
+    description;
+
+  // Extract topics as tags
+  const tagsHTML = project.topics && project.topics.length > 0 
+    ? project.topics.slice(0, 4).map(tag => `<span class="project-tag-tree">${tag}</span>`).join('')
+    : '<span class="project-tag-tree">Project</span>';
+
+  const buttonTexts = {
+    viewDetails: currentLang === 'fr' ? 'Voir les détails' : 'View details',
+    viewRepo: TRANSLATIONS[currentLang].projects.viewRepo
+  };
+
+  const branch = document.createElement('div');
+  branch.classList.add('project-branch');
+  
+  const node = document.createElement('div');
+  node.classList.add('project-node');
+  branch.appendChild(node);
+  
+  const card = document.createElement('div');
+  card.classList.add('project-card-tree');
+  card.dataset.projectId = project.name.replace(/\s+/g, '-').toLowerCase();
+  card.dataset.index = index;
+  
+  card.innerHTML = `
+    <div class="project-image-container">
+      <img src="images/projects/default.webp" alt="${project.name} project screenshot" class="project-image-tree">
+    </div>
+    <div class="project-overlay">
+      <h3>${project.name.replace(/-/g, ' ')}</h3>
+      <p>${shortDescription}</p>
+      <div class="project-tags-tree">${tagsHTML}</div>
+      <div class="project-links-tree">
+        <button class="view-details-btn" data-project-id="${project.name.replace(/\s+/g, '-').toLowerCase()}">
+          ${buttonTexts.viewDetails} <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  `;
+  
+  branch.appendChild(card);
+  
+  // Add click event to open modal with project details
+  card.addEventListener('click', (e) => {
+    if (!e.target.closest('.view-details-btn')) {
+      openProjectModal(project);
+    }
+  });
+  
+  // Add separate handler for the view details button to prevent event bubbling issues
+  const detailsBtn = card.querySelector('.view-details-btn');
+  if (detailsBtn) {
+    detailsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openProjectModal(project);
+    });
+  };
+  
+  return branch;
+}
+
+// Function to display projects in tree layout
+function displayProjects(projects) {
+  const projectsTree = document.getElementById('projects-tree');
+  
+  if (!projectsTree) {
+    console.error("Projects tree element not found!");
+    return;
+  }
+
+  projectsTree.innerHTML = '';
+  
+  // Create a document fragment for better performance
+  const fragment = document.createDocumentFragment();
+
+  // Create all project branches and cards
+  projects.forEach((project, index) => {
+    const branch = createProjectCard(project, index);
+    fragment.appendChild(branch);
+  });
+  
+  // Add all elements at once
+  projectsTree.appendChild(fragment);
+  
+  // Add animation to make cards appear one by one
+  const cards = document.querySelectorAll('.project-card-tree');
+  cards.forEach((card, index) => {
+    setTimeout(() => {
+      card.classList.add('visible');
+    }, 200 * index);
+  });
+  
+  // Set up modal functionality
+  setupProjectModal();
+}
+
+// Function to open project modal with detailed view
+function openProjectModal(project) {
+  const currentLang = localStorage.getItem('language') || 'en';
+  
+  // Get full description
+  const description = project.description && project.description[currentLang] ? 
+    project.description[currentLang] : 
+    (project.description && project.description.en ? project.description.en : 'A student project');
+
+  // Get all tags
+  const tagsHTML = project.topics && project.topics.length > 0 
+    ? project.topics.map(tag => `<span class="project-tag">${tag}</span>`).join('')
+    : '<span class="project-tag">Project</span>';
 
   const buttonTexts = {
     liveDemo: TRANSLATIONS[currentLang].projects.liveDemo,
     viewRepo: TRANSLATIONS[currentLang].projects.viewRepo
   };
 
-  // Always use the default image path
-  projectCard.innerHTML = `
-    <img src="images/projects/default.webp" alt="${project.name} project screenshot" class="project-image" loading="lazy">
-    <div class="project-content">
-      <h3>${project.name.replace(/-/g, ' ')}</h3>
-      <p>${description}</p>
-      <div class="project-tags">${tagsHTML}</div>
+  const modal = document.getElementById('project-modal');
+  const modalContent = document.getElementById('modal-content');
+  
+  if (!modal || !modalContent) return;
+  
+  // Create detailed project view
+  modalContent.innerHTML = `
+    <div class="project-detail-header">
+      <img src="images/projects/default.webp" alt="${project.name} project screenshot" class="project-detail-image">
+      <div class="project-detail-info">
+        <h3>${project.name.replace(/-/g, ' ')}</h3>
+        <p>${description}</p>
+        <div class="project-detail-tags">
+          ${tagsHTML}
+        </div>
+        <div class="project-detail-actions">
+          ${project.homepage ? `<a href="${project.homepage}" target="_blank" rel="noopener" class="btn btn-sm" aria-label="View live demo of ${project.name}">${buttonTexts.liveDemo}</a>` : ''}
+          <a href="${project.html_url}" target="_blank" rel="noopener" class="btn btn-sm btn-outline" aria-label="View repository for ${project.name}">${buttonTexts.viewRepo}</a>
+        </div>
+      </div>
     </div>
-    <div class="project-links">
-      ${project.homepage ? `<a href="${project.homepage}" target="_blank" rel="noopener" class="btn btn-sm" aria-label="View live demo of ${project.name}">${buttonTexts.liveDemo}</a>` : ''}
-      <a href="${project.html_url}" target="_blank" rel="noopener" class="btn btn-sm btn-outline" aria-label="View repository for ${project.name}">${buttonTexts.viewRepo}</a>
+    <div class="project-detail-content">
+      <div class="project-feature">
+        <h4>${currentLang === 'fr' ? 'Technologies utilisées' : 'Technologies Used'}</h4>
+        <p>${project.topics ? project.topics.join(', ') : 'N/A'}</p>
+      </div>
+      <!-- Additional project content can be added here as needed -->
     </div>
   `;
-
-  return projectCard;
-}
-
-// Function to display projects with "Show More" button - performance optimized
-function displayProjects(projects) {
-  const projectsGrid = document.getElementById('projects-grid');
-  if (!projectsGrid) {
-    console.error("Projects grid element not found in displayProjects!");
-    return;
-  }
-
-  projectsGrid.innerHTML = '';
   
-  const initialProjects = projects.slice(0, CONFIG.initialProjectsToShow);
-  const remainingProjects = projects.slice(CONFIG.initialProjectsToShow);
-
-  // Create a document fragment to batch DOM operations
-  const fragment = document.createDocumentFragment();
-
-  // Render initial projects
-  initialProjects.forEach(project => {
-    const projectCard = createProjectCard(project);
-    fragment.appendChild(projectCard);
-  });
+  // Show modal with animation
+  document.body.style.overflow = 'hidden';
+  modal.classList.add('active');
   
-  // Single DOM update
-  projectsGrid.appendChild(fragment);
-  
-  // Observe all project cards after appending
-  projectsGrid.querySelectorAll('.project-card').forEach(card => {
-    observer.observe(card);
-  });
-
-  // Add "Show More" button if there are more projects
-  if (remainingProjects.length > 0) {
-    addShowMoreButton(projectsGrid, remainingProjects);
+  // Focus trap for accessibility
+  const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+  if (focusableElements.length > 0) {
+    focusableElements[0].focus();
   }
 }
 
-// Function to add the "Show More" button
-function addShowMoreButton(projectsGrid, remainingProjects) {
-  const showMoreWrapper = document.createElement('div');
-  showMoreWrapper.classList.add('show-more-wrapper');
-
-  const showMoreBtn = document.createElement('button');
-  showMoreBtn.classList.add('btn', 'show-more-btn');
-  showMoreBtn.textContent = 'Show More Projects';
-
-  showMoreBtn.addEventListener('click', function() {
-    // Render remaining projects
-    remainingProjects.forEach(project => {
-      const projectCard = createProjectCard(project);
-      projectsGrid.appendChild(projectCard);
-      observer.observe(projectCard);
-    });
-    
-    // Remove the show more button
-    showMoreWrapper.remove();
-    
-    // Add GitHub link after showing all projects
-    addGitHubLink(projectsGrid.parentNode);
+// Function to set up project modal functionality
+function setupProjectModal() {
+  const modal = document.getElementById('project-modal');
+  const closeBtn = modal.querySelector('.close-modal');
+  
+  if (!modal || !closeBtn) return;
+  
+  // Close modal when clicking the close button
+  closeBtn.addEventListener('click', () => {
+    closeProjectModal();
   });
-
-  showMoreWrapper.appendChild(showMoreBtn);
-  projectsGrid.parentNode.insertBefore(showMoreWrapper, projectsGrid.nextSibling);
+  
+  // Close modal when clicking outside the content
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeProjectModal();
+    }
+  });
+  
+  // Close modal when pressing Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      closeProjectModal();
+    }
+  });
 }
 
-// Function to add GitHub link
-function addGitHubLink(container) {
-  const githubLinkWrapper = document.createElement('div');
-  githubLinkWrapper.classList.add('github-link-wrapper');
-
-  const githubLink = document.createElement('a');
-  githubLink.href = 'https://github.com/Guillaume18100';
-  githubLink.className = 'github-link btn btn-outline';
-  githubLink.target = '_blank';
-  githubLink.innerHTML = '<i class="fab fa-github"></i> View All Projects on GitHub';
-
-  githubLinkWrapper.appendChild(githubLink);
-  container.appendChild(githubLinkWrapper);
+// Function to close project modal
+function closeProjectModal() {
+  const modal = document.getElementById('project-modal');
+  if (!modal) return;
+  
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+  
+  // Reset focus to previously focused element
+  setTimeout(() => {
+    modal.style.display = 'none';
+  }, 300);
 }
 
-// Load projects from the static data
+// Load projects with progressive animation for the tree
 function loadProjects() {
   try {
-    displayProjects(projects);
+    const projectsTree = document.getElementById('projects-tree');
+    if (!projectsTree) return;
+    
+    // Get only 3 featured projects for the main page
+    const featuredProjects = projects.slice(0, 3);
+    
+    // Create a document fragment for better performance
+    const fragment = document.createDocumentFragment();
+    
+    // Create all project branches and cards
+    featuredProjects.forEach((project, index) => {
+      const branch = createProjectCard(project, index);
+      fragment.appendChild(branch);
+    });
+    
+    // Add all elements at once
+    projectsTree.appendChild(fragment);
+    
+    // Set up scroll observer for progressive animation
+    setupProjectScrollAnimation();
+    
+    // Set up modal functionality
+    setupProjectModal();
   } catch (error) {
     console.error('Error loading projects:', error);
-    const projectsGrid = document.getElementById('projects-grid');
-    if (projectsGrid) {
-      projectsGrid.innerHTML = `<p>Failed to load projects. Please try again later.</p>`;
+    const projectsTree = document.getElementById('projects-tree');
+    if (projectsTree) {
+      projectsTree.innerHTML = `<p>Failed to load projects. Please try again later.</p>`;
     }
   }
+}
+
+// Add progressive scroll animation for project tree
+function setupProjectScrollAnimation() {
+  const branches = document.querySelectorAll('.project-branch');
+  if (!branches.length) return;
+  
+  const projectObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const card = entry.target.querySelector('.project-card-tree');
+        if (card) {
+          setTimeout(() => {
+            card.classList.add('visible');
+          }, 200);
+        }
+        projectObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3, rootMargin: '0px 0px -100px 0px' });
+  
+  branches.forEach(branch => {
+    projectObserver.observe(branch);
+  });
 }
 
 // Initialize EmailJS - with more robust checks

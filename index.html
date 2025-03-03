@@ -129,6 +129,12 @@
   <!-- EmailJS - Load with defer -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
 
+  <!-- Project data first -->
+  <script src="projects-data.js"></script>
+  
+  <!-- Common functionality -->
+  <script src="common.js"></script>
+  
   <!-- Custom JavaScript - Load with defer -->
   <script src="script.js" defer></script>
 </head>
@@ -318,14 +324,30 @@
     <!-- Projects Section -->
     <section class="projects" id="projects" aria-label="My Projects">
       <div class="container">
-        <h2 class="section-title">Academic & Personal Projects</h2>
+        <h2 class="section-title">Featured Projects</h2>
         <p class="section-subtitle">
-          A collection of projects I've developed during my studies and personal exploration, showcasing my technical skills and problem-solving approach.
+          Highlighted projects from my portfolio showcasing my technical skills and problem-solving approach.
         </p>
-
-        <div id="projects-container">
-          <div id="projects-grid" class="projects-grid"></div>
-          <!-- Show more button will be inserted here -->
+        
+        <div class="projects-tree-container">
+          <div class="projects-tree" id="projects-tree">
+            <!-- Only 3 featured projects will be loaded here dynamically -->
+          </div>
+        </div>
+        
+        <div class="projects-cta">
+          <a href="projects.html" class="btn btn-lg projects-cta-btn">
+            <span>View All Projects</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        
+        <!-- Project modal for detailed view -->
+        <div id="project-modal" class="project-modal">
+          <div class="project-modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-content"></div>
+          </div>
         </div>
       </div>
     </section>

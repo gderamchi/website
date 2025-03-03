@@ -1895,3 +1895,719 @@ body.dark-mode .skeleton {
     
     /* ...existing mobile styles... */
 }
+
+/* New Modern Projects Section Styles */
+.projects-showcase {
+  position: relative;
+  width: 100%;
+  margin: 60px 0;
+  overflow: visible;
+}
+
+.projects-container {
+  position: relative;
+  width: 100%;
+  min-height: 750px;
+}
+
+.project-card-modern {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 1.2s var(--animation-curve), 
+              opacity 1s var(--animation-curve), 
+              visibility 0.3s;
+  will-change: transform, opacity;
+  transform: translateY(80px) scale(0.95);
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+
+.project-card-modern.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  z-index: 2;
+}
+
+.project-card-modern.previous {
+  opacity: 0;
+  transform: translateY(-80px) scale(0.9);
+  z-index: 1;
+}
+
+.project-card-modern.next {
+  opacity: 0.3;
+  visibility: visible;
+  transform: translateY(60px) scale(0.9);
+  z-index: 1;
+}
+
+.project-content-wrapper {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: center;
+  border-radius: 24px;
+  background: var(--card-bg);
+  padding: 60px 40px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  position: relative;
+}
+
+.project-image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.6s var(--animation-curve);
+}
+
+.project-card-modern.active .project-image-container {
+  transform: perspective(1000px) rotateY(0deg);
+  transition-delay: 0.2s;
+}
+
+.project-image-modern {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: 16px;
+  transform: scale(1.05);
+  transition: transform 2s var(--animation-curve);
+}
+
+.project-card-modern.active .project-image-modern {
+  transform: scale(1);
+  transition-delay: 0.3s;
+}
+
+.project-details {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.project-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s var(--animation-curve);
+}
+
+.project-card-modern.active .project-title {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+.project-description {
+  font-size: 18px;
+  color: var(--secondary-color);
+  line-height: 1.7;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s var(--animation-curve);
+}
+
+.project-card-modern.active .project-description {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.5s;
+}
+
+.project-tags-modern {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.project-tag-modern {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 20px;
+  background-color: rgba(66, 153, 225, 0.1);
+  color: var(--accent-color);
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all 0.6s var(--animation-curve);
+}
+
+.project-card-modern.active .project-tag-modern {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Apply different delays to tags for staggered animation */
+.project-card-modern.active .project-tag-modern:nth-child(1) { transition-delay: 0.6s; }
+.project-card-modern.active .project-tag-modern:nth-child(2) { transition-delay: 0.65s; }
+.project-card-modern.active .project-tag-modern:nth-child(3) { transition-delay: 0.7s; }
+.project-card-modern.active .project-tag-modern:nth-child(4) { transition-delay: 0.75s; }
+.project-card-modern.active .project-tag-modern:nth-child(5) { transition-delay: 0.8s; }
+
+.project-links-modern {
+  display: flex;
+  gap: 16px;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.8s ease, transform 0.8s var(--animation-curve);
+}
+
+.project-card-modern.active .project-links-modern {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.9s;
+}
+
+.projects-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  gap: 12px;
+}
+
+.project-nav-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(66, 153, 225, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.project-nav-dot.active {
+  background-color: var(--accent-color);
+  transform: scale(1.4);
+}
+
+.project-nav-buttons {
+  display: flex;
+  gap: 16px;
+  margin-left: 20px;
+}
+
+.project-nav-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--primary-color);
+}
+
+.project-nav-button:hover {
+  background-color: var(--accent-color);
+  color: white;
+  transform: translateY(-3px);
+}
+
+.project-nav-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive styles for project section */
+@media (max-width: 1024px) {
+  .project-content-wrapper {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 40px 30px;
+  }
+  
+  .project-image-container {
+    order: -1;
+  }
+  
+  .project-title {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .projects-container {
+    min-height: 900px;
+  }
+  
+  .project-content-wrapper {
+    padding: 30px 20px;
+  }
+  
+  .project-title {
+    font-size: 26px;
+  }
+  
+  .project-description {
+    font-size: 16px;
+  }
+}
+
+/* Enhanced progress indicator */
+.project-progress {
+  position: absolute;
+  bottom: -60px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: rgba(66, 153, 225, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.project-progress-bar {
+  height: 100%;
+  background-color: var(--accent-color);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.5s ease;
+}
+
+/* Tree-like Projects Section */
+.projects-tree-container {
+  position: relative;
+  width: 100%;
+  margin: 60px auto;
+  max-width: 1000px;
+}
+
+.projects-tree {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.projects-tree::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, var(--accent-color) 20%, var(--accent-color) 80%, transparent);
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+.project-branch {
+  position: relative;
+  width: 100%;
+  display: flex;
+  margin: 30px 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-branch:nth-child(odd) {
+  justify-content: flex-start;
+}
+
+.project-branch:nth-child(even) {
+  justify-content: flex-end;
+}
+
+.project-branch::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  height: 2px;
+  width: calc(50% - 150px);
+  background: var(--accent-color);
+  z-index: 0;
+}
+
+.project-branch:nth-child(odd)::before {
+  left: 50%;
+}
+
+.project-branch:nth-child(even)::before {
+  right: 50%;
+}
+
+.project-node {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  box-shadow: 0 0 0 4px var(--section-bg);
+  z-index: 2;
+}
+
+.project-card-tree {
+  width: 320px;
+  height: 220px;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: var(--card-shadow);
+  background-color: var(--card-bg);
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.5s var(--animation-curve), 
+              opacity 0.5s var(--animation-curve),
+              box-shadow 0.3s ease;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.project-card-tree.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.project-card-tree:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+}
+
+.project-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: transform 0.5s var(--animation-curve);
+}
+
+.project-card-tree:hover .project-image-container {
+  transform: translateY(-70%);
+}
+
+.project-image-tree {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--animation-curve);
+}
+
+.project-card-tree:hover .project-image-tree {
+  transform: scale(1.1);
+}
+
+.project-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, var(--card-bg), transparent);
+  padding: 70px 20px 20px;
+  transform: translateY(120px);
+  transition: transform 0.5s var(--animation-curve);
+  z-index: 2;
+}
+
+.project-card-tree:hover .project-overlay {
+  transform: translateY(0);
+}
+
+.project-overlay h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.project-overlay p {
+  font-size: 14px;
+  margin-bottom: 15px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s;
+}
+
+.project-card-tree:hover .project-overlay p {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-tags-tree {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.project-tag-tree {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 10px;
+  border-radius: 12px;
+  background-color: rgba(66, 153, 225, 0.1);
+  color: var(--accent-color);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease 0.3s;
+}
+
+.project-card-tree:hover .project-tag-tree {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered animation for tags */
+.project-card-tree:hover .project-tag-tree:nth-child(1) { transition-delay: 0.3s; }
+.project-card-tree:hover .project-tag-tree:nth-child(2) { transition-delay: 0.35s; }
+.project-card-tree:hover .project-tag-tree:nth-child(3) { transition-delay: 0.4s; }
+.project-card-tree:hover .project-tag-tree:nth-child(4) { transition-delay: 0.45s; }
+
+.project-links-tree {
+  display: flex;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease 0.4s, transform 0.3s ease 0.4s;
+}
+
+.project-card-tree:hover .project-links-tree {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.view-details-btn {
+  font-size: 12px;
+  color: var(--accent-color);
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  cursor: pointer;
+}
+
+.view-details-btn i {
+  margin-left: 4px;
+  transition: transform 0.3s ease;
+}
+
+.view-details-btn:hover i {
+  transform: translateX(3px);
+}
+
+/* Project Modal for Detailed View */
+.project-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  overflow-y: auto;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-modal.active {
+  display: block;
+  opacity: 1;
+}
+
+.project-modal-content {
+  position: relative;
+  background-color: var(--card-bg);
+  margin: 50px auto;
+  padding: 30px;
+  width: 90%;
+  max-width: 900px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(30px);
+  opacity: 0;
+  transition: transform 0.5s var(--animation-curve), opacity 0.5s var(--animation-curve);
+}
+
+.project-modal.active .project-modal-content {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.close-modal {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 28px;
+  color: var(--secondary-color);
+  cursor: pointer;
+  z-index: 10;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.close-modal:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: var(--accent-color);
+}
+
+.project-detail-header {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.project-detail-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.project-detail-info h3 {
+  margin-bottom: 15px;
+  font-size: 28px;
+}
+
+.project-detail-info p {
+  margin-bottom: 20px;
+}
+
+.project-detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
+.project-detail-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.project-detail-content {
+  margin-top: 30px;
+}
+
+.project-feature {
+  margin-bottom: 20px;
+}
+
+.project-feature h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+/* Responsive Styles for Projects Tree */
+@media (max-width: 768px) {
+  .projects-tree::before {
+    left: 30px;
+  }
+  
+  .project-branch {
+    justify-content: flex-end !important;
+    margin: 40px 0;
+  }
+  
+  .project-branch::before {
+    width: 50px !important;
+    left: 30px !important;
+    right: auto !important;
+  }
+  
+  .project-node {
+    left: 30px;
+  }
+  
+  .project-card-tree {
+    width: calc(100% - 80px);
+    max-width: 320px;
+  }
+  
+  .project-detail-header {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-card-tree {
+    height: 180px;
+  }
+  
+  .project-overlay {
+    padding: 50px 15px 15px;
+  }
+  
+  .project-overlay h3 {
+    font-size: 16px;
+  }
+  
+  .project-overlay p {
+    font-size: 13px;
+  }
+  
+  .project-modal-content {
+    padding: 20px;
+    margin: 30px auto;
+  }
+}
+
+/* Projects CTA Button */
+.projects-cta {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.projects-cta-btn {
+  padding: 14px 30px;
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s var(--animation-curve);
+  position: relative;
+  overflow: hidden;
+}
+
+.projects-cta-btn i {
+  transition: transform 0.3s ease;
+}
+
+.projects-cta-btn:hover i {
+  transform: translateX(5px);
+}
+
+.projects-cta-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--animation-curve);
+}
+
+.projects-cta-btn:hover::after {
+  transform: scaleX(1);
+}
