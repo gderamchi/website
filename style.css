@@ -18,13 +18,17 @@
     --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     /* Modern shadow */
     --transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+    --animation-curve: cubic-bezier(0.65, 0, 0.35, 1);
+    --box-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.12);
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, 
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: var(--font-family);
 }
 
 html {
@@ -570,21 +574,45 @@ body.dark-mode .skill-card:hover {
     transform: translateY(40px);
     opacity: 0;
     width: 100%;
+    transition: transform 0.4s var(--animation-curve), box-shadow 0.4s var(--animation-curve);
+    display: flex;
+    flex-direction: column;
 }
 
 .project-card:hover {
-    transform: translateY(-8px) !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    transform: translateY(-12px) !important;
 }
 
 .project-image {
     width: 100%;
     height: 220px;
     object-fit: cover;
+    object-position: center top;
+    display: block;
+    background-color: #f0f0f0; /* Light background in case image fails */
+}
+
+.project-image::before {
+    content: "Project";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #888;
+    font-size: 18px;
+}
+
+body.dark-mode .project-image {
+    background-color: #2d3748;
+}
+
+body.dark-mode .project-image::before {
+    color: #a0aec0;
 }
 
 .project-content {
-    padding: 24px;
+    flex: 1;
+    padding: 1.5rem;
 }
 
 .project-tags {
@@ -657,11 +685,14 @@ body.dark-mode .skill-card:hover {
     -webkit-appearance: none;
     appearance: none;
     /* Remove default styling on iOS */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .form-control:focus {
     border-color: var(--accent-color);
     outline: none;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 textarea.form-control {
@@ -1664,4 +1695,203 @@ body.dark-mode .form-service-error {
 
 body.dark-mode .form-service-error .error-message {
   color: #e2e8f0;
+}
+
+/* Preloader styles */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--accent-color);
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Skip to content link */
+.skip-to-content {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    padding: 12px 20px;
+    background-color: var(--accent-color);
+    color: white;
+    z-index: 10000;
+    text-decoration: none;
+    border-radius: 0 0 8px 8px;
+    opacity: 0;
+    transition: transform 0.3s ease;
+}
+
+.skip-to-content:focus {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+/* Image lazy loading styles */
+img.lazy-load {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+img.lazy-loaded {
+    opacity: 1;
+}
+
+/* Enhanced project cards */
+.project-card {
+    /* ...existing styles... */
+    transition: transform 0.4s var(--animation-curve), box-shadow 0.4s var(--animation-curve);
+}
+
+.project-card:hover {
+    transform: translateY(-12px) !important;
+}
+
+.project-image {
+    /* ...existing styles... */
+    transition: transform 0.6s var(--animation-curve);
+    object-position: center top;
+}
+
+.project-card:hover .project-image {
+    transform: scale(1.05);
+}
+
+/* Project skeleton loader */
+.skeleton {
+    background: linear-gradient(90deg, var(--section-bg) 0%, rgba(226, 232, 240, 0.6) 50%, var(--section-bg) 100%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+    to {
+        background-position: -200% 0;
+    }
+}
+
+.project-image-skeleton {
+    width: 100%;
+    height: 220px;
+    border-radius: 16px 16px 0 0;
+}
+
+/* Scroll to top button */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-top-btn.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-5px);
+}
+
+/* Enhanced footer styles */
+.footer-info {
+    text-align: center;
+    margin: 15px 0;
+    width: 100%;
+}
+
+.footer-tagline {
+    color: #999;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* Enhanced form styles */
+.form-control {
+    /* ...existing styles... */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.form-control:focus {
+    /* ...existing styles... */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode adjustments */
+body.dark-mode .preloader {
+    background-color: var(--background-color);
+}
+
+body.dark-mode .loader {
+    border-color: rgba(255, 255, 255, 0.1);
+    border-top-color: var(--accent-color);
+}
+
+body.dark-mode .skeleton {
+    background: linear-gradient(90deg, var(--section-bg) 0%, rgba(74, 85, 104, 0.6) 50%, var(--section-bg) 100%);
+    background-size: 200% 100%;
+}
+
+/* Enhanced mobile styles */
+@media (max-width: 768px) {
+    .scroll-top-btn {
+        width: 40px;
+        height: 40px;
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    /* ...existing mobile styles... */
+}
+
+@media (max-width: 480px) {
+    /* Improved button spacing for mobile */
+    .btn:not(:last-child) {
+        margin-right: 12px;
+    }
+    
+    /* ...existing mobile styles... */
 }

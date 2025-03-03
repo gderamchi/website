@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+# Optimize crawling rate
+Crawl-delay: 10
+
 Sitemap: https://guillaume18100.github.io/website/sitemap.xml

@@ -1,0 +1,36 @@
+name: Add Security Headers
+
+on:
+  push:
+    branches:
+      - main  # or master, depending on your default branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Add security headers
+        run: |
+          echo '/*
+            X-Frame-Options: DENY
+            X-XSS-Protection: 1; mode=block
+            X-Content-Type-Options: nosniff
+            Referrer-Policy: strict-origin-when-cross-origin
+            Permissions-Policy: camera=(), microphone=(), geolocation=()
+            Content-Security-Policy: default-src ''self''; script-src ''self'' ''unsafe-inline'' https://www.googletagmanager.com https://cdn.jsdelivr.net; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src ''self'' data: https:; font-src ''self'' https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src ''self'';
+          ' > _headers
+      
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          keep_files: true

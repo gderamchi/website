@@ -35,25 +35,25 @@ const TRANSLATIONS = {
       contact: 'Contact'
     },
     hero: {
-      title: 'Mixing Software Engineering with GenAI',
-      subtitle: 'I am a software & prompt engineer specializing in creating elegant, high-performance applications and crafting intelligent AI prompts that solve real-world problems.',
+      title: 'Computer Science Student & AI Enthusiast',
+      subtitle: 'I\'m a passionate student focusing on software development and AI prompt engineering, building projects that combine technical skills with creative problem-solving.',
       viewProjects: 'View Projects',
       getInTouch: 'Get in Touch'
     },
     about: {
       title: 'About Me',
-      subtitle: 'I combine software engineering with AI prompt techniques to create intuitive, high-performance solutions for modern digital challenges.',
+      subtitle: 'I\'m combining my computer science education with practical projects to develop skills in software engineering and AI.',
       journey: {
-        title: 'My Journey',
-        content: 'With a strong foundation in computer science, I\'ve developed expertise in both traditional software development and emerging AI technologies. My experience spans from building responsive web applications to specializing in advanced AI prompt engineering.'
+        title: 'Education',
+        content: 'Currently pursuing my degree in Computer Science, with a focus on software development and artificial intelligence. I\'m passionate about learning new technologies and applying them to real-world problems through hands-on projects.'
       },
       approach: {
-        title: 'My Approach',
-        content: 'I focus on creating solutions that solve real problems while delivering exceptional user experiences. My work follows principles of clean architecture, test-driven development, and continuous improvement to ensure both technical excellence and accessibility.'
+        title: 'My Interests',
+        content: 'I\'m particularly interested in how AI can enhance software applications and user experiences. My coursework and personal projects focus on creating clean, efficient code while exploring the capabilities of large language models through prompt engineering.'
       },
       toolkit: {
-        title: 'Technical Toolkit',
-        content: 'I work with modern JavaScript frameworks, backend technologies including Node.js and Python, and cross-platform mobile development. In AI, I specialize in prompt engineering for large language models and creating AI solutions that enhance human capabilities.',
+        title: 'Learning Path',
+        content: 'I\'m constantly expanding my technical toolkit through coursework and self-study in modern JavaScript frameworks, backend technologies including Node.js and Python, and mobile development. I\'m also developing skills in AI prompt engineering to create more effective AI interactions.',
         frontend: 'Frontend Development',
         backend: 'Backend Engineering',
         ai: 'AI Prompt Engineering'
@@ -61,8 +61,8 @@ const TRANSLATIONS = {
       skills: 'Core Skills'
     },
     projects: {
-      title: 'Featured Projects',
-      subtitle: 'A selection of my recent work showcasing my technical expertise, problem-solving abilities, and innovative prompt engineering solutions.',
+      title: 'Academic & Personal Projects',
+      subtitle: 'A collection of projects I\'ve developed during my studies and personal exploration, showcasing my technical skills and problem-solving approach.',
       showMore: 'Show More Projects',
       viewAll: 'View All Projects on GitHub',
       liveDemo: 'Live Demo',
@@ -92,25 +92,25 @@ const TRANSLATIONS = {
       contact: 'Contact'
     },
     hero: {
-      title: 'Mélanger code et IA générative',
-      subtitle: 'Je suis un développeur et prompt engineer spécialisé dans la création d\'applications élégantes et performantes, ainsi que dans la conception de prompts d\'IA structurés et réfléchis qui résolvent des problèmes concrets.',
+      title: 'Étudiant en Informatique & Passionné d\'IA',
+      subtitle: 'Je suis un étudiant passionné qui se concentre sur le développement logiciel et l\'ingénierie de prompts IA, créant des projets qui combinent compétences techniques et résolution créative de problèmes.',
       viewProjects: 'Voir les projets',
       getInTouch: 'Me contacter'
     },
     about: {
       title: 'À propos de moi',
-      subtitle: 'Je combine l\'ingénierie logicielle avec des techniques de prompt pour l\'IA afin de créer des solutions intuitives et performantes pour les défis numériques modernes.',
+      subtitle: 'Je combine mes études en informatique avec des projets pratiques pour développer mes compétences en ingénierie logicielle et en IA.',
       journey: {
-        title: 'Mon parcours',
-        content: 'Avec une solide formation en informatique, j\'ai développé une expertise dans le développement logiciel traditionnel et les technologies d\'IA émergentes. Mon expérience s\'étend de la création d\'applications web réactives à la spécialisation en ingénierie avancée de prompts pour l\'IA.'
+        title: 'Formation',
+        content: 'Je poursuis actuellement mes études en informatique, avec une spécialisation en développement logiciel et intelligence artificielle. Je suis passionné par l\'apprentissage de nouvelles technologies et leur application à des problèmes concrets à travers des projets pratiques.'
       },
       approach: {
-        title: 'Mon approche',
-        content: 'Je me concentre sur la création de solutions qui résolvent de vrais problèmes tout en offrant des expériences utilisateur exceptionnelles. Mon travail suit les principes d\'architecture propre, de développement piloté par les tests et d\'amélioration continue pour assurer l\'excellence technique et l\'accessibilité.'
+        title: 'Mes intérêts',
+        content: 'Je m\'intéresse particulièrement à la façon dont l\'IA peut améliorer les applications logicielles et les expériences utilisateur. Mes cours et projets personnels se concentrent sur la création de code propre et efficace tout en explorant les capacités des grands modèles de langage grâce à l\'ingénierie de prompts.'
       },
       toolkit: {
-        title: 'Mes outils',
-        content: 'Je travaille avec des frameworks JavaScript modernes, des technologies backend incluant Node.js et Python, et le développement mobile multiplateforme. En IA, je suis spécialisé dans l\'ingénierie de prompts pour les LLM et la création de solutions d\'IA qui améliorent les capacités humaines.',
+        title: 'Parcours d\'apprentissage',
+        content: 'J\'enrichis constamment mes connaissances techniques à travers mes cours et mon auto-formation sur les frameworks JavaScript modernes, les technologies backend comme Node.js et Python, et le développement mobile. Je développe également mes compétences en ingénierie de prompts IA pour créer des interactions plus efficaces.',
         frontend: 'Développement frontend',
         backend: 'Ingénierie backend',
         ai: 'Prompt engineering'
@@ -118,8 +118,8 @@ const TRANSLATIONS = {
       skills: 'Compétences principales'
     },
     projects: {
-      title: 'Projets',
-      subtitle: 'Une sélection de mes travaux récents démontrant mon expertise technique, mes capacités de résolution de problèmes et mes solutions innovantes de prompt engineering.',
+      title: 'Projets académiques & personnels',
+      subtitle: 'Une collection de projets que j\'ai développés pendant mes études et explorations personnelles, démontrant mes compétences techniques et mon approche de résolution de problèmes.',
       showMore: 'Voir plus de projets',
       viewAll: 'Voir tous les projets sur GitHub',
       liveDemo: 'Démo en ligne',
@@ -386,28 +386,24 @@ function createProjectCard(project) {
   // Get description in current language or fallback to English
   const description = project.description && project.description[currentLang] ? 
     project.description[currentLang] : 
-    (project.description && project.description.en ? project.description.en : 'A personal project');
+    (project.description && project.description.en ? project.description.en : 'A student project');
 
   const buttonTexts = {
     liveDemo: TRANSLATIONS[currentLang].projects.liveDemo,
     viewRepo: TRANSLATIONS[currentLang].projects.viewRepo
   };
 
-  // Improve SEO with proper alt text and loading attribute
-  const imagePath = project.image || 'images/projects/default.webp';
-  const imgAlt = `${project.name} project screenshot`;
-  
-  // Use inline template literal to avoid unnecessary DOM parsing
+  // Always use default image path - simple and reliable
   projectCard.innerHTML = `
-    <img src="${imagePath}" alt="${imgAlt}" class="project-image" loading="lazy">
+    <img src="images/projects/default.webp" alt="${project.name} project screenshot" class="project-image" loading="lazy">
     <div class="project-content">
       <h3>${project.name.replace(/-/g, ' ')}</h3>
       <p>${description}</p>
       <div class="project-tags">${tagsHTML}</div>
     </div>
     <div class="project-links">
-      ${project.homepage ? `<a href="${project.homepage}" target="_blank" rel="noopener" class="btn btn-sm">${buttonTexts.liveDemo}</a>` : ''}
-      <a href="${project.html_url}" target="_blank" rel="noopener" class="btn btn-sm btn-outline">${buttonTexts.viewRepo}</a>
+      ${project.homepage ? `<a href="${project.homepage}" target="_blank" rel="noopener" class="btn btn-sm" aria-label="View live demo of ${project.name}">${buttonTexts.liveDemo}</a>` : ''}
+      <a href="${project.html_url}" target="_blank" rel="noopener" class="btn btn-sm btn-outline" aria-label="View repository for ${project.name}">${buttonTexts.viewRepo}</a>
     </div>
   `;
 
@@ -801,27 +797,31 @@ function initScrollPosition() {
 
 // Main initialization function - with performance optimizations
 function init() {
-  // Split work into microtasks using setTimeout with 0 delay
-  // This prevents long-running scripts from blocking the main thread
+  // Initialize preloader
+  handlePreloader();  
   
   // Initialize immediate UI requirements
   initScrollPosition();
   
-  // Initialize core functionality with slight delay
+  // Initialize scroll to top button
+  initScrollToTop();
+  
+  // Core functionality   
   setTimeout(() => {
     loadSkills();
     loadProjects();
     initDarkMode();
   }, 0);
   
-  // Initialize non-critical animations with slightly longer delay
+  // Non-critical animations with slight delay
   setTimeout(() => {
     initAboutAnimations();
     initSectionDividers();
     initContactCard();
+    enhanceImageLoading();
   }, 10);
   
-  // Initialize remaining functionality with even longer delay
+  // Remaining functionality with longer delay
   setTimeout(() => {
     initEmailJS();
     initLanguageSwitcher();
@@ -833,7 +833,7 @@ function init() {
   if (skipLink) {
     skipLink.addEventListener('click', (e) => {
       e.preventDefault();
-      const mainContent = document.querySelector('main');
+      const mainContent = document.querySelector('#main-content');
       if (mainContent) {
         mainContent.tabIndex = -1;
         mainContent.focus();
@@ -859,7 +859,7 @@ function initLazyImages() {
   }, {
     rootMargin: '200px' // Start loading images when they are 200px from viewport
   });
-
+  
   // Find all images with data-src attribute
   document.querySelectorAll('img[data-src]').forEach(img => {
     imageObserver.observe(img);
@@ -1020,7 +1020,7 @@ function updateSkillsWithCurrentLanguage(lang) {
   
   skillCards.forEach((card, index) => {
     if (index >= skills.length) return;
-    
+      
     const skill = skills[index];
     const titleElement = card.querySelector('h3');
     const descriptionElement = card.querySelector('p');
@@ -1099,5 +1099,77 @@ function initMobileNav() {
     const isExpanded = navLinks.classList.contains('active');
     navLinks.classList.toggle('active');
     menuToggle.setAttribute('aria-expanded', !isExpanded);
+  });
+}
+
+// Add preloader functionality
+function handlePreloader() {
+  const preloader = document.querySelector('.preloader');
+  if (!preloader) return;
+  
+  // Hide preloader after content has loaded
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      preloader.classList.add('hidden');
+      
+      // Remove from DOM after animation completes
+      setTimeout(() => {
+        preloader.remove();
+      }, 500);
+    }, 500);
+  });
+}
+
+// Add scroll-to-top button functionality
+function initScrollToTop() {
+  const scrollTopBtn = document.getElementById('scroll-to-top');
+  if (!scrollTopBtn) return;
+  
+  // Show/hide button based on scroll position
+  const toggleScrollTopBtn = debounce(() => {
+    if (window.scrollY > 300) {
+      scrollTopBtn.classList.add('visible');
+    } else {
+      scrollTopBtn.classList.remove('visible');
+    }
+  }, 100);
+  
+  // Scroll to top when button clicked
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+  
+  window.addEventListener('scroll', toggleScrollTopBtn, { passive: true });
+}
+
+// Enhanced image loading with placeholder
+function enhanceImageLoading() {
+  const projectImages = document.querySelectorAll('.project-image');
+  
+  projectImages.forEach(image => {
+    // Add class for fade-in animation
+    image.classList.add('lazy-load');
+    
+    // Create a simple image loading observer
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          const src = img.getAttribute('data-src');
+          if (src) {
+            img.src = src;
+            img.removeAttribute('data-src');
+          }
+          observer.unobserve(img);
+        }
+      });
+    }, {
+      rootMargin: '100px'  // Start loading when 100px away from viewport
+    });
+    
+    imageObserver.observe(image);
   });
 }

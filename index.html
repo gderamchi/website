@@ -6,6 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guillaume Deramchi | Software & Prompt Engineer</title>
   
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WZD39447CY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WZD39447CY');
+  </script>
+  
   <!-- SEO Meta Tags -->
   <meta name="description" content="Guillaume Deramchi - Software Engineer and AI Prompt Engineer specializing in creating elegant, high-performance applications and intelligent AI solutions.">
   <meta name="keywords" content="software engineer, prompt engineer, web development, AI, frontend, backend, mobile development">
@@ -19,31 +28,35 @@
   
   <!-- Open Graph / Facebook Meta Tags -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://guillaumeDeramchi.com/">
+  <meta property="og:url" content="https://guillaume18100.github.io/website/">
   <meta property="og:title" content="Guillaume Deramchi | Software & Prompt Engineer">
   <meta property="og:description" content="Specializing in creating elegant, high-performance applications and crafting intelligent AI prompts that solve real-world problems.">
-  <meta property="og:image" content="https://guillaumeDeramchi.com/images/profile-photo.webp">
+  <meta property="og:image" content="https://guillaume18100.github.io/website/images/profile-photo.webp">
   
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://guillaumeDeramchi.com/">
+  <meta name="twitter:url" content="https://guillaume18100.github.io/website/">
   <meta name="twitter:title" content="Guillaume Deramchi | Software & Prompt Engineer">
   <meta name="twitter:description" content="Specializing in creating elegant applications and intelligent AI solutions.">
-  <meta name="twitter:image" content="https://guillaumeDeramchi.com/images/profile-photo.webp">
+  <meta name="twitter:image" content="https://guillaume18100.github.io/website/images/profile-photo.webp">
   
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
   
-  <!-- Preload Critical Resources -->
-  <link rel="preload" href="style.css" as="style">
-  <link rel="preload" href="script.js" as="script">
-  <link rel="preload" href="images/profile-photo.webp" as="image" fetchpriority="high">
+  <!-- Optimize font loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- CSS -->
+  <!-- CSS - Link directly without preload -->
   <link rel="stylesheet" href="style.css">
+  
+  <!-- Add Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
   
   <!-- Structured Data / Schema.org -->
   <script type="application/ld+json">
@@ -77,14 +90,58 @@
     }
   </script>
 
-  <!-- EmailJS - Remove async attribute to ensure proper loading order -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Guillaume Deramchi",
+    "url": "https://guillaume18100.github.io/website/",
+    "image": "https://guillaume18100.github.io/website/images/profile-photo.webp",
+    "sameAs": [
+      "https://github.com/Guillaume18100",
+      "https://www.linkedin.com/in/guillaume-deramchi/"
+    ],
+    "alumniOf": {
+      "@type": "EducationalOrganization",
+      "name": "[Your University/School Name]",
+      "sameAs": "[University website URL]"
+    },
+    "description": "Computer Science Student & AI Enthusiast focusing on software development and prompt engineering",
+    "knowsAbout": ["Software Development", "AI Prompt Engineering", "Frontend Development", "Backend Engineering", "Mobile Development"]
+  }
+  </script>
 
-  <!-- Custom JavaScript - Load with defer to not block parsing -->
+  <!-- Register service worker for offline caching -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/website/service-worker.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+  </script>
+
+  <!-- EmailJS - Load with defer -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
+
+  <!-- Custom JavaScript - Load with defer -->
   <script src="script.js" defer></script>
 </head>
 
 <body>
+  <!-- Preloader -->
+  <div class="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Skip to content link for accessibility -->
+  <a href="#main-content" class="skip-to-content">Skip to content</a>
+
   <!-- Header & Navigation -->
   <header id="header">
     <div class="container">
@@ -109,18 +166,14 @@
                 <path
                   d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17Z"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M12 1V3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" />
-                <path d="M12 21V23" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" />
+                <path d="M12 1V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 21V23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M4.22 4.22L5.64 5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                   stroke-linejoin="round" />
                 <path d="M18.36 18.36L19.78 19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                   stroke-linejoin="round" />
-                <path d="M1 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" />
-                <path d="M21 12H23" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" />
+                <path d="M1 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M21 12H23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M4.22 19.78L5.64 18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                   stroke-linejoin="round" />
                 <path d="M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -144,22 +197,21 @@
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <!-- Hero Section -->
     <section class="hero" id="home" aria-label="Introduction">
       <div class="container">
         <div class="hero-content">
-          <h1 class="hero-title">Mixing Software Engineering with GenAI</h1>
+          <h1 class="hero-title">Computer Science Student & AI Enthusiast</h1>
           <p class="hero-subtitle">
-            I am a software & prompt engineer specializing in creating elegant, high-performance applications and crafting
-            intelligent AI prompts that solve real-world problems.
+            I'm a passionate student focusing on software development and AI prompt engineering, building projects that combine technical skills with creative problem-solving.
           </p>
           <div class="hero-buttons">
             <a href="#projects" class="btn">View Projects</a>
             <a href="#contact" class="btn btn-outline">Get in Touch</a>
           </div>
         </div>
-        <img src="images/profile-photo.webp" alt="Guillaume Deramchi - Software and Prompt Engineer" class="hero-image" width="320" height="320" fetchpriority="high">
+        <img src="images/profile-photo.webp" alt="Guillaume Deramchi - Computer Science Student" class="hero-image" width="320" height="320" fetchpriority="high">
       </div>
     </section>
 
@@ -179,22 +231,19 @@
       <div class="container">
         <h2 class="section-title reveal-text">About Me</h2>
         <p class="section-subtitle reveal-text">
-          I combine software engineering with AI prompt techniques to create intuitive, high-performance solutions for
-          modern digital challenges.
+          I'm combining my computer science education with practical projects to develop skills in software engineering and AI.
         </p>
 
         <div class="about-content">
           <div class="about-text">
             <div class="about-section fade-in">
               <div class="section-icon">
-                <span class="icon-circle">🚀</span>
+                <span class="icon-circle">🎓</span>
               </div>
               <div>
-                <h3 class="slide-in">My Journey</h3>
+                <h3 class="slide-in">Education</h3>
                 <p class="reveal-text">
-                  With a strong foundation in computer science, I've developed expertise in both traditional software
-                  development and emerging AI technologies. My experience spans from building responsive web applications
-                  to specializing in advanced AI prompt engineering.
+                  Currently pursuing my degree in Computer Science, with a focus on software development and artificial intelligence. I'm passionate about learning new technologies and applying them to real-world problems through hands-on projects.
                 </p>
               </div>
             </div>
@@ -204,44 +253,40 @@
                 <span class="icon-circle">💡</span>
               </div>
               <div>
-                <h3 class="slide-in">My Approach</h3>
+                <h3 class="slide-in">My Interests</h3>
                 <p class="reveal-text">
-                  I focus on creating solutions that solve real problems while delivering exceptional user experiences. My
-                  work follows principles of clean architecture, test-driven development, and continuous improvement to
-                  ensure both technical excellence and accessibility.
+                  I'm particularly interested in how AI can enhance software applications and user experiences. My coursework and personal projects focus on creating clean, efficient code while exploring the capabilities of large language models through prompt engineering.
                 </p>
               </div>
             </div>
 
             <div class="about-section fade-in">
               <div class="section-icon">
-                <span class="icon-circle">⚙️</span>
+                <span class="icon-circle">🚀</span>
               </div>
               <div>
-                <h3 class="slide-in">Technical Toolkit</h3>
+                <h3 class="slide-in">Learning Path</h3>
                 <p class="reveal-text">
-                  I work with modern JavaScript frameworks, backend technologies including Node.js and Python, and
-                  cross-platform mobile development. In AI, I specialize in prompt engineering for large language models
-                  and creating AI solutions that enhance human capabilities.
+                  I'm constantly expanding my technical toolkit through coursework and self-study in modern JavaScript frameworks, backend technologies including Node.js and Python, and mobile development. I'm also developing skills in AI prompt engineering to create more effective AI interactions.
                 </p>
 
                 <div class="expertise-areas">
                   <div class="expertise-area">
                     <span class="expertise-label">Frontend Development</span>
                     <div class="expertise-bar">
-                      <div class="expertise-progress" style="width: 90%"></div>
+                      <div class="expertise-progress" style="width: 75%"></div>
                     </div>
                   </div>
                   <div class="expertise-area">
                     <span class="expertise-label">Backend Engineering</span>
                     <div class="expertise-bar">
-                      <div class="expertise-progress" style="width: 85%"></div>
+                      <div class="expertise-progress" style="width: 70%"></div>
                     </div>
                   </div>
                   <div class="expertise-area">
                     <span class="expertise-label">AI Prompt Engineering</span>
                     <div class="expertise-bar">
-                      <div class="expertise-progress" style="width: 95%"></div>
+                      <div class="expertise-progress" style="width: 80%"></div>
                     </div>
                   </div>
                 </div>
@@ -273,10 +318,9 @@
     <!-- Projects Section -->
     <section class="projects" id="projects" aria-label="My Projects">
       <div class="container">
-        <h2 class="section-title">Featured Projects</h2>
+        <h2 class="section-title">Academic & Personal Projects</h2>
         <p class="section-subtitle">
-          A selection of my recent work showcasing my technical expertise, problem-solving abilities, and innovative
-          prompt engineering solutions.
+          A collection of projects I've developed during my studies and personal exploration, showcasing my technical skills and problem-solving approach.
         </p>
 
         <div id="projects-container">
@@ -336,7 +380,6 @@
     </section>
   </main>
 
-  <!-- Footer -->
   <footer>
     <div class="container">
       <div class="footer-content">
@@ -345,11 +388,16 @@
           <li><a href="https://github.com/Guillaume18100" target="_blank" rel="noopener" aria-label="GitHub profile">GitHub</a></li>
           <li><a href="https://www.linkedin.com/in/guillaume-deramchi/" target="_blank" rel="noopener" aria-label="LinkedIn profile">LinkedIn</a></li>
         </ul>
+        <p class="footer-tagline">Computer Science Student & AI Enthusiast</p>
       </div>
       <div class="copyright">
         &copy; 2025 Guillaume Deramchi. All rights reserved.
       </div>
     </div>
+    <!-- Scroll to top button -->
+    <button id="scroll-to-top" class="scroll-top-btn" aria-label="Scroll to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
   </footer>
 </body>
 

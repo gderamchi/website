@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found | Guillaume Deramchi</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .error-container {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .error-code {
+      font-size: 120px;
+      font-weight: 700;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+    .error-message {
+      font-size: 24px;
+      margin-bottom: 2rem;
+      color: var(--primary-color);
+    }
+    .error-actions {
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header id="header">
+    <div class="container">
+      <nav aria-label="Main navigation">
+        <a href="/website/" class="logo" aria-label="Guillaume Deramchi homepage">Guillaume Deramchi</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section>
+      <div class="container error-container">
+        <div class="error-code">404</div>
+        <h1 class="error-message">Page Not Found</h1>
+        <p>The page you're looking for doesn't exist or has been moved.</p>
+        <div class="error-actions">
+          <a href="/website/" class="btn">Go Back Home</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="copyright">
+        &copy; 2025 Guillaume Deramchi. All rights reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
