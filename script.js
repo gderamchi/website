@@ -393,7 +393,7 @@ function createProjectCard(project) {
     viewRepo: TRANSLATIONS[currentLang].projects.viewRepo
   };
 
-  // Always use default image path - simple and reliable
+  // Always use the default image path
   projectCard.innerHTML = `
     <img src="images/projects/default.webp" alt="${project.name} project screenshot" class="project-image" loading="lazy">
     <div class="project-content">
