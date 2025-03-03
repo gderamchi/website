@@ -323,8 +323,31 @@
 /* Footer styles */
 .footer-alt {
   padding: 40px 0;
-  background-color: #2d3748;
-  color: white;
+  background-color: var(--footer-bg, #2d3748);
+  color: var(--footer-text, white);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Add CSS variables for light and dark mode */
+:root {
+  --footer-bg: #f7fafc;
+  --footer-text: #2d3748;
+}
+
+.dark-mode {
+  --footer-bg: #2d3748;
+  --footer-text: white;
+}
+
+/* Update footer links color */
+.footer-alt .footer-links a {
+  color: var(--footer-text);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.footer-alt .footer-links a:hover {
+  opacity: 1;
 }
 
 /* Responsive styles */

@@ -124,12 +124,6 @@ function initSharedLanguageSwitcher() {
       // Trigger a custom event that specific pages can listen for
       const languageChangeEvent = new CustomEvent('languageChanged', { detail: { language: newLang, previousLanguage: currentLang }});
       document.dispatchEvent(languageChangeEvent);
-      
-      // Default page behavior - reload if no handler picked it up
-      setTimeout(() => {
-        // If no handler prevented default, just reload the page
-        window.location.reload();
-      }, 100); 
     }
   }
 }
