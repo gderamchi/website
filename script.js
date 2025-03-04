@@ -877,12 +877,37 @@ function initDarkMode() {
   */
 }
 
-// Observe contact card for animation
+// Enhanced function to initialize contact card with better animation handling
 function initContactCard() {
   const contactCard = document.getElementById('contact-card');
-  if (contactCard) {
-    observer.observe(contactCard);
-  }
+  if (!contactCard) return;
+  
+  // Create a dedicated observer for the contact card with a larger root margin
+  // This will trigger the animation earlier as the user scrolls down
+  const contactCardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Use requestAnimationFrame for smoother animation
+        requestAnimationFrame(() => {
+          contactCard.style.opacity = '1';
+          contactCard.style.transform = 'translateY(0)';
+        });
+        // Once animated, disconnect the observer
+        contactCardObserver.disconnect();
+      }
+    });
+  }, { 
+    threshold: 0.1, // Lower threshold to trigger animation earlier
+    rootMargin: '0px 0px 100px 0px' // Larger bottom margin to detect earlier when scrolling
+  });
+  
+  // Set initial styles to ensure animation works properly
+  contactCard.style.opacity = '0';
+  contactCard.style.transform = 'translateY(30px)';
+  contactCard.style.transition = 'opacity 0.8s ease, transform 0.8s var(--animation-curve)';
+  
+  // Start observing the contact card
+  contactCardObserver.observe(contactCard);
 }
 
 // Initialize page scroll position on refresh
@@ -908,15 +933,16 @@ function init() {
   setTimeout(() => {
     loadSkills();
     loadProjects();
-    // Removed initDarkMode() call since common.js handles it
+    // Initialize contact card earlier in the process
+    initContactCard();
   }, 0);
   
   // Non-critical animations with slight delay
   setTimeout(() => {
     initAboutAnimations();
     initSectionDividers();
-    initContactCard();
     enhanceImageLoading();
+    // Moved initContactCard() from here to the block above
   }, 10);
   
   // Remaining functionality with longer delay
