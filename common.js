@@ -134,10 +134,71 @@ function initSharedLanguageSwitcher() {
   }
 }
 
+// Mobile menu functionality - completely rewritten for maximum reliability
+function initMobileMenu() {
+  console.log("Initializing mobile menu");
+  const menuToggle = document.getElementById('menu-toggle');
+  const navLinks = document.getElementById('nav-links');
+  
+  // Safety checks with better error messages
+  if (!menuToggle) {
+    console.error("Mobile menu toggle button not found!");
+    return;
+  }
+  
+  if (!navLinks) {
+    console.error("Navigation links container not found!");
+    return;
+  }
+  
+  // Remove any existing click handlers to prevent conflicts
+  menuToggle.removeEventListener('click', handleMenuToggle);
+  
+  // Clean direct assignment of the click handler
+  menuToggle.onclick = handleMenuToggle;
+  
+  // Function to handle menu toggle clicks
+  function handleMenuToggle(e) {
+    e.preventDefault();
+    console.log("Menu button clicked");
+    
+    // Force toggle the active class
+    if (navLinks.classList.contains('active')) {
+      navLinks.classList.remove('active');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      console.log("Menu closed");
+    } else {
+      navLinks.classList.add('active');
+      menuToggle.setAttribute('aria-expanded', 'true');
+      console.log("Menu opened");
+    }
+  }
+  
+  // Close menu when clicking on navigation links
+  const navLinkItems = document.querySelectorAll('.nav-link');
+  navLinkItems.forEach(item => {
+    item.onclick = function() {
+      navLinks.classList.remove('active');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      console.log("Nav link clicked, menu closed");
+    };
+  });
+  
+  // Reset initial ARIA state
+  menuToggle.setAttribute('aria-expanded', navLinks.classList.contains('active') ? 'true' : 'false');
+  
+  console.log("Mobile menu fully initialized");
+}
+
 // Initialize common functionality
 document.addEventListener('DOMContentLoaded', () => {
   handlePreloader();
   initThemeToggle();
   initScrollToTop();
   initSharedLanguageSwitcher();
+  
+  // Ensure mobile menu is initialized last and with a slight delay
+  setTimeout(() => {
+    initMobileMenu();
+  }, 100);
 });

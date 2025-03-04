@@ -193,25 +193,8 @@ if (header) {
   window.addEventListener('scroll', handleScroll, { passive: true });
 }
 
-// Mobile Menu Toggle - Add safety checks
-const menuToggle = document.getElementById('menu-toggle');
-const navLinks = document.getElementById('nav-links');
-
-if (menuToggle && navLinks) {
-  menuToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-  });
-
-  // Close menu when clicking on a link
-  const navLinksItems = document.querySelectorAll('.nav-link');
-  if (navLinksItems.length > 0) {
-    navLinksItems.forEach(item => {
-      item.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-      });
-    });
-  }
-}
+// Mobile Menu Toggle - REMOVED (now handled by common.js)
+// The code that was here is now in common.js to avoid duplication
 
 // Standard animation observer for fade-in elements
 const observer = createAnimationObserver((entries) => {
@@ -958,7 +941,6 @@ function init() {
   setTimeout(() => {
     initEmailJS();
     initLanguageSwitcher();
-    initMobileNav();
   }, 20);
   
   // Add event listener for skip to content link
@@ -1225,20 +1207,6 @@ function updateMetaDescription(lang) {
   if (twitterDescription && CONFIG.metaDescription[lang]) {
     twitterDescription.setAttribute('content', CONFIG.metaDescription[lang]);
   }
-}
-
-// Improve mobile navigation for accessibility
-function initMobileNav() {
-  const menuToggle = document.getElementById('menu-toggle');
-  const navLinks = document.getElementById('nav-links');
-  
-  if (!menuToggle || !navLinks) return;
-  
-  menuToggle.addEventListener('click', () => {
-    const isExpanded = navLinks.classList.contains('active');
-    navLinks.classList.toggle('active');
-    menuToggle.setAttribute('aria-expanded', !isExpanded);
-  });
 }
 
 // Add preloader functionality
