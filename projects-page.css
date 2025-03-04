@@ -329,6 +329,26 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Ensure consistent centering in alternative footer */
+.footer-alt .footer-content {
+  text-align: center;
+}
+
+.footer-alt .footer-links {
+  justify-content: center;
+}
+
+/* Update footer links color */
+.footer-alt .footer-links a {
+  color: var(--footer-text);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.footer-alt .footer-links a:hover {
+  opacity: 1;
+}
+
 /* Add CSS variables for light and dark mode */
 :root {
   --footer-bg: #f7fafc;
@@ -351,7 +371,6 @@
   opacity: 1;
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
   .projects-page-title {
     font-size: 36px;
@@ -378,6 +397,10 @@
   .project-detail-header {
     grid-template-columns: 1fr;
     gap: 30px;
+  }
+
+  .footer-alt .footer-links li {
+    margin: 0 12px;
   }
 }
 

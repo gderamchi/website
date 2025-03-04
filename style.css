@@ -838,6 +838,7 @@ body.dark-mode footer {
     align-items: center;
     flex-wrap: wrap;
     width: 100%;
+    text-align: center; /* Add center alignment for all footer text */
 }
 
 .footer-logo {
@@ -845,6 +846,7 @@ body.dark-mode footer {
     font-weight: 500;
     color: #999;
     /* Change to light grey like other footer text */
+    text-align: center; /* Ensure logo text is centered */
 }
 
 /* Keep the same color in dark mode for consistency */
@@ -857,6 +859,9 @@ body.dark-mode .footer-logo {
     display: flex;
     list-style: none;
     flex-wrap: wrap;
+    justify-content: center; /* Center the links */
+    margin: 0;
+    padding: 0;
 }
 
 .footer-links li {
@@ -881,6 +886,22 @@ body.dark-mode .footer-logo {
     margin-top: 40px;
     font-size: 14px;
     width: 100%;
+}
+
+/* Enhanced footer styles */
+.footer-info {
+    text-align: center;
+    margin: 15px 0;
+    width: 100%;
+}
+
+.footer-tagline {
+    color: #999;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center; /* Ensure tagline is centered */
+    width: 100%; /* Give it full width to ensure proper centering */
+    margin-top: 15px; /* Add space above the tagline */
 }
 
 /* Animations */
@@ -1025,14 +1046,21 @@ body.dark-mode .footer-logo {
     .footer-content {
         flex-direction: column;
         gap: 24px;
+        text-align: center;
     }
 
     .footer-links {
         margin-top: 16px;
+        justify-content: center; /* Ensure links are centered on mobile */
     }
 
     .footer-links li:first-child {
         margin-left: 0;
+    }
+    
+    /* Center all footer links on mobile */
+    .footer-links li {
+        margin: 0 12px;
     }
 
     .container {
@@ -1963,6 +1991,9 @@ img.lazy-loaded {
     color: #999;
     font-size: 15px;
     font-weight: 500;
+    text-align: center; /* Ensure tagline is centered */
+    width: 100%; /* Give it full width to ensure proper centering */
+    margin-top: 15px; /* Add space above the tagline */
 }
 
 /* Enhanced form styles */
