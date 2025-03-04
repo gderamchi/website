@@ -475,9 +475,14 @@ function openProjectModal(project) {
     </div>
   `;
   
-  // Show modal with animation
+  // Show modal with animation - explicitly set display property first
+  modal.style.display = 'block';
   document.body.style.overflow = 'hidden';
-  modal.classList.add('active');
+  
+  // Use requestAnimationFrame to ensure the display change has taken effect before adding the active class
+  requestAnimationFrame(() => {
+    modal.classList.add('active');
+  });
   
   // Focus trap for accessibility
   const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
