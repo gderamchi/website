@@ -1,0 +1,33 @@
+/* 
+ * This file specifically targets overscroll behavior
+ * It should be included after all other CSS files 
+ */
+
+/* Target both light and dark modes with high specificity */
+html, html.light-mode {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+html.dark-mode {
+    background: #1a202c !important;
+    background-color: #1a202c !important;
+}
+
+/* Safari and iOS specific fix */
+@supports (-webkit-touch-callout: none) {
+    html, html.light-mode {
+        background: #ffffff !important;
+    }
+    
+    html.dark-mode {
+        background: #1a202c !important;
+    }
+}
+
+/* Chrome/Edge specific fix */
+@supports (-webkit-appearance:none) {
+    html {
+        background-attachment: scroll !important;
+    }
+}

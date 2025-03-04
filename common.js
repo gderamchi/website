@@ -5,10 +5,15 @@ function initThemeToggle() {
   const themeToggle = document.getElementById('theme-toggle');
   if (!themeToggle) return;
   
-  // Check for saved user preference
+  // Check for saved user preference and apply to both body and html elements
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'dark') {
     document.body.classList.add('dark-mode');
+    document.documentElement.classList.add('dark-mode'); // Also add to HTML element
+  } else {
+    // Explicitly remove dark mode classes to ensure consistency
+    document.body.classList.remove('dark-mode');
+    document.documentElement.classList.remove('dark-mode');
   }
 
   // Remove any existing event listeners to prevent duplicates
@@ -22,6 +27,7 @@ function initThemeToggle() {
     // Use requestAnimationFrame for smoother updates
     requestAnimationFrame(() => {
       document.body.classList.toggle('dark-mode');
+      document.documentElement.classList.toggle('dark-mode'); // Toggle on HTML element too
 
       // Save user preference
       if (document.body.classList.contains('dark-mode')) {
