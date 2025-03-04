@@ -328,13 +328,14 @@ function createProjectCard(project, index) {
     project.description[currentLang] : 
     (project.description && project.description.en ? project.description.en : 'A student project');
 
-  const shortDescription = description.length > 100 ? 
-    description.substring(0, 100) + '...' : 
+  // Ensure consistent description length - limit to exactly 80 chars for better consistency
+  const shortDescription = description.length > 80 ? 
+    description.substring(0, 80) + '...' : 
     description;
 
-  // Extract topics as tags
+  // Extract topics as tags - limit to 3 for more consistent display
   const tagsHTML = project.topics && project.topics.length > 0 
-    ? project.topics.slice(0, 4).map(tag => `<span class="project-tag-tree">${tag}</span>`).join('')
+    ? project.topics.slice(0, 3).map(tag => `<span class="project-tag-tree">${tag}</span>`).join('')
     : '<span class="project-tag-tree">Project</span>';
 
   const buttonTexts = {
@@ -354,13 +355,16 @@ function createProjectCard(project, index) {
   card.dataset.projectId = project.name.replace(/\s+/g, '-').toLowerCase();
   card.dataset.index = index;
   
+  // Ensure project name is also of consistent length
+  const projectName = project.name.replace(/-/g, ' ');
+  
   card.innerHTML = `
     <div class="project-image-container">
-      <img src="${project.image || 'images/projects/default.webp'}" alt="${project.name} project screenshot" class="project-image-tree">
+      <img src="${project.image || 'images/projects/default.webp'}" alt="${projectName} project screenshot" class="project-image-tree">
     </div>
     <div class="project-overlay">
-      <h3>${project.name.replace(/-/g, ' ')}</h3>
-      <p>${shortDescription}</p>
+      <h3 title="${projectName}">${projectName}</h3>
+      <p title="${description}">${shortDescription}</p>
       <div class="project-tags-tree">${tagsHTML}</div>
       <div class="project-links-tree">
         <button class="view-details-btn" data-project-id="${project.name.replace(/\s+/g, '-').toLowerCase()}">
