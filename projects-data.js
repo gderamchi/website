@@ -1,7 +1,8 @@
 // Projects data in a separate file to be shared between pages
 
-// Projects data with multilingual support
+// Projects data with multilingual support - ordered by year (newest first)
 const projects = [
+  // 2025 Projects
   {
     name: "Doctolib AI Hackathon",
     description: {
@@ -14,17 +15,6 @@ const projects = [
     html_url: "https://github.com/Guillaume18100/hackathon_doctolib"
   },
   {
-    name: "Adopte un Candidat",
-    description: {
-      en: "Flutter mobile/web application connecting job candidates with companies",
-      fr: "Application mobile/web Flutter connectant les candidats aux entreprises"
-    },
-    date: "2024",
-    image: "images/projects/adopte-candidate.webp",
-    topics: ["Flutter", "Dart", "Job Matching", "Mobile Development"],
-    html_url: "https://github.com/algosup/2023-2024-project-5-flutter-team-1"
-  },
-  {
     name: "Sia GenAI Hackathon",
     description: {
       en: "AI solution to automate customer file generation with AWS",
@@ -34,6 +24,30 @@ const projects = [
     image: "images/projects/genai-hackathon.webp",
     topics: ["AI", "Hackathon", "Python", "Website", "AWS"],
     html_url: "https://github.com/GuillotSamuel/GenAI_hackaton"
+  },
+  {
+    name: "Quickest Path Algorithm",
+    description: {
+      en: "A high-performance software solution to calculate the quickest path between two landmarks in the United States, exposed as a REST API with response time under 1 second",
+      fr: "Une solution logicielle haute performance pour calculer le chemin le plus rapide entre deux points de repère aux États-Unis, exposée comme une API REST avec un temps de réponse inférieur à 1 seconde"
+    },
+    date: "2025",
+    image: "images/projects/quickest-path.webp",
+    topics: ["pathfinding", "A* algorithm", "Dijkstra", "REST API", "JSON", "XML", "C++", "performance optimization", "Website"],
+    html_url: "https://github.com/algosup/2024-2025-project-3-quickest-path-team-7"
+  },
+  
+  // 2024 Projects
+  {
+    name: "Adopte un Candidat",
+    description: {
+      en: "Flutter mobile/web application connecting job candidates with companies",
+      fr: "Application mobile/web Flutter connectant les candidats aux entreprises"
+    },
+    date: "2024",
+    image: "images/projects/adopte-candidate.webp",
+    topics: ["Flutter", "Dart", "Job Matching", "Mobile Development"],
+    html_url: "https://github.com/algosup/2023-2024-project-5-flutter-team-1"
   },
   {
     name: "Blockchain Hackathon",
@@ -58,17 +72,6 @@ const projects = [
     html_url: "https://github.com/algosup/2023-2024-project-3-virtual-processor-team-2"
   },
   {
-    name: "x86 Retrogaming",
-    description: {
-      en: "Recreating Pac-Man in Assembly",
-      fr: "Recréation de Pac-Man en Assembly"
-    },
-    date: "2023",
-    image: "images/projects/retrogaming.webp",
-    topics: ["assembly", "x86", "retrogaming", "pacman", "dosbox"],
-    html_url: "https://github.com/algosup/2023-2024-project-2-x86-retrogaming-team-5"
-  },
-  {
     name: "Green City",
     description: {
       en: "A serious game challenging players to build and manage a thriving city while balancing economic growth and environmental sustainability in the context of climate change",
@@ -78,17 +81,6 @@ const projects = [
     image: "images/projects/green-city.webp",
     topics: ["serious game", "Godot 4", "climate change", "city builder", "sustainability", "game development"],
     html_url: "https://github.com/algosup/2024-2025-project-2-serious-game-team-3"
-  },
-  {
-    name: "Quickest Path Algorithm",
-    description: {
-      en: "A high-performance software solution to calculate the quickest path between two landmarks in the United States, exposed as a REST API with response time under 1 second",
-      fr: "Une solution logicielle haute performance pour calculer le chemin le plus rapide entre deux points de repère aux États-Unis, exposée comme une API REST avec un temps de réponse inférieur à 1 seconde"
-    },
-    date: "2025",
-    image: "images/projects/quickest-path.webp",
-    topics: ["pathfinding", "A* algorithm", "Dijkstra", "REST API", "JSON", "XML", "C++", "performance optimization", "Website"],
-    html_url: "https://github.com/algosup/2024-2025-project-3-quickest-path-team-7"
   },
   {
     name: "SportShield",
@@ -111,5 +103,18 @@ const projects = [
     image: "images/projects/fpga-project.webp",
     topics: ["FPGA", "hardware design", "digital logic", "Verilog", "VHDL", "circuit design", "hardware acceleration"],
     html_url: "https://github.com/algosup/2024-2025-project-1-fpga-team-4"
-  }  
+  },
+  
+  // 2023 Projects
+  {
+    name: "x86 Retrogaming",
+    description: {
+      en: "Recreating Pac-Man in Assembly",
+      fr: "Recréation de Pac-Man en Assembly"
+    },
+    date: "2023",
+    image: "images/projects/retrogaming.webp",
+    topics: ["assembly", "x86", "retrogaming", "pacman", "dosbox"],
+    html_url: "https://github.com/algosup/2023-2024-project-2-x86-retrogaming-team-5"
+  }
 ];
