@@ -2759,3 +2759,45 @@ body.dark-mode .skeleton {
 .projects-cta-btn:hover::after {
   transform: scaleX(1);
 }
+
+/* Footer social icons */
+.footer-social-icon {
+  font-size: 24px;
+  transition: transform 0.5s var(--animation-curve);
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.footer-social-icon:hover {
+  transform: scale(1.4) rotate(5deg);
+  opacity: 1;
+}
+
+.github-icon:hover {
+  color: #6e5494; /* GitHub purple */
+}
+
+.linkedin-icon:hover {
+  color: #0077b5; /* LinkedIn blue */
+}
+
+/* Improve accessibility */
+.footer-links a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.footer-links a .icon-label {
+  font-size: 14px;
+  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.footer-links a:hover .icon-label {
+  opacity: 1;
+  max-width: 100px;
+}

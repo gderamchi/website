@@ -111,6 +111,9 @@
   position: relative;
   opacity: 0;
   transform: translateY(40px);
+  display: flex;
+  flex-direction: column;
+  min-height: 460px; /* Fixed minimum height for all cards */
 }
 
 .project-card-full.visible {
@@ -136,6 +139,9 @@
 
 .project-content-full {
   padding: 25px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Take up all available space */
 }
 
 .project-content-full h3 {
@@ -172,12 +178,14 @@
   color: var(--accent-color);
 }
 
+/* Project footer - consistent positioning */
 .project-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   padding-top: 15px;
+  margin-top: auto; /* Push to bottom of flex container */
 }
 
 .project-date {
