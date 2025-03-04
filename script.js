@@ -356,7 +356,7 @@ function createProjectCard(project, index) {
   
   card.innerHTML = `
     <div class="project-image-container">
-      <img src="images/projects/default.webp" alt="${project.name} project screenshot" class="project-image-tree">
+      <img src="${project.image || 'images/projects/default.webp'}" alt="${project.name} project screenshot" class="project-image-tree">
     </div>
     <div class="project-overlay">
       <h3>${project.name.replace(/-/g, ' ')}</h3>
@@ -453,7 +453,7 @@ function openProjectModal(project) {
   // Create detailed project view
   modalContent.innerHTML = `
     <div class="project-detail-header">
-      <img src="images/projects/default.webp" alt="${project.name} project screenshot" class="project-detail-image">
+      <img src="${project.image || 'images/projects/default.webp'}" alt="${project.name} project screenshot" class="project-detail-image">
       <div class="project-detail-info">
         <h3>${project.name.replace(/-/g, ' ')}</h3>
         <p>${description}</p>
