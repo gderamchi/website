@@ -319,6 +319,97 @@ nav {
     padding: 0; /* Remove any padding that might cause asymmetry */
 }
 
+/* Enhanced Card Consistency Styles */
+.skill-card, .project-card, .project-card-tree {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure consistent heights for skill cards */
+.skill-card {
+  min-height: 280px; /* Set minimum height for all cards */
+}
+
+/* Fix title height consistency */
+.skill-card h3, .project-card h3, .project-card-tree h3 {
+  min-height: 28px; /* Ensure all titles have same minimum height */
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  font-size: 21px; /* Standardize font size */
+  line-height: 1.3;
+}
+
+/* Ensure descriptions take remaining space evenly */
+.skill-card p, .project-card p, .project-content p, .project-overlay p {
+  flex-grow: 1;
+  margin-bottom: 16px;
+  line-height: 1.6;
+  font-size: 15px; /* Standardize font size */
+}
+
+/* Fix project tree card consistency */
+.project-overlay {
+  padding: 70px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Ensure tags are positioned consistently */
+.project-tags, .project-tags-tree {
+  margin-top: auto; /* Push to bottom of flex container */
+  margin-bottom: 12px;
+}
+
+/* Project links positioning */
+.project-links, .project-links-tree {
+  margin-top: auto; /* Always at bottom */
+}
+
+/* For better medium screen consistency */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .skills-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .skill-card {
+    min-height: 250px; /* Slightly smaller on medium screens */
+  }
+}
+
+/* Mobile adjustments for better consistency */
+@media (max-width: 767px) {
+  .skill-card {
+    min-height: 220px; /* Even smaller on mobile */
+  }
+  
+  .skill-card h3, .project-card h3, .project-card-tree h3 {
+    min-height: 24px;
+    font-size: 19px;
+  }
+  
+  .skill-card p, .project-card p, .project-content p, .project-overlay p {
+    font-size: 14px;
+  }
+}
+
+/* Ensure dark mode has the same dimensions */
+body.dark-mode .skill-card,
+body.dark-mode .project-card,
+body.dark-mode .project-card-tree {
+  min-height: inherit; /* Inherit the same heights from light mode */
+}
+
+/* Fix for truncated text in certain browsers */
+.project-description, .skill-card p {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
 .skill-card {
     background-color: var(--card-bg);
     border-radius: 16px;
