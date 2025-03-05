@@ -658,12 +658,18 @@ function setupContactForm() {
     ).then(
       function(response) {
         console.log("SUCCESS", response);
-        showFormSuccess('Message sent successfully! I\'ll get back to you soon.');
+        // Get current language for translation
+        const currentLang = localStorage.getItem('language') || 'en';
+        const successMessage = TRANSLATIONS[currentLang].contact.success;
+        showFormSuccess(successMessage);
         contactForm.reset();
       },
       function(error) {
         console.log("FAILED", error);
-        showFormError('Failed to send message. Please try again or contact me directly.');
+        // Get current language for translation
+        const currentLang = localStorage.getItem('language') || 'en';
+        const errorMessage = TRANSLATIONS[currentLang].contact.error;
+        showFormError(errorMessage);
       }
     ).finally(() => {
       // Reset button state
