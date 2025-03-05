@@ -153,8 +153,8 @@ body.dark-mode section:nth-child(odd)::before {
     position: relative;
     text-align: center;
     margin-bottom: 70px;
-    font-size: 38px;
-    letter-spacing: -0.5px;
+    font-size: clamp(28px, 5vw, 42px); /* More responsive sizing */
+    letter-spacing: -0.5px; /* Tighter letter-spacing for headlines */
 }
 
 .section-title::after {
@@ -346,11 +346,14 @@ nav {
 }
 
 /* Enhanced Card Consistency Styles */
-.skill-card, .project-card, .project-card-tree {
+.skill-card, .project-card, .project-card-tree, .project-card-full {
   display: flex;
   flex-direction: column;
   height: 100%;
   box-sizing: border-box;
+  background-image: linear-gradient(120deg, var(--card-bg) 0%, var(--card-bg) 100%);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* Ensure consistent heights for skill cards */
@@ -834,9 +837,11 @@ body.dark-mode footer {
 
 .footer-content {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     flex-wrap: wrap;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(153, 153, 153, 0.2);
+    margin-bottom: 20px;
     width: 100%;
     text-align: center; /* Add center alignment for all footer text */
 }
