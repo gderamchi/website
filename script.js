@@ -36,7 +36,7 @@ const TRANSLATIONS = {
     },
     hero: {
       title: 'Computer Science Student & AI Enthusiast',
-      subtitle: 'I\'m a passionate student focusing on software development and AI prompt engineering, building projects that combine technical skills with creative problem-solving.',
+      subtitle: 'Where AI meets expertise to build brilliant software.',
       viewProjects: 'View Projects',
       getInTouch: 'Get in Touch'
     },
@@ -45,18 +45,18 @@ const TRANSLATIONS = {
       subtitle: 'I\'m combining my computer science education with practical projects to develop skills in software engineering and AI.',
       journey: {
         title: 'Education',
-        content: 'Currently pursuing my degree in Computer Science, with a focus on software development and artificial intelligence. I\'m passionate about learning new technologies and applying them to real-world problems through hands-on projects.'
+        content: 'Currently pursuing my degree in Computer Science, at Algosup, Vierzon. I\'m passionate about learning new technologies and applying them to real-world problems through hands-on projects.'
       },
       approach: {
         title: 'My Interests',
-        content: 'I\'m particularly interested in how AI can enhance software applications and user experiences. My coursework and personal projects focus on creating clean, efficient code while exploring the capabilities of large language models through prompt engineering.'
+        content: 'I\'m particularly interested in how AI can enhance software applications and user experiences. My coursework and personal projects focus on creating clean, efficient code while exploring the capabilities of LLM through prompt engineering.'
       },
       toolkit: {
         title: 'Learning Path',
         content: 'I\'m constantly expanding my technical toolkit through coursework and self-study in modern JavaScript frameworks, backend technologies including Node.js and Python, and mobile development. I\'m also developing skills in AI prompt engineering to create more effective AI interactions.',
         frontend: 'Frontend Development',
         backend: 'Backend Engineering',
-        ai: 'AI Prompt Engineering'
+        ai: 'Prompt Engineering'
       },
       skills: 'Core Skills'
     },
@@ -93,7 +93,7 @@ const TRANSLATIONS = {
     },
     hero: {
       title: 'Étudiant en Informatique & Passionné d\'IA',
-      subtitle: 'Je suis un étudiant passionné qui se concentre sur le développement logiciel et l\'ingénierie de prompts IA, créant des projets qui combinent compétences techniques et résolution créative de problèmes.',
+      subtitle: 'Là où l\'IA et mes compétences se conjuguent pour créer des logiciels d\'exception.',
       viewProjects: 'Voir les projets',
       getInTouch: 'Me contacter'
     },
@@ -102,17 +102,17 @@ const TRANSLATIONS = {
       subtitle: 'Je combine mes études en informatique avec des projets pratiques pour développer mes compétences en ingénierie logicielle et en IA.',
       journey: {
         title: 'Formation',
-        content: 'Je poursuis actuellement mes études en informatique, avec une spécialisation en développement logiciel et intelligence artificielle. Je suis passionné par l\'apprentissage de nouvelles technologies et leur application à des problèmes concrets à travers des projets pratiques.'
+        content: 'Je poursuis actuellement des études de développement logiciel à Algosup, Vierzon. Je suis passionné par l\'apprentissage de nouvelles technologies et leur application à des problèmes concrets à travers des projets pratiques.'
       },
       approach: {
         title: 'Mes intérêts',
-        content: 'Je m\'intéresse particulièrement à la façon dont l\'IA peut améliorer les applications logicielles et les expériences utilisateur. Mes cours et projets personnels se concentrent sur la création de code propre et efficace tout en explorant les capacités des grands modèles de langage grâce à l\'ingénierie de prompts.'
+        content: 'Je m\'intéresse particulièrement à la façon dont l\'IA peut améliorer la programmation et les expériences utilisateur. Mes cours et projets personnels se concentrent sur la création de code propre et efficace tout en explorant les capacités des LLM grâce au prompt engineering.'
       },
       toolkit: {
         title: 'Parcours d\'apprentissage',
-        content: 'J\'enrichis constamment mes connaissances techniques à travers mes cours et mon auto-formation sur les frameworks JavaScript modernes, les technologies backend comme Node.js et Python, et le développement mobile. Je développe également mes compétences en ingénierie de prompts IA pour créer des interactions plus efficaces.',
+        content: 'J\'enrichis constamment mes connaissances techniques à travers mes cours et mon auto-formation sur les frameworks JavaScript, les technologies backend comme Node.js et Python, et le développement mobile. Je développe également mes compétences en prompt engineering pour obtenir des réponses toujours plus cohérentes.',
         frontend: 'Développement frontend',
-        backend: 'Ingénierie backend',
+        backend: 'Backend',
         ai: 'Prompt engineering'
       },
       skills: 'Compétences principales'
@@ -229,8 +229,8 @@ const skills = [
       fr: 'Développement Front-End'
     },
     description: {
-      en: 'Crafting responsive, intuitive interfaces using modern frameworks like React and Vue.',
-      fr: 'Création d\'interfaces réactives et intuitives à l\'aide de frameworks modernes comme React et Vue.'
+      en: 'I create responsive and user-friendly interfaces with tools like React and Vue.',
+      fr: 'Je crée des interfaces réactives et user-friendly avec des outils comme React et Vue.'
     }
   },
   {
@@ -240,8 +240,8 @@ const skills = [
       fr: 'Back-End'
     },
     description: {
-      en: 'Designing scalable APIs and robust server architectures with Node.js, Python, and cloud services.',
-      fr: 'Conception d\'API évolutives et d\'architectures serveur robustes avec Node.js, Python et les services cloud.'
+      en: 'I design scalable APIs and robust server setups using Node.js, Python, and cloud services.',
+      fr: 'Je conçois des API scalables et des architectures serveur solides avec Node.js, Python et des services cloud.'
     }
   },
   {
@@ -251,8 +251,8 @@ const skills = [
       fr: 'Développement Mobile'
     },
     description: {
-      en: 'Developing cross-platform mobile applications with React Native and Flutter for seamless user experiences.',
-      fr: 'Développement d\'applications mobiles multiplateformes avec React Native et Flutter pour des expériences utilisateur fluides.'
+      en: 'I develop cross-platform mobile apps with React Native and Flutter to ensure smooth user experiences.',
+      fr: 'Je développe des applications mobiles multiplateformes avec React Native et Flutter pour offrir une expérience utilisateur agréable.'
     }
   },
   {
@@ -262,11 +262,12 @@ const skills = [
       fr: 'Prompt Engineering'
     },
     description: {
-      en: 'Creating effective AI prompts and fine-tuning language models to generate intelligent, context-aware responses.',
-      fr: 'Création de prompts d\'IA efficaces et ajustement de modèles de langage pour générer des réponses intelligentes et contextuelles.'
+      en: 'I craft smart AI prompts and fine-tune language models to deliver context-aware responses.',
+      fr: 'Je crée des prompts réfléchis pour l’IA et ajuste les modèles de langage afin de générer des réponses pertinentes et adaptées au contexte.'
     }
   }
 ];
+
 
 // Function to render skills in the DOM with performance optimizations
 function loadSkills() {

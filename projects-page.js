@@ -313,7 +313,7 @@ function updateProjectsPageText(lang) {
   const translations = {
     en: {
       pageTitle: "My Projects",
-      pageSubtitle: "A comprehensive collection of my academic and personal projects, showcasing my journey and growth as a developer.",
+      pageSubtitle: "A comprehensive collection of my academic and personal projects.",
       allProjects: "All Projects",
       ai: "AI",
       webDev: "Web Development",
@@ -325,7 +325,7 @@ function updateProjectsPageText(lang) {
     },
     fr: {
       pageTitle: "Mes Projets",
-      pageSubtitle: "Une collection complète de mes projets académiques et personnels, illustrant mon parcours et ma progression en tant que développeur.",
+      pageSubtitle: "Une collection complète de mes projets académiques et personnels.",
       allProjects: "Tous les projets",
       ai: "IA",
       webDev: "Développement Web",
