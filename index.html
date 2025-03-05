@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guillaume Deramchi | Software & Prompt Engineer</title>
+  
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WZD39447CY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WZD39447CY');
+  </script>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Guillaume Deramchi - Software Engineer and AI Prompt Engineer specializing in creating elegant, high-performance applications and intelligent AI solutions.">
+  <meta name="keywords" content="software engineer, prompt engineer, web development, AI, frontend, backend, mobile development">
+  <meta name="author" content="Guillaume Deramchi">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://guillaumeDeramchi.com/">
+  
+  <!-- Performance: DNS Prefetch and Preconnect -->
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  
+  <!-- Open Graph / Facebook Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://guillaume18100.github.io/website/">
+  <meta property="og:title" content="Guillaume Deramchi | Software & Prompt Engineer">
+  <meta property="og:description" content="Specializing in creating elegant, high-performance applications and crafting intelligent AI prompts that solve real-world problems.">
+  <meta property="og:image" content="https://guillaume18100.github.io/website/images/profile-photo.webp">
+  
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://guillaume18100.github.io/website/">
+  <meta name="twitter:title" content="Guillaume Deramchi | Software & Prompt Engineer">
+  <meta name="twitter:description" content="Specializing in creating elegant applications and intelligent AI solutions.">
+  <meta name="twitter:image" content="https://guillaume18100.github.io/website/images/profile-photo.webp">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  
+  <!-- Optimize font loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS - Link directly without preload -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="overscroll-fix.css">
+  
+  <!-- Add Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  
+  <!-- Structured Data / Schema.org -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Guillaume Deramchi",
+      "url": "https://guillaumeDeramchi.com/",
+      "image": "https://guillaumeDeramchi.com/images/profile-photo.webp",
+      "sameAs": [
+        "https://github.com/Guillaume18100",
+        "https://www.linkedin.com/in/guillaume-deramchi/"
+      ],
+      "jobTitle": "Software & Prompt Engineer",
+      "description": "Software engineer and AI prompt engineer specializing in creating elegant applications and intelligent AI solutions.",
+      "knowsAbout": ["Software Engineering", "AI Prompt Engineering", "Frontend Development", "Backend Engineering", "Mobile Development"]
+    }
+  </script>
+  
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "https://guillaumeDeramchi.com/",
+      "name": "Guillaume Deramchi | Software & Prompt Engineer",
+      "description": "Portfolio website of Guillaume Deramchi, Software & Prompt Engineer",
+      "author": {
+        "@type": "Person",
+        "name": "Guillaume Deramchi"
+      }
+    }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Guillaume Deramchi",
+    "url": "https://guillaume18100.github.io/website/",
+    "image": "https://guillaume18100.github.io/website/images/profile-photo.webp",
+    "sameAs": [
+      "https://github.com/Guillaume18100",
+      "https://www.linkedin.com/in/guillaume-deramchi/"
+    ],
+    "alumniOf": {
+      "@type": "EducationalOrganization",
+      "name": "[Your University/School Name]",
+      "sameAs": "[University website URL]"
+    },
+    "description": "Computer Science Student & AI Enthusiast focusing on software development and prompt engineering",
+    "knowsAbout": ["Software Development", "AI Prompt Engineering", "Frontend Development", "Backend Engineering", "Mobile Development"]
+  }
+  </script>
+
+  <!-- Register service worker for offline caching -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+  </script>
+
+  <!-- EmailJS - Load with defer -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
+
+  <!-- Project data first -->
+  <script src="projects-data.js"></script>
+  
+  <!-- Common functionality -->
+  <script src="common.js"></script>
+  
+  <!-- Custom JavaScript - Load with defer -->
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <!-- Preloader -->
+  <div class="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Skip to content link for accessibility -->
+  <a href="#main-content" class="skip-to-content">Skip to content</a>
+
+  <!-- Header & Navigation -->
+  <header id="header">
+    <div class="container">
+      <nav aria-label="Main navigation">
+        <a href="#" class="logo" aria-label="Guillaume Deramchi homepage">Guillaume Deramchi</a>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+          <li>
+            <div class="language-switcher">
+              <button id="language-toggle" class="language-toggle" aria-label="Switch language">
+                <span class="lang-option active" data-lang="en">EN</span>
+                <span class="lang-divider">/</span>
+                <span class="lang-option" data-lang="fr">FR</span>
+              </button>
+            </div>
+          </li>
+          <li><button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+              <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path
+                  d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17Z"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 1V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 21V23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M4.22 4.22L5.64 5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M18.36 18.36L19.78 19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M1 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M21 12H23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M4.22 19.78L5.64 18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 A7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button></li>
+        </ul>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="nav-links" onclick="document.getElementById('nav-links').classList.toggle('active'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero" id="home" aria-label="Introduction">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">Computer Science Student & AI Enthusiast</h1>
+          <p class="hero-subtitle">
+            I'm a passionate student focusing on software development and AI prompt engineering, building projects that combine technical skills with creative problem-solving.
+          </p>
+          <div class="hero-buttons">
+            <a href="#projects" class="btn">View Projects</a>
+            <a href="#contact" class="btn btn-outline">Get in Touch</a>
+          </div>
+        </div>
+        <img src="images/profile-photo.webp" alt="Guillaume Deramchi - Computer Science Student" class="hero-image" width="320" height="320" fetchpriority="high">
+      </div>
+    </section>
+
+    <!-- Section Divider -->
+    <div class="section-divider">
+      <div class="divider-container">
+        <div class="divider-line-left"></div>
+        <div class="divider-circle">
+          <div class="divider-icon">👤</div>
+        </div>
+        <div class="divider-line-right"></div>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="about" id="about" aria-label="About Me">
+      <div class="container">
+        <h2 class="section-title reveal-text">About Me</h2>
+        <p class="section-subtitle reveal-text">
+          I'm combining my computer science education with practical projects to develop skills in software engineering and AI.
+        </p>
+
+        <div class="about-content">
+          <div class="about-text">
+            <div class="about-section fade-in">
+              <div class="section-icon">
+                <span class="icon-circle">🎓</span>
+              </div>
+              <div>
+                <h3 class="slide-in">Education</h3>
+                <p class="reveal-text">
+                  Currently pursuing my degree in Computer Science, with a focus on software development and artificial intelligence. I'm passionate about learning new technologies and applying them to real-world problems through hands-on projects.
+                </p>
+              </div>
+            </div>
+
+            <div class="about-section fade-in">
+              <div class="section-icon">
+                <span class="icon-circle">💡</span>
+              </div>
+              <div>
+                <h3 class="slide-in">My Interests</h3>
+                <p class="reveal-text">
+                  I'm particularly interested in how AI can enhance software applications and user experiences. My coursework and personal projects focus on creating clean, efficient code while exploring the capabilities of large language models through prompt engineering.
+                </p>
+              </div>
+            </div>
+
+            <div class="about-section fade-in">
+              <div class="section-icon">
+                <span class="icon-circle">🚀</span>
+              </div>
+              <div>
+                <h3 class="slide-in">Learning Path</h3>
+                <p class="reveal-text">
+                  I'm constantly expanding my technical toolkit through coursework and self-study in modern JavaScript frameworks, backend technologies including Node.js and Python, and mobile development. I'm also developing skills in AI prompt engineering to create more effective AI interactions.
+                </p>
+
+                <div class="expertise-areas">
+                  <div class="expertise-area">
+                    <span class="expertise-label">Frontend Development</span>
+                    <div class="expertise-bar">
+                      <div class="expertise-progress" style="width: 75%"></div>
+                    </div>
+                  </div>
+                  <div class="expertise-area">
+                    <span class="expertise-label">Backend Engineering</span>
+                    <div class="expertise-bar">
+                      <div class="expertise-progress" style="width: 70%"></div>
+                    </div>
+                  </div>
+                  <div class="expertise-area">
+                    <span class="expertise-label">AI Prompt Engineering</span>
+                    <div class="expertise-bar">
+                      <div class="expertise-progress" style="width: 80%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="decorative-line"></div>
+
+        <h3 class="skills-title slide-in">Core Skills</h3>
+        <div class="skills-container" id="skills-container">
+          <!-- Skills will be loaded dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Divider -->
+    <div class="section-divider">
+      <div class="divider-container">
+        <div class="divider-line-left"></div>
+        <div class="divider-circle">
+          <div class="divider-icon">🧑🏻‍💻</div>
+        </div>
+        <div class="divider-line-right"></div>
+      </div>
+    </div>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects" aria-label="My Projects">
+      <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-subtitle">
+          Highlighted projects from my portfolio showcasing my technical skills and problem-solving approach.
+        </p>
+        
+        <div class="projects-tree-container">
+          <div class="projects-tree" id="projects-tree">
+            <!-- Only 3 featured projects will be loaded here dynamically -->
+          </div>
+        </div>
+        
+        <div class="projects-cta">
+          <a href="projects.html" class="btn btn-lg projects-cta-btn">
+            <span>View All Projects</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        
+        <!-- Project modal for detailed view -->
+        <div id="project-modal" class="project-modal">
+          <div class="project-modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-content"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Divider -->
+    <div class="section-divider">
+      <div class="divider-container">
+        <div class="divider-line-left"></div>
+        <div class="divider-circle">
+          <div class="divider-icon">📧</div>
+        </div>
+        <div class="divider-line-right"></div>
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact" aria-label="Contact Information">
+      <div class="container">
+        <h2 class="section-title">Get in Touch</h2>
+        <p class="section-subtitle">
+          Let's discuss how we can work together on your next project.
+        </p>
+
+        <div class="contact-card" id="contact-card">
+          <div class="contact-header">
+            <h3 class="contact-title">Send a Message</h3>
+            <p>I'll get back to you as soon as possible.</p>
+          </div>
+          <div class="contact-content">
+            <form class="contact-form" id="contact-form" aria-label="Contact form">
+              <div class="form-group">
+                <label for="name" class="visually-hidden">Your Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+              </div>
+              <div class="form-group">
+                <label for="email" class="visually-hidden">Your Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+              </div>
+              <div class="form-group">
+                <label for="subject" class="visually-hidden">Subject</label>
+                <input type="text" class="form-control" id="subject" placeholder="Subject" required>
+              </div>
+              <div class="form-group">
+                <label for="message" class="visually-hidden">Your Message</label>
+                <textarea class="form-control" id="message" placeholder="Your Message" required></textarea>
+              </div>
+              <button type="submit" class="btn">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">Guillaume Deramchi</div>
+        <ul class="footer-links">
+          <li>
+            <a href="https://github.com/Guillaume18100" target="_blank" rel="noopener" aria-label="GitHub profile">
+              <i class="fab fa-github footer-social-icon github-icon"></i>
+              <span class="icon-label">GitHub</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/guillaume-deramchi/" target="_blank" rel="noopener" aria-label="LinkedIn profile">
+              <i class="fab fa-linkedin footer-social-icon linkedin-icon"></i>
+              <span class="icon-label">LinkedIn</span>
+            </a>
+          </li>
+        </ul>
+        <p class="footer-tagline">Computer Science Student & AI Enthusiast</p>
+      </div>
+      <div class="copyright">
+        &copy; 2025 Guillaume Deramchi. All rights reserved.
+      </div>
+    </div>
+    <!-- Scroll to top button -->
+    <button id="scroll-to-top" class="scroll-top-btn" aria-label="Scroll to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+  </footer>
+</body>
+
+</html>
