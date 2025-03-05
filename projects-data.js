@@ -6,8 +6,8 @@ const projects = [
   {
     name: "Doctolib AI Hackathon",
     description: {
-      en: "AI chatbot which helps general health practitioners with prevention strategies",
-      fr: "Chatbot IA qui aide les médecins généralistes avec des stratégies de prévention"
+      en: "AI chatbot which helps general health practitioners with prevention strategies based on data it will have collected from the patient",
+      fr: "Chatbot IA qui aide les médecins généralistes avec des stratégies de prévention basé sur les données qu'il aura récupérées du patient"
     },
     date: "2025",
     image: "images/projects/doctolib.webp",
