@@ -190,6 +190,47 @@ function initMobileMenu() {
   console.log("Mobile menu fully initialized");
 }
 
+// Lazy load images for better performance
+function initLazyLoadImages() {
+  if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          const src = img.getAttribute('data-src');
+          
+          if (src) {
+            // Set actual image source
+            img.src = src;
+            img.removeAttribute('data-src');
+            img.classList.add('lazy-loaded');
+            
+            // Stop observing after load
+            observer.unobserve(img);
+          }
+        }
+      });
+    }, {
+      rootMargin: '200px 0px', // Start loading 200px before they enter viewport
+      threshold: 0.01
+    });
+    
+    // Target all images with data-src attribute
+    document.querySelectorAll('img[data-src]').forEach(img => {
+      imageObserver.observe(img);
+    });
+  } else {
+    // Fallback for browsers without IntersectionObserver support
+    const lazyImages = document.querySelectorAll('img[data-src]');
+    
+    lazyImages.forEach(img => {
+      img.src = img.getAttribute('data-src');
+      img.removeAttribute('data-src');
+      img.classList.add('lazy-loaded');
+    });
+  }
+}
+
 // Initialize common functionality
 document.addEventListener('DOMContentLoaded', () => {
   handlePreloader();
@@ -201,4 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     initMobileMenu();
   }, 100);
+
+  // Initialize lazy loading
+  setTimeout(initLazyLoadImages, 100);
 });

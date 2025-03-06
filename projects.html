@@ -10,6 +10,12 @@
   <meta name="description" content="View all projects by Guillaume Deramchi - Software Engineer and AI Prompt Engineer showcasing a diverse portfolio of software and AI solutions.">
   <meta name="keywords" content="software projects, AI projects, programming portfolio, coding projects">
   <meta name="author" content="Guillaume Deramchi">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://guillaume18100.github.io/website/projects.html">
+  
+  <!-- Performance: DNS Prefetch and Preconnect -->
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   
   <!-- Open Graph / Social Media Tags -->
   <meta property="og:title" content="Projects | Guillaume Deramchi">
@@ -17,10 +23,27 @@
   <meta property="og:image" content="https://guillaume18100.github.io/website/images/projects-og.webp">
   <meta property="og:url" content="https://guillaume18100.github.io/website/projects.html">
   <meta property="og:type" content="website">
+  <meta property="og:image:alt" content="Guillaume Deramchi projects showcase">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Guillaume Deramchi Portfolio">
+  
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Projects | Guillaume Deramchi">
+  <meta name="twitter:description" content="Explore the complete portfolio of projects by Guillaume Deramchi.">
+  <meta name="twitter:image" content="https://guillaume18100.github.io/website/images/projects-og.webp">
+  <meta name="twitter:image:alt" content="Guillaume Deramchi projects showcase">
   
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#4299e1">
+  <meta name="msapplication-TileColor" content="#4299e1">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,6 +66,38 @@
   
   <!-- Scripts - ONLY load projects-page.js, not script.js -->
   <script src="projects-page.js" defer></script>
+  
+  <!-- Structured Data / Schema.org -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Projects | Guillaume Deramchi",
+      "description": "A comprehensive collection of software and AI projects by Guillaume Deramchi.",
+      "url": "https://guillaume18100.github.io/website/projects.html",
+      "author": {
+        "@type": "Person",
+        "name": "Guillaume Deramchi"
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+          {
+            "@type": "SoftwareSourceCode",
+            "name": "Doctolib AI Hackathon",
+            "description": "AI chatbot which helps general health practitioners with prevention strategies based on data it will have collected from the patient",
+            "codeRepository": "https://github.com/Guillaume18100/hackathon_doctolib"
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "name": "Adopte un Candidat",
+            "description": "Flutter mobile/web application connecting job candidates with companies",
+            "codeRepository": "https://github.com/algosup/2023-2024-project-5-flutter-team-1"
+          }
+        ]
+      }
+    }
+  </script>
 </head>
 
 <body>
