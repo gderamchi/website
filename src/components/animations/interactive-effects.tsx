@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
+import './interactive-effects.css'
 
 interface CursorTrailProps {
   color?: string
@@ -14,65 +15,21 @@ export const CursorTrail: React.FC<CursorTrailProps> = ({
   delay = 0.05,
   className,
 }) => {
-  const trailRef = useRef<HTMLDivElement>(null)
-  const mousePosition = useRef({ x: 0, y: 0 })
-  const trailElements = useRef<HTMLDivElement[]>([])
+  const getSizeClass = () => {
+    if (size <= 3) return 'trail-size-small'
+    if (size <= 5) return 'trail-size-medium'
+    return 'trail-size-large'
+  }
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mousePosition.current = { x: e.clientX, y: e.clientY }
-    }
-
-    const animateTrail = () => {
-      trailElements.current.forEach((element, index) => {
-        const targetX = mousePosition.current.x - size / 2
-        const targetY = mousePosition.current.y - size / 2
-
-        const currentX = parseFloat(element.style.left) || targetX
-        const currentY = parseFloat(element.style.top) || targetY
-
-        const deltaX = targetX - currentX
-        const deltaY = targetY - currentY
-
-        const easing = 0.2 - index * 0.02
-
-        element.style.left = `${currentX + deltaX * easing}px`
-        element.style.top = `${currentY + deltaY * easing}px`
-        element.style.opacity = `${0.8 - index * 0.1}`
-        element.style.transform = `scale(${1 - index * 0.1})`
-      })
-
-      requestAnimationFrame(animateTrail)
-    }
-
-    // Create trail elements
-    if (trailRef.current) {
-      for (let i = 0; i < 8; i++) {
-        const element = document.createElement('div')
-        element.className = `absolute pointer-events-none rounded-full ${className || ''}`
-        element.style.width = `${size}px`
-        element.style.height = `${size}px`
-        element.style.background = color
-        element.style.position = 'fixed'
-        element.style.zIndex = '9999'
-        element.style.mixBlendMode = 'multiply'
-        
-        trailRef.current.appendChild(element)
-        trailElements.current.push(element)
-      }
-    }
-
-    window.addEventListener('mousemove', handleMouseMove)
-    animateTrail()
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      trailElements.current.forEach(element => element.remove())
-      trailElements.current = []
-    }
-  }, [color, size, delay, className])
-
-  return <div ref={trailRef} className="pointer-events-none" />
+  return (
+    <div className={`cursor-trail-container ${getSizeClass()} ${className || ''}`}>
+      {/* Simple trail effect using CSS animations */}
+      <div className="cursor-trail-element opacity-80" />
+      <div className="cursor-trail-element opacity-70" />
+      <div className="cursor-trail-element opacity-60" />
+      <div className="cursor-trail-element opacity-50" />
+    </div>
+  )
 }
 
 interface FloatingParticlesProps {
@@ -91,7 +48,8 @@ export const FloatingParticles: React.FC<FloatingParticlesProps> = ({
       {particles.map((i) => (
         <motion.div
           key={i}
-          className="absolute w-1 h-1 bg-accent/30 rounded-full"
+          className="absolute w-1 h-1 bg-accent/30 rounded-full floating-particle"
+          data-delay={i * 0.5}
           initial={{
             x: Math.random() * window.innerWidth,
             y: Math.random() * window.innerHeight,
@@ -105,9 +63,6 @@ export const FloatingParticles: React.FC<FloatingParticlesProps> = ({
             repeat: Infinity,
             repeatType: 'reverse',
             ease: 'easeInOut',
-          }}
-          style={{
-            animationDelay: `${i * 0.5}s`,
           }}
         />
       ))}
@@ -138,11 +93,20 @@ export const MorphingShape: React.FC<MorphingShapeProps> = ({
     },
   }
 
-  const shapes = Object.keys(pathVariants)
+  const getSizeClass = () => {
+    if (size <= 75) return 'shape-size-small'
+    if (size <= 125) return 'shape-size-medium'
+    return 'shape-size-large'
+  }
 
   return (
-    <div className={`relative ${className || ''}`} style={{ width: size, height: size }}>
-      <svg width={size} height={size} viewBox="0 0 100 100" className="absolute inset-0">
+    <div className={`relative morphing-shape-container ${getSizeClass()} ${className || ''}`}>
+      <svg 
+        width={size} 
+        height={size} 
+        viewBox="0 0 100 100" 
+        className="absolute inset-0 morphing-shape-svg"
+      >
         <motion.path
           fill={color}
           fillOpacity={0.6}
@@ -153,9 +117,7 @@ export const MorphingShape: React.FC<MorphingShapeProps> = ({
             repeatType: 'loop',
             ease: 'easeInOut',
           }}
-          style={{
-            filter: 'blur(1px)',
-          }}
+          className="morphing-path-blur"
         />
       </svg>
       <motion.div

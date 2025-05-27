@@ -434,9 +434,11 @@ interface BreathingEffectOptions {
   duration?: number
 }
 
-export const useBreathingEffect = (options: BreathingEffectOptions = {}) => {
+export const useBreathingEffect = <T extends HTMLElement = HTMLDivElement>(
+  options: BreathingEffectOptions = {}
+) => {
   const { intensity = 0.05, duration = 2000 } = options
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<T>(null)
 
   useEffect(() => {
     if (!ref.current || prefersReducedMotion()) return

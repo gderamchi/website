@@ -1,0 +1,92 @@
+/* Interactive Effects Component Styles */
+
+.cursor-trail-element {
+  position: fixed;
+  z-index: 9999;
+  mix-blend-mode: multiply;
+  border-radius: 50%;
+  pointer-events: none;
+  width: var(--trail-size, 4px);
+  height: var(--trail-size, 4px);
+  background: var(--trail-color, rgb(59, 130, 246));
+  left: var(--trail-x, 0);
+  top: var(--trail-y, 0);
+  opacity: var(--trail-opacity, 1);
+  transform: scale(var(--trail-scale, 1));
+}
+
+.morphing-shape-container {
+  width: var(--shape-size);
+  height: var(--shape-size);
+}
+
+.morphing-shape-svg {
+  width: var(--shape-size);
+  height: var(--shape-size);
+}
+
+.morphing-path-blur {
+  filter: blur(1px);
+}
+
+.floating-particle {
+  animation-delay: calc(var(--particle-delay, 0) * 1s);
+}
+
+.floating-particle[data-delay="0"] {
+  animation-delay: 0s;
+}
+
+.floating-particle[data-delay="0.5"] {
+  animation-delay: 0.5s;
+}
+
+.floating-particle[data-delay="1"] {
+  animation-delay: 1s;
+}
+
+.floating-particle[data-delay="1.5"] {
+  animation-delay: 1.5s;
+}
+
+.floating-particle[data-delay="2"] {
+  animation-delay: 2s;
+}
+
+.floating-particle[data-delay="2.5"] {
+  animation-delay: 2.5s;
+}
+
+/* Trail container */
+.cursor-trail-container {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Size variants for different trail sizes */
+.trail-size-small {
+  --trail-size: 2px;
+}
+
+.trail-size-medium {
+  --trail-size: 4px;
+}
+
+.trail-size-large {
+  --trail-size: 6px;
+}
+
+/* Shape size variants */
+.shape-size-small {
+  --shape-size: 50px;
+}
+
+.shape-size-medium {
+  --shape-size: 100px;
+}
+
+.shape-size-large {
+  --shape-size: 150px;
+}

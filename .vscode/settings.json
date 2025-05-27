@@ -1,3 +1,26 @@
 {
-    "chat.tools.autoApprove": true
+    "chat.tools.autoApprove": true,
+    "css.validate": false,
+    "less.validate": false,
+    "scss.validate": false,
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    "editor.quickSuggestions": {
+        "strings": true
+    },
+    "css.customData": [".vscode/css_custom_data.json"],
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact",
+        "typescript": "typescriptreact"
+    },
+    "tailwindCSS.includeLanguages": {
+        "html": "html",
+        "javascript": "javascript",
+        "css": "css"
+    },
+    "tailwindCSS.experimental.classRegex": [
+        "class[:]\\s*['\"`]([^'\"`]*)['\"`]",
+        "className[:]\\s*['\"`]([^'\"`]*)['\"`]"
+    ]
 }

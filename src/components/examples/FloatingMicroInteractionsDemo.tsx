@@ -16,7 +16,7 @@ const FloatingMicroInteractionsDemo: React.FC<FloatingDemoProps> = ({
   // Micro-interaction hooks
   const magneticRef = useMagneticEffect<HTMLButtonElement>({ strength: 0.4, threshold: 60 })
   const { triggerRipple, ripples } = useRippleEffect()
-  const breathingRef = useBreathingEffect({ intensity: 0.08, duration: 1500 })
+  const breathingRef = useBreathingEffect<HTMLButtonElement>({ intensity: 0.08, duration: 1500 })
 
   const demos = [
     {

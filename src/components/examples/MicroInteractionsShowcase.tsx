@@ -23,9 +23,9 @@ export const MicroInteractionsShowcase: React.FC<MicroInteractionsShowcaseProps>
   const [activeDemo, setActiveDemo] = useState<string | null>(null)
 
   // Micro-interaction hooks
-  const magneticRef = useMagneticEffect({ strength: 0.3, threshold: 50 })
+  const magneticRef = useMagneticEffect<HTMLButtonElement>({ strength: 0.3, threshold: 50 })
   const { triggerRipple, ripples } = useRippleEffect()
-  const breathingRef = useBreathingEffect({ intensity: 1.05, duration: 2000 })
+  const breathingRef = useBreathingEffect<HTMLDivElement>({ intensity: 1.05, duration: 2000 })
   const { ref: staggerRef, triggerStagger } = useStaggerReveal('.stagger-item', { delay: 0.1 })
 
   const accordionItems = [
