@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro'
+import HeroSection from '../components/HeroSection'
+import ProjectsSection from '../components/ProjectsSection'
+import { getLangFromUrl, useTranslations } from '../i18n/ui'
+import { getFeaturedProjects } from '../data/projects'
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+const featuredProjects = getFeaturedProjects()
+---
+
+<Layout title={t('hero.title')} lang={lang}>
+  <HeroSection
+    title={t('hero.title')}
+    subtitle={t('hero.subtitle')}
+    description={t('hero.description')}
+    ctaProjects={t('hero.cta.projects')}
+    ctaContact={t('hero.cta.contact')}
+    lang={lang}
+    client:load
+  />
+  
+  <ProjectsSection
+    title={t('projects.title')}
+    projects={featuredProjects}
+    viewAllText={t('projects.viewAll')}
+    lang={lang}
+    client:load
+  />
+</Layout>

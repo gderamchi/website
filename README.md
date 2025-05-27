@@ -1,110 +1,47 @@
-# Guillaume Deramchi - Personal Portfolio Website
+# Astro Starter Kit: Minimal
 
-This repository contains the code for my personal portfolio website, showcasing my projects, skills, and experience as a Software & AI Prompt Engineer.
-
-## 🌐 Live Demo
-
-Visit the website: [guillaume18100.github.io/website](https://guillaume18100.github.io/website/)
-
-## ✨ Features
-
-- **Responsive Design**: Mobile-first approach ensuring perfect display on all devices
-- **Dark/Light Mode**: User preference-based theme switching
-- **Bilingual**: English and French language support
-- **Fast Loading**: Optimized assets and lazy loading for better performance
-- **Offline Capabilities**: Service worker implementation for offline browsing
-- **Accessibility**: WCAG compliance for better accessibility
-- **SEO Optimized**: Meta tags and structured data for better search engine ranking
-
-## 🛠️ Technologies Used
-
-- HTML5, CSS3, JavaScript (Vanilla)
-- Responsive design using CSS Grid and Flexbox
-- Service Workers for offline functionality
-- Font Awesome for icons
-- Structured data (schema.org) for SEO
-
-## 📂 Project Structure
-
+```sh
+npm create astro@latest -- --template minimal
 ```
+
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
+[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+
+## 🚀 Project Structure
+
+Inside of your Astro project, you'll see the following folders and files:
+
+```text
 /
-├── index.html                # Main landing page
-├── projects.html             # Projects showcase page
-├── 404.html                  # Custom 404 error page
-├── style.css                 # Main stylesheet
-├── projects-page.css         # Projects page specific styles
-├── overscroll-fix.css        # Fixes for overscroll behavior
-├── common.js                 # Shared JavaScript functionality
-├── script.js                 # Main JavaScript file
-├── projects-page.js          # Projects page specific JavaScript
-├── projects-data.js          # Projects data
-├── service-worker.js         # Service worker for offline caching
-├── site.webmanifest          # Web app manifest
-├── robots.txt                # Instructions for web crawlers
-├── sitemap.xml               # XML sitemap for search engines
-├── .htaccess                 # Server configuration (for Apache)
-├── images/                   # Image assets
-│   ├── profile-photo.webp    # Profile photo
-│   ├── projects/             # Project screenshots
-│   └── favicon files         # Various favicon formats
-└── .github/workflows/        # GitHub Actions workflows
-    └── security-headers.yml  # Add security headers to deployed site
+├── public/
+├── src/
+│   └── pages/
+│       └── index.astro
+└── package.json
 ```
 
-## 🚀 Getting Started
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Guillaume18100/website.git
-   ```
+There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
 
-2. Open the project in your code editor
+Any static assets, like images, can be placed in the `public/` directory.
 
-3. Launch with a local server:
-   ```bash
-   # Using Python
-   python -m http.server
+## 🧞 Commands
 
-   # Or using Node.js with http-server
-   npx http-server
-   ```
+All commands are run from the root of the project, from a terminal:
 
-4. Visit `http://localhost:8000` in your browser
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-## 🌙 Dark Mode
+## 👀 Want to learn more?
 
-The website includes dark mode support that:
-- Respects user system preferences
-- Allows manual toggling
-- Persists user choice across sessions
-
-## 🔄 Language Support
-
-- English (default)
-- French
-- Language preference is saved in localStorage
-
-## 🔍 SEO Implementation
-
-- Meta tags optimized for search engines
-- Open Graph and Twitter card support
-- Structured data using Schema.org
-- XML sitemap
-- Canonical URLs
-
-## 📱 PWA Support
-
-The website can be installed as a Progressive Web App with:
-- Custom icons
-- Offline functionality
-- App-like experience
-
-## 👨‍💻 Author
-
-**Guillaume Deramchi**
-- GitHub: [@Guillaume18100](https://github.com/Guillaume18100)
-- LinkedIn: [Guillaume Deramchi](https://www.linkedin.com/in/guillaume-deramchi/)
-
-## 📄 License
-
-This project is licensed under the MIT License
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

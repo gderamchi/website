@@ -1,0 +1,94 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/ui'
+import '../styles/globals.css'
+
+export interface Props {
+  title: string
+  description?: string
+  image?: string
+  lang?: string
+}
+
+const { title, description, image, lang } = Astro.props
+const currentLang = lang || getLangFromUrl(Astro.url)
+const t = useTranslations(currentLang)
+
+const siteTitle = `${title} | Guillaume Deramchi`
+const siteDescription = description || t('hero.description')
+const siteImage = image || '/images/profile-photo.webp'
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+---
+
+<!doctype html>
+<html lang={currentLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={siteDescription} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{siteTitle}</title>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={siteDescription} />
+    <meta property="og:image" content={new URL(siteImage, Astro.site)} />
+    <meta property="og:locale" content={currentLang === 'fr' ? 'fr_FR' : 'en_US'} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={siteTitle} />
+    <meta name="twitter:description" content={siteDescription} />
+    <meta name="twitter:image" content={new URL(siteImage, Astro.site)} />
+
+    <!-- Performance optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Accessibility -->
+    <meta name="theme-color" content="hsl(220.9 39.3% 11%)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WZD39447CY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-WZD39447CY');
+    </script>
+  </head>
+  <body>
+    <!-- Skip to content link for screen readers -->
+    <a href="#main-content" class="skip-link">{t('skip.content')}</a>
+    
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <!-- Theme and reduced motion detection -->
+    <script is:inline>
+      // Detect user preference for reduced motion
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+      
+      if (prefersReducedMotion.matches) {
+        document.documentElement.classList.add('reduce-motion')
+      }
+
+      // Listen for changes in motion preference
+      prefersReducedMotion.addEventListener('change', (e) => {
+        if (e.matches) {
+          document.documentElement.classList.add('reduce-motion')
+        } else {
+          document.documentElement.classList.remove('reduce-motion')
+        }
+      })
+    </script>
+  </body>
+</html>
