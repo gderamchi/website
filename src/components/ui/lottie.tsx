@@ -1,16 +1,14 @@
-import React, { useState } from 'react'
-import { DotLottieReact } from '@lottiefiles/dotlottie-react'
-import { cn } from '@/lib/utils'
+import React from 'react'
+import { cn } from '../../lib/utils'
 
 interface LottieAnimationProps {
-  animationData: any
+  animationData?: any
   className?: string
   autoplay?: boolean
   loop?: boolean
   speed?: number
   direction?: 1 | -1
   onComplete?: () => void
-  style?: React.CSSProperties
 }
 
 export const LottieAnimation: React.FC<LottieAnimationProps> = ({
@@ -21,30 +19,11 @@ export const LottieAnimation: React.FC<LottieAnimationProps> = ({
   speed = 1,
   direction = 1,
   onComplete,
-  style,
 }) => {
-  const [error, setError] = useState<string | null>(null)
-
-  const handleLoadError = () => {
-    setError('Failed to load animation')
-  }
-
-  if (error) {
-    return (
-      <div className={cn("w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/5 rounded-2xl", className)} style={style}>
-        <div className="text-center space-y-4">
-          <div className="w-20 h-20 bg-gradient-to-br from-primary/30 to-secondary/20 rounded-full mx-auto flex items-center justify-center animate-pulse shadow-lg">
-            <span className="text-3xl animate-bounce">⚡</span>
-          </div>
-          <p className="text-sm text-muted-foreground font-medium">Interactive Animation</p>
-        </div>
-      </div>
-    )
-  }
-
-  // For regular JSON animation data, we'll fallback to our enhanced placeholder
+  // For now, we'll use a beautiful placeholder instead of actual Lottie
+  // This removes the dependency on @lottiefiles/dotlottie-react
   return (
-    <div className={cn("w-full h-full relative", className)} style={style}>
+    <div className={cn("w-full h-full relative", className)}>
       <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 via-secondary/5 to-primary/5 rounded-2xl overflow-hidden">
         <div className="text-center space-y-6 relative">
           {/* Main animated element */}
@@ -52,14 +31,18 @@ export const LottieAnimation: React.FC<LottieAnimationProps> = ({
             <span className="text-5xl animate-bounce">⚡</span>
           </div>
           
-          {/* Orbiting elements */}
-          <div className="relative">
-            <div className="absolute -top-4 -right-4 w-4 h-4 bg-primary/40 rounded-full animate-ping"></div>
-            <div className="absolute -bottom-2 -left-6 w-3 h-3 bg-secondary/50 rounded-full animate-pulse"></div>
-            <div className="absolute top-2 -left-8 w-2 h-2 bg-accent/60 rounded-full animate-bounce"></div>
+          {/* Text */}
+          <div className="space-y-2">
+            <p className="text-lg font-semibold text-foreground">Interactive Animation</p>
+            <p className="text-sm text-muted-foreground">Hero Animation Placeholder</p>
           </div>
           
-          <p className="text-muted-foreground font-medium tracking-wide">Hero Animation</p>
+          {/* Orbiting elements */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-primary/40 rounded-full animate-ping"></div>
+            <div className="absolute top-1/3 right-1/4 w-2 h-2 bg-accent/60 rounded-full animate-pulse delay-150"></div>
+            <div className="absolute bottom-1/3 left-1/3 w-4 h-4 bg-secondary/30 rounded-full animate-bounce delay-300"></div>
+          </div>
         </div>
       </div>
     </div>

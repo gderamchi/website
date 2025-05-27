@@ -1,8 +1,8 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Button } from './ui/button'
+import { Button } from '../ui'
 import { Github, ExternalLink } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib'
 
 interface ProjectCardProps {
   name: string

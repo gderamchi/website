@@ -1,9 +1,9 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import ProjectCard from './ProjectCard'
-import { Button } from './ui/button'
+import { ProjectCard } from '../cards'
+import { Button } from '../ui'
 import { ArrowRight } from 'lucide-react'
-import type { Project } from '@/data/projects'
+import type { Project } from '../../data/projects'
 
 interface ProjectsSectionProps {
   title: string

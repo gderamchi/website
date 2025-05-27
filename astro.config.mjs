@@ -18,13 +18,8 @@ export default defineConfig({
     assets: 'assets'
   },
   vite: {
-    resolve: {
-      alias: {
-        '@': new URL('./src', import.meta.url).pathname
-      }
-    },
     optimizeDeps: {
-      include: ['lottie-react', 'framer-motion']
+      include: ['framer-motion']
     }
   }
 });

@@ -1,17 +1,11 @@
 import { defineConfig } from 'vite'
-import { resolve } from 'path'
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, './src')
-    }
-  },
   ssr: {
-    noExternal: ['motion', 'lottie-react', 'framer-motion']
+    noExternal: ['motion', 'framer-motion']
   },
   optimizeDeps: {
-    include: ['lottie-react', 'framer-motion', 'lucide-react']
+    include: ['framer-motion', 'lucide-react']
   },
   build: {
     rollupOptions: {
@@ -19,8 +13,7 @@ export default defineConfig({
         manualChunks: {
           'vendor-react': ['react', 'react-dom'],
           'vendor-motion': ['framer-motion'],
-          'vendor-ui': ['lucide-react', '@radix-ui/react-slot'],
-          'vendor-lottie': ['lottie-react']
+          'vendor-ui': ['lucide-react', '@radix-ui/react-slot']
         }
       }
     },

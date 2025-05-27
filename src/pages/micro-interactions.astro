@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { getLangFromUrl, useTranslations } from '../i18n/ui'
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+---
+
+<Layout title={`${t('hero.title')} - Micro-Interactions Demo`} lang={lang}>
+  <main class="min-h-screen bg-background">
+    <div id="micro-interactions-demo"></div>
+  </main>
+</Layout>
+
+<script>
+  import { MicroInteractionsShowcase } from '../components/examples'
+  import { createRoot } from 'react-dom/client'
+  import React from 'react'
+
+  // Get language from URL
+  const lang = window.location.pathname.startsWith('/fr') ? 'fr' : 'en'
+  
+  // Mount the React component
+  const container = document.getElementById('micro-interactions-demo')
+  if (container) {
+    const root = createRoot(container)
+    root.render(React.createElement(MicroInteractionsShowcase, { lang }))
+  }
+</script>

@@ -162,11 +162,29 @@
 
 @layer utilities {
   .text-balance {
-    text-wrap: balance;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  @supports (text-wrap: balance) {
+    .text-balance {
+      text-wrap: balance;
+      text-align: initial;
+    }
   }
 
   .text-pretty {
-    text-wrap: pretty;
+    text-align: left;
+    line-height: 1.6;
+    word-spacing: 0.1em;
+  }
+
+  @supports (text-wrap: pretty) {
+    .text-pretty {
+      text-wrap: pretty;
+      text-align: initial;
+      word-spacing: initial;
+    }
   }
 
   /* Skip link for screen readers */

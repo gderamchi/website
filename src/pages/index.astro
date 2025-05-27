@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro'
-import HeroSection from '../components/HeroSection'
-import ProjectsSection from '../components/ProjectsSection'
+import HeroSection from '../components/sections/HeroSection'
+import ProjectsSection from '../components/sections/ProjectsSection'
 import { getLangFromUrl, useTranslations } from '../i18n/ui'
 import { getFeaturedProjects } from '../data/projects'
 
@@ -28,4 +28,23 @@ const featuredProjects = getFeaturedProjects()
     lang={lang}
     client:load
   />
+
+  <!-- Floating Micro-Interactions Demo -->
+  <div id="floating-demo"></div>
 </Layout>
+
+<script>
+  import { FloatingMicroInteractionsDemo } from '../components/examples'
+  import { createRoot } from 'react-dom/client'
+  import React from 'react'
+
+  // Get language from URL
+  const lang = window.location.pathname.startsWith('/fr') ? 'fr' : 'en'
+  
+  // Mount the floating demo component
+  const container = document.getElementById('floating-demo')
+  if (container) {
+    const root = createRoot(container)
+    root.render(React.createElement(FloatingMicroInteractionsDemo, { lang }))
+  }
+</script>
