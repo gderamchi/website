@@ -4,7 +4,7 @@ This repository contains the code for my personal portfolio website, showcasing 
 
 ## 🌐 Live Demo
 
-Visit the website: [guillaume18100.github.io/website](https://guillaume18100.github.io/website/)
+Visit the [website](https://gderamchi.github.io/website/)
 
 ## ✨ Features
 
