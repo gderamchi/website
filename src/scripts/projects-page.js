@@ -23,8 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Setup modal
   setupModal();
   
-  // Update stats
-  updateStats();
+  // Note: updateStats() is called inside loadProjects(), no need to call it again here
 });
 
 /**
@@ -42,6 +41,7 @@ function loadProjects() {
   
   allProjects = projects;
   console.log(`Found ${allProjects.length} projects`);
+  console.log('Projects array:', allProjects);
   
   // Display projects
   displayProjects(allProjects);
@@ -280,21 +280,54 @@ function updateStats() {
     });
     animateNumber(techEl, 0, uniqueTechs.size, 1000);
   }
+  
+  // Calculate years active
+  const yearsEl = document.getElementById('years-active');
+  if (yearsEl) {
+    const years = calculateYearsActive();
+    yearsEl.textContent = years;
+  }
+}
+
+/**
+ * Calculate years active based on project dates
+ */
+function calculateYearsActive() {
+  const currentYear = new Date().getFullYear();
+  let earliestYear = currentYear;
+  
+  allProjects.forEach(project => {
+    if (project.date && project.date !== 'NaN') {
+      const year = parseInt(project.date);
+      if (!isNaN(year) && year < earliestYear) {
+        earliestYear = year;
+      }
+    }
+  });
+  
+  const yearsActive = currentYear - earliestYear + 1;
+  return yearsActive > 1 ? `${yearsActive}+` : '1';
 }
 
 /**
  * Animate number counting
  */
 function animateNumber(element, start, end, duration) {
+  // Clear any existing animation timer on this element
+  if (element._animationTimer) {
+    clearInterval(element._animationTimer);
+  }
+  
   const range = end - start;
   const increment = range / (duration / 16);
   let current = start;
   
-  const timer = setInterval(() => {
+  element._animationTimer = setInterval(() => {
     current += increment;
     if (current >= end) {
       current = end;
-      clearInterval(timer);
+      clearInterval(element._animationTimer);
+      element._animationTimer = null;
     }
     element.textContent = Math.floor(current);
   }, 16);
