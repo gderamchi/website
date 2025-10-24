@@ -293,7 +293,7 @@ function createProjectCard(project, lang) {
   card.innerHTML = `
     <div class="project-image-container">
       ${project.date ? `<div class="project-overlay-badge">${project.date}</div>` : ''}
-      <img src="${project.image || 'images/projects/default.webp'}" alt="${project.title || project.name}" class="project-image">
+      <img src="${project.image || 'src/assets/images/projects/default.webp'}" alt="${project.title || project.name}" class="project-image">
     </div>
     <div class="project-content">
       <h3 class="project-title">${project.title || project.name.replace(/-/g, ' ')}</h3>

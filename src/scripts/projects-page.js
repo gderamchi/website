@@ -86,6 +86,9 @@ function displayProjects(projectsToDisplay) {
     const card = createProjectCard(project, index);
     grid.appendChild(card);
   });
+  
+  // Make grid visible
+  grid.classList.add('visible');
 }
 
 /**
@@ -116,7 +119,7 @@ function createProjectCard(project, index) {
   card.innerHTML = `
     <div class="project-image-container">
       <img 
-        src="${project.image || 'images/projects/default.webp'}" 
+        src="${project.image || 'src/assets/images/projects/default.webp'}" 
         alt="${escapeHtml(project.title || project.name)}"
         class="project-image"
         loading="lazy"
@@ -345,7 +348,7 @@ function openModal(project) {
   modalBody.innerHTML = `
     <div class="modal-header">
       <img 
-        src="${project.image || 'images/projects/default.webp'}" 
+        src="${project.image || 'src/assets/images/projects/default.webp'}" 
         alt="${escapeHtml(project.title || project.name)}"
         class="modal-image"
       />
