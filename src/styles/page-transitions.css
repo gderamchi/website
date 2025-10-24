@@ -1,0 +1,287 @@
+/* Page Transitions and Enhanced Interactions */
+
+/* Smooth page load */
+body {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+/* Ripple effect for buttons */
+.btn,
+.btn-primary,
+.btn-secondary,
+.project-btn-primary,
+.modal-btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(0);
+  animation: ripple-animation 0.6s ease-out;
+  pointer-events: none;
+}
+
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Bounce animation for social icons */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.social-link:hover i {
+  animation: bounce 0.5s ease;
+}
+
+/* Loading skeleton for images */
+.image-loading {
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-secondary) 25%,
+    var(--color-bg-tertiary) 50%,
+    var(--color-bg-secondary) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading-skeleton 1.5s infinite;
+}
+
+@keyframes loading-skeleton {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.image-loaded {
+  animation: fade-in 0.4s ease;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.image-error {
+  background: var(--color-bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-error::after {
+  content: '⚠️ Image failed to load';
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  padding: var(--space-4);
+}
+
+/* Enhanced card hover transitions */
+.project-card,
+.project-card-full,
+.bento-item {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth focus states */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  transition: outline-offset 0.2s ease;
+}
+
+/* Enhanced button states */
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* Smooth link underlines */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-primary);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+  
+  .ripple {
+    display: none;
+  }
+}
+
+/* Loading state for project cards */
+.project-card.loading,
+.project-card-full.loading {
+  pointer-events: none;
+}
+
+.project-card.loading .project-content,
+.project-card-full.loading .project-content-full {
+  opacity: 0.5;
+}
+
+/* Smooth image transitions */
+.project-image,
+.project-image-full {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+.project-image.loading,
+.project-image-full.loading {
+  opacity: 0;
+}
+
+/* Enhanced hover glow effect */
+.project-card:hover,
+.bento-item:hover {
+  box-shadow: 
+    var(--shadow-2xl),
+    0 0 30px rgba(99, 102, 241, 0.2);
+}
+
+/* Smooth color transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+/* Override for elements that shouldn't have color transitions */
+.project-image,
+.project-image-full,
+canvas,
+video {
+  transition-property: transform, opacity;
+}
+
+/* Pulse animation for loading states */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.loading-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Smooth modal transitions */
+.project-modal {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-content {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+/* Enhanced scroll indicator */
+.scroll-indicator {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+/* Smooth header transitions */
+header {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+header.scrolled {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Enhanced form focus states */
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  transition: all 0.2s ease;
+}
+
+/* Smooth tag hover effects */
+.tag:hover,
+.modal-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+/* Enhanced footer link hovers */
+.footer-link:hover {
+  color: var(--color-primary);
+  transform: translateX(4px);
+  transition: all 0.2s ease;
+}
+
+/* Smooth stat number animations */
+.stat-number {
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover .stat-number {
+  transform: scale(1.1);
+}
