@@ -1,6 +1,12 @@
 name: Sync Portfolio Projects
 
 on:
+  # Trigger on every push to main/master branch
+  push:
+    branches:
+      - main
+      - master
+  
   # Run every Sunday at midnight UTC
   schedule:
     - cron: '0 0 * * 0'
