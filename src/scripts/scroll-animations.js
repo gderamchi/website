@@ -132,6 +132,12 @@ class ScrollAnimations {
    * Counter animations for statistics
    */
   setupCounterAnimations() {
+    // Skip counter animations on projects page - handled by projects-page.js
+    if (window.location.pathname.includes('projects.html')) {
+      console.log('[Scroll Animations] Skipping counter animations on projects page');
+      return;
+    }
+    
     const counters = document.querySelectorAll('.stat-value, .stat-number');
     
     const counterObserver = new IntersectionObserver((entries) => {
