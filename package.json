@@ -2,6 +2,7 @@
   "name": "guillaume-deramchi-portfolio",
   "version": "2.0.0",
   "description": "Modern portfolio with AI-powered GitHub automation",
+  "type": "module",
   "scripts": {
     "sync": "node scripts/sync-portfolio.js",
     "ai-sync": "node scripts/ai-sync-portfolio.js",
@@ -19,7 +20,9 @@
   "author": "Guillaume Deramchi",
   "license": "MIT",
   "dependencies": {
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "node-fetch": "^3.3.2",
+    "canvas": "^2.11.2"
   },
   "devDependencies": {}
 }
