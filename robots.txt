@@ -1,8 +1,43 @@
+# robots.txt for Guillaume Deramchi Portfolio
+# https://guisamder.netlify.app/
+
 User-agent: *
 Allow: /
+Allow: /index.html
+Allow: /projects.html
+Allow: /chat.html
+Allow: /images/
+Allow: /src/
 
-# Block specific folders that might contain dev files
-Disallow: /.github/
+# Disallow admin and config files
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /archive/
+Disallow: /docs/
+Disallow: /.env
+Disallow: /netlify/
 
 # Sitemap location
-Sitemap: https://guillaume18100.github.io/website/sitemap.xml
+Sitemap: https://guisamder.netlify.app/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
