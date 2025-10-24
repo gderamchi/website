@@ -1,28 +1,20 @@
 {
-  "name": "guillaume-deramchi-portfolio",
-  "version": "2.0.0",
-  "description": "Modern portfolio with AI-powered GitHub automation",
-  "type": "module",
+  "name": "guillaume-portfolio",
+  "version": "1.0.0",
+  "description": "Guillaume Deramchi's Portfolio Website",
   "scripts": {
-    "sync": "node scripts/sync-portfolio.js",
-    "sync:incremental": "node scripts/incremental-sync.js",
-    "ai-sync": "node scripts/ai-sync-portfolio.js",
-    "webhook": "node scripts/webhook-server.js",
-    "generate-images": "node scripts/generate-project-image.js",
-    "dev": "python3 -m http.server 8000",
-    "test": "node scripts/test-sync.js"
+    "dev": "netlify dev",
+    "build": "echo 'Static site - no build needed'",
+    "deploy": "netlify deploy --prod"
   },
   "keywords": [
     "portfolio",
-    "github-automation",
-    "ai-powered",
-    "web-development"
+    "ai",
+    "chatbot"
   ],
   "author": "Guillaume Deramchi",
   "license": "MIT",
-  "dependencies": {
-    "dotenv": "^16.3.1",
-    "node-fetch": "^3.3.2"
-  },
-  "devDependencies": {}
+  "devDependencies": {
+    "netlify-cli": "^17.38.1"
+  }
 }
