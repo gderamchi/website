@@ -141,6 +141,12 @@ class ScrollAnimations {
     
     const counters = document.querySelectorAll('.stat-value, .stat-number');
     
+    // Don't set up observer if no counters found
+    if (counters.length === 0) {
+      console.log('[Scroll Animations] No counters found');
+      return;
+    }
+    
     const counterObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -149,6 +155,16 @@ class ScrollAnimations {
           // Skip if already animated (prevents double animation)
           if (target.dataset.animated === 'true') {
             console.log('[Scroll Animations] Counter already animated, skipping:', target.id);
+            counterObserver.unobserve(target);
+            return;
+          }
+          
+          // Skip if element already has a non-zero value (was animated by another script)
+          const currentValue = parseInt(target.textContent.replace(/\D/g, '')) || 0;
+          if (currentValue > 0) {
+            console.log('[Scroll Animations] Counter already has value, marking as animated:', target.id);
+            target.dataset.animated = 'true';
+            counterObserver.unobserve(target);
             return;
           }
           
