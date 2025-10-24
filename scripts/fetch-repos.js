@@ -190,6 +190,11 @@ export async function fetchGitHubRepos(username, token = null, organizations = [
         return true;
       }
       
+      // Include owned repos even without description (they likely have README)
+      if (!repo.fork && repo.owner?.login === username) {
+        return true;
+      }
+      
       return false;
     });
     
