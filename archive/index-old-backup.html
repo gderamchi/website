@@ -56,19 +56,19 @@
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="manifest" href="site.webmanifest">
-  <meta name="theme-color" content="#6366f1">
-  <meta name="msapplication-TileColor" content="#6366f1">
+  <meta name="theme-color" content="#4299e1">
+  <meta name="msapplication-TileColor" content="#4299e1">
   
-  <!-- Modern Fonts -->
+  <!-- Optimize font loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- CSS -->
+  <!-- CSS - Link directly without preload -->
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="overscroll-fix.css">
   
-  <!-- Font Awesome -->
+  <!-- Add Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
   
   <!-- Structured Data / Schema.org -->
@@ -80,7 +80,7 @@
       "url": "https://guillaume18100.github.io/website/",
       "image": "https://guillaume18100.github.io/website/images/profile-photo.webp",
       "sameAs": [
-        "https://github.com/gderamchi",
+        "https://github.com/Guillaume18100",
         "https://www.linkedin.com/in/guillaume-deramchi/"
       ],
       "jobTitle": "Software & Prompt Engineer",
@@ -121,24 +121,17 @@
   <!-- EmailJS - Load with defer -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
 
-  <!-- Project data first - must load before script.js -->
+  <!-- Project data first -->
   <script src="projects-data.js"></script>
   
   <!-- Common functionality -->
-  <script src="common.js" defer></script>
+  <script src="common.js"></script>
   
-  <!-- Custom JavaScript - Load after projects-data -->
+  <!-- Custom JavaScript - Load with defer -->
   <script src="script.js" defer></script>
 </head>
 
 <body>
-  <!-- Floating Blobs Background -->
-  <div class="background-blobs">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-  </div>
-
   <!-- Preloader -->
   <div class="preloader">
     <div class="loader"></div>
@@ -165,8 +158,7 @@
               </button>
             </div>
           </li>
-          <li>
-            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+          <li><button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
               <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path
@@ -190,10 +182,9 @@
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 A7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2"
                   stroke-linecap="round" stroke-linejoin="round" />
               </svg>
-            </button>
-          </li>
+            </button></li>
         </ul>
-        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="nav-links">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="nav-links" onclick="document.getElementById('nav-links').classList.toggle('active'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
@@ -209,192 +200,194 @@
     <section class="hero" id="home" aria-label="Introduction">
       <div class="container">
         <div class="hero-content">
-          <div class="hero-text">
-            <h1 class="hero-title">
-              <span class="gradient-text">Computer Science Student</span> & AI Enthusiast
-            </h1>
-            <p class="hero-subtitle">
-              I'm a passionate student focusing on software development and AI prompt engineering, building projects that combine technical skills with creative problem-solving.
-            </p>
-            <div class="hero-buttons">
-              <a href="#projects" class="btn btn-primary">
-                <span>View Projects</span>
-              </a>
-              <a href="#contact" class="btn btn-outline">Get in Touch</a>
-            </div>
-          </div>
-          <div class="hero-visual">
-            <div class="hero-image-glow"></div>
-            <img src="images/profile-photo.webp" alt="Guillaume Deramchi - Computer Science Student" class="hero-image" width="500" height="500" fetchpriority="high">
+          <h1 class="hero-title">Computer Science Student & AI Enthusiast</h1>
+          <p class="hero-subtitle">
+            I'm a passionate student focusing on software development and AI prompt engineering, building projects that combine technical skills with creative problem-solving.
+          </p>
+          <div class="hero-buttons">
+            <a href="#projects" class="btn">View Projects</a>
+            <a href="#contact" class="btn btn-outline">Get in Touch</a>
           </div>
         </div>
-        <div class="scroll-indicator">
-          <span>Scroll Down</span>
-          <i class="fas fa-chevron-down"></i>
-        </div>
+        <img src="images/profile-photo.webp" alt="Guillaume Deramchi - Computer Science Student" class="hero-image" width="320" height="320" fetchpriority="high">
       </div>
     </section>
+
+    <!-- Section Divider -->
+    <div class="section-divider">
+      <div class="divider-container">
+        <div class="divider-line-left"></div>
+        <div class="divider-circle">
+          <div class="divider-icon">👤</div>
+        </div>
+        <div class="divider-line-right"></div>
+      </div>
+    </div>
 
     <!-- About Section -->
     <section class="about" id="about" aria-label="About Me">
       <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">About Me</h2>
-          <p class="section-subtitle">
-            I'm combining my computer science education with practical projects to develop skills in software engineering and AI.
-          </p>
+        <h2 class="section-title reveal-text">About Me</h2>
+        <p class="section-subtitle reveal-text">
+          I'm combining my computer science education with practical projects to develop skills in software engineering and AI.
+        </p>
+
+        <div class="about-content">
+          <div class="about-text">
+            <div class="about-section fade-in">
+              <div class="section-icon">
+                <span class="icon-circle">🎓</span>
+              </div>
+              <div>
+                <h3 class="slide-in">Education</h3>
+                <p class="reveal-text">
+                  Currently pursuing my degree in Computer Science, with a focus on software development and artificial intelligence. I'm passionate about learning new technologies and applying them to real-world problems through hands-on projects.
+                </p>
+              </div>
+            </div>
+
+            <div class="about-section fade-in">
+              <div class="section-icon">
+                <span class="icon-circle">💡</span>
+              </div>
+              <div>
+                <h3 class="slide-in">My Interests</h3>
+                <p class="reveal-text">
+                  I'm particularly interested in how AI can enhance software applications and user experiences. My coursework and personal projects focus on creating clean, efficient code while exploring the capabilities of large language models through prompt engineering.
+                </p>
+              </div>
+            </div>
+
+            <div class="about-section fade-in">
+              <div class="section-icon">
+                <span class="icon-circle">🚀</span>
+              </div>
+              <div>
+                <h3 class="slide-in">Learning Path</h3>
+                <p class="reveal-text">
+                  I'm constantly expanding my technical toolkit through coursework and self-study in modern JavaScript frameworks, backend technologies including Node.js and Python, and mobile development. I'm also developing skills in AI prompt engineering to create more effective AI interactions.
+                </p>
+
+                <div class="expertise-areas">
+                  <div class="expertise-area">
+                    <span class="expertise-label">Frontend Development</span>
+                    <div class="expertise-bar">
+                      <div class="expertise-progress" style="width: 75%"></div>
+                    </div>
+                  </div>
+                  <div class="expertise-area">
+                    <span class="expertise-label">Backend Engineering</span>
+                    <div class="expertise-bar">
+                      <div class="expertise-progress" style="width: 70%"></div>
+                    </div>
+                  </div>
+                  <div class="expertise-area">
+                    <span class="expertise-label">AI Prompt Engineering</span>
+                    <div class="expertise-bar">
+                      <div class="expertise-progress" style="width: 80%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="bento-grid">
-          <!-- Profile Card -->
-          <div class="bento-item bento-small bento-tall reveal">
-            <div class="profile-card">
-              <div class="profile-image-wrapper">
-                <div class="profile-glow"></div>
-                <img src="images/profile-photo.webp" alt="Guillaume Deramchi" class="profile-image">
-              </div>
-              <div class="profile-info">
-                <h3>Guillaume Deramchi</h3>
-                <p class="profile-role">Software & AI Engineer</p>
-              </div>
-            </div>
-          </div>
+        <div class="decorative-line"></div>
 
-          <!-- Education Card -->
-          <div class="bento-item bento-medium reveal">
-            <div class="bento-icon">🎓</div>
-            <h3>Education</h3>
-            <p>Currently pursuing my degree in Computer Science at Algosup, Vierzon. I'm passionate about learning new technologies and applying them to real-world problems through hands-on projects.</p>
-          </div>
-
-          <!-- Interests Card -->
-          <div class="bento-item bento-medium reveal">
-            <div class="bento-icon">💡</div>
-            <h3>My Interests</h3>
-            <p>I'm particularly interested in how AI can enhance software applications and user experiences. My coursework and personal projects focus on creating clean, efficient code while exploring the capabilities of LLM through prompt engineering.</p>
-          </div>
-
-          <!-- Skills Card -->
-          <div class="bento-item bento-large reveal">
-            <h3>Core Skills</h3>
-            <div class="skills-grid" id="skills-container">
-              <!-- Skills will be loaded dynamically -->
-            </div>
-          </div>
-
-          <!-- Expertise Card -->
-          <div class="bento-item bento-medium bento-tall reveal">
-            <h3>Expertise</h3>
-            <div class="expertise-list">
-              <div class="expertise-item">
-                <div class="expertise-header">
-                  <span class="expertise-name">Frontend Development</span>
-                  <span class="expertise-level">75%</span>
-                </div>
-                <div class="expertise-bar">
-                  <div class="expertise-fill" style="width: 0%" data-width="75%"></div>
-                </div>
-              </div>
-              <div class="expertise-item">
-                <div class="expertise-header">
-                  <span class="expertise-name">Backend Engineering</span>
-                  <span class="expertise-level">70%</span>
-                </div>
-                <div class="expertise-bar">
-                  <div class="expertise-fill" style="width: 0%" data-width="70%"></div>
-                </div>
-              </div>
-              <div class="expertise-item">
-                <div class="expertise-header">
-                  <span class="expertise-name">AI Prompt Engineering</span>
-                  <span class="expertise-level">80%</span>
-                </div>
-                <div class="expertise-bar">
-                  <div class="expertise-fill" style="width: 0%" data-width="80%"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Learning Path Card -->
-          <div class="bento-item bento-medium reveal">
-            <div class="bento-icon">🚀</div>
-            <h3>Learning Path</h3>
-            <p>I'm constantly expanding my technical toolkit through coursework and self-study in modern JavaScript frameworks, backend technologies including Node.js and Python, and mobile development.</p>
-          </div>
+        <h3 class="skills-title slide-in">Core Skills</h3>
+        <div class="skills-container" id="skills-container">
+          <!-- Skills will be loaded dynamically -->
         </div>
       </div>
     </section>
+
+    <!-- Section Divider -->
+    <div class="section-divider">
+      <div class="divider-container">
+        <div class="divider-line-left"></div>
+        <div class="divider-circle">
+          <div class="divider-icon">🧑🏻‍💻</div>
+        </div>
+        <div class="divider-line-right"></div>
+      </div>
+    </div>
 
     <!-- Projects Section -->
     <section class="projects" id="projects" aria-label="My Projects">
       <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Featured Projects</h2>
-          <p class="section-subtitle">
-            Highlighted projects from my portfolio showcasing my technical skills and problem-solving approach.
-          </p>
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-subtitle">
+          Highlighted projects from my portfolio showcasing my technical skills and problem-solving approach.
+        </p>
+        
+        <div class="projects-tree-container">
+          <div class="projects-tree" id="projects-tree">
+            <!-- Only 3 featured projects will be loaded here dynamically -->
+          </div>
         </div>
         
-        <div class="projects-grid" id="projects-grid">
-          <!-- Projects will be loaded here dynamically -->
-        </div>
-        
-        <div class="text-center" style="margin-top: 4rem;">
-          <a href="projects.html" class="btn btn-primary btn-lg">
+        <div class="projects-cta">
+          <a href="projects.html" class="btn btn-lg projects-cta-btn">
             <span>View All Projects</span>
             <i class="fas fa-arrow-right"></i>
           </a>
         </div>
+        
+        <!-- Project modal for detailed view -->
+        <div id="project-modal" class="project-modal">
+          <div class="project-modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-content"></div>
+          </div>
+        </div>
       </div>
     </section>
+
+    <!-- Section Divider -->
+    <div class="section-divider">
+      <div class="divider-container">
+        <div class="divider-line-left"></div>
+        <div class="divider-circle">
+          <div class="divider-icon">📧</div>
+        </div>
+        <div class="divider-line-right"></div>
+      </div>
+    </div>
 
     <!-- Contact Section -->
     <section class="contact" id="contact" aria-label="Contact Information">
       <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Get in Touch</h2>
-          <p class="section-subtitle">
-            Let's discuss how we can work together on your next project.
-          </p>
-        </div>
+        <h2 class="section-title">Get in Touch</h2>
+        <p class="section-subtitle">
+          Let's discuss how we can work together on your next project.
+        </p>
 
-        <div class="contact-container">
-          <div class="contact-card reveal">
-            <div class="contact-header">
-              <h3>Send a Message</h3>
-              <p>I'll get back to you as soon as possible.</p>
-            </div>
+        <div class="contact-card" id="contact-card">
+          <div class="contact-header">
+            <h3 class="contact-title">Send a Message</h3>
+            <p>I'll get back to you as soon as possible.</p>
+          </div>
+          <div class="contact-content">
             <form class="contact-form" id="contact-form" aria-label="Contact form">
               <div class="form-group">
-                <label for="name" class="form-label">Your Name</label>
-                <input type="text" class="form-input" id="name" placeholder="John Doe" required>
+                <label for="name" class="visually-hidden">Your Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Your Name" required>
               </div>
               <div class="form-group">
-                <label for="email" class="form-label">Your Email</label>
-                <input type="email" class="form-input" id="email" placeholder="john@example.com" required>
+                <label for="email" class="visually-hidden">Your Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Your Email" required>
               </div>
               <div class="form-group">
-                <label for="subject" class="form-label">Subject</label>
-                <input type="text" class="form-input" id="subject" placeholder="Project Inquiry" required>
+                <label for="subject" class="visually-hidden">Subject</label>
+                <input type="text" class="form-control" id="subject" placeholder="Subject" required>
               </div>
               <div class="form-group">
-                <label for="message" class="form-label">Your Message</label>
-                <textarea class="form-textarea" id="message" placeholder="Tell me about your project..." required></textarea>
+                <label for="message" class="visually-hidden">Your Message</label>
+                <textarea class="form-control" id="message" placeholder="Your Message" required></textarea>
               </div>
-              <button type="submit" class="form-submit">
-                <span>Send Message</span>
-              </button>
+              <button type="submit" class="btn">Send Message</button>
             </form>
-          </div>
-
-          <div class="social-links">
-            <a href="https://github.com/gderamchi" target="_blank" rel="noopener" class="social-link" aria-label="GitHub profile">
-              <i class="fab fa-github"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/guillaume-deramchi/" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn profile">
-              <i class="fab fa-linkedin"></i>
-            </a>
           </div>
         </div>
       </div>
@@ -404,44 +397,32 @@
   <footer>
     <div class="container">
       <div class="footer-content">
-        <div class="footer-section">
-          <h4>Guillaume Deramchi</h4>
-          <p>Computer Science Student & AI Enthusiast</p>
-        </div>
-        <div class="footer-section">
-          <h4>Quick Links</h4>
-          <ul class="footer-links">
-            <li><a href="#about" class="footer-link">About</a></li>
-            <li><a href="#projects" class="footer-link">Projects</a></li>
-            <li><a href="#contact" class="footer-link">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h4>Connect</h4>
-          <ul class="footer-links">
-            <li>
-              <a href="https://github.com/gderamchi" target="_blank" rel="noopener" class="footer-link">
-                <i class="fab fa-github"></i> GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://www.linkedin.com/in/guillaume-deramchi/" target="_blank" rel="noopener" class="footer-link">
-                <i class="fab fa-linkedin"></i> LinkedIn
-              </a>
-            </li>
-          </ul>
-        </div>
+        <div class="footer-logo">Guillaume Deramchi</div>
+        <ul class="footer-links">
+          <li>
+            <a href="https://github.com/Guillaume18100" target="_blank" rel="noopener" aria-label="GitHub profile">
+              <i class="fab fa-github footer-social-icon github-icon"></i>
+              <span class="icon-label">GitHub</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/guillaume-deramchi/" target="_blank" rel="noopener" aria-label="LinkedIn profile">
+              <i class="fab fa-linkedin footer-social-icon linkedin-icon"></i>
+              <span class="icon-label">LinkedIn</span>
+            </a>
+          </li>
+        </ul>
+        <p class="footer-tagline">Computer Science Student & AI Enthusiast</p>
       </div>
-      <div class="footer-bottom">
+      <div class="copyright">
         &copy; 2025 Guillaume Deramchi. All rights reserved.
       </div>
     </div>
+    <!-- Scroll to top button -->
+    <button id="scroll-to-top" class="scroll-top-btn" aria-label="Scroll to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
   </footer>
-
-  <!-- Scroll to Top Button -->
-  <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top">
-    <i class="fas fa-arrow-up"></i>
-  </button>
 </body>
 
 </html>
