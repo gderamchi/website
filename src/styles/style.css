@@ -2396,12 +2396,13 @@ body.dark-mode .moon-icon {
 
 /* Project Card */
 .project-card {
-  background: var(--glass-bg);
+background: var(--glass-bg);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-2xl);
   overflow: hidden;
+  isolation: isolate;
   transition: all var(--transition-base);
   display: flex;
   flex-direction: column;
