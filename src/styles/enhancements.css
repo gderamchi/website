@@ -15,11 +15,11 @@
   height: 100vh;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.6;
+  opacity: 0.9;
 }
 
 body.dark-mode #particles-canvas {
-  opacity: 0.8;
+  opacity: 1;
 }
 
 /* ============================================
