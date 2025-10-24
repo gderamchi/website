@@ -85,7 +85,8 @@ body.dark-mode .chat-header {
   height: 40px;
   border-radius: 50%;
   border: none;
-  background: var(--color-bg-tertiary);
+  background: rgba(241, 245, 249, 0.7);
+  backdrop-filter: blur(10px);
   color: var(--color-text-secondary);
   cursor: pointer;
   display: flex;
@@ -134,7 +135,8 @@ body.dark-mode .suggested-questions {
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  background: var(--color-bg-primary);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   color: var(--color-text-primary);
@@ -192,7 +194,8 @@ body.dark-mode .chat-container {
 }
 
 .chat-messages::-webkit-scrollbar-track {
-  background: var(--color-bg-secondary);
+  background: rgba(248, 250, 252, 0.5);
+  backdrop-filter: blur(10px);
 }
 
 .chat-messages::-webkit-scrollbar-thumb {
@@ -268,7 +271,8 @@ body.dark-mode .chat-container {
 }
 
 .bot-message .message-bubble {
-  background: var(--color-bg-secondary);
+  background: rgba(248, 250, 252, 0.7);
+  backdrop-filter: blur(10px);
   color: var(--color-text-primary);
   border: 1px solid var(--color-border);
 }
@@ -356,7 +360,8 @@ body.dark-mode .chat-container {
   display: flex;
   gap: 4px;
   padding: 12px 16px;
-  background: var(--color-bg-secondary);
+  background: rgba(248, 250, 252, 0.7);
+  backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
 }
@@ -413,7 +418,8 @@ body.dark-mode .chat-input-container {
   padding: 12px 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: var(--color-bg-primary);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
   color: var(--color-text-primary);
   font-family: var(--font-body);
   font-size: 0.9375rem;

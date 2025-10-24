@@ -1038,12 +1038,13 @@ nav {
 }
 
 .skill-item {
-  display: flex;
+display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-4);
-  background: var(--color-bg-tertiary);
+  background: rgba(241, 245, 249, 0.7);
+  backdrop-filter: blur(10px);
   border-radius: var(--radius-xl);
   transition: all var(--transition-base);
   cursor: default;
@@ -1104,7 +1105,8 @@ nav {
 
 .expertise-bar {
   height: 8px;
-  background: var(--color-bg-tertiary);
+  background: rgba(241, 245, 249, 0.7);
+  backdrop-filter: blur(10px);
   border-radius: var(--radius-full);
   overflow: hidden;
   position: relative;
@@ -1288,7 +1290,8 @@ nav {
 
 .project-tag {
   padding: var(--space-1) var(--space-3);
-  background: var(--color-bg-tertiary);
+  background: rgba(241, 245, 249, 0.7);
+  backdrop-filter: blur(10px);
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
   font-weight: 500;
@@ -1430,7 +1433,8 @@ nav {
 .form-textarea {
   width: 100%;
   padding: var(--space-4);
-  background: var(--color-bg-tertiary);
+  background: rgba(241, 245, 249, 0.7);
+  backdrop-filter: blur(10px);
   border: 2px solid var(--color-border);
   border-radius: var(--radius-lg);
   font-family: var(--font-body);
