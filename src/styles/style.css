@@ -2388,7 +2388,7 @@ body.dark-mode .moon-icon {
 
 /* Projects Grid Section */
 .projects-grid-section {
-  padding: var(--space-20) 0;
+  padding: var(--space-20) 0 var(--space-8);
 }
 
 .projects-grid {
