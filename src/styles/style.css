@@ -1549,9 +1549,17 @@ nav {
    ============================================ */
 
 footer {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   padding: var(--space-16) 0 var(--space-8);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);
+}
+
+body.dark-mode footer {
+  background: rgba(30, 41, 59, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer-content {
