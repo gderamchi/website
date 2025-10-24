@@ -107,23 +107,40 @@ function fallbackRelevanceCheck(project) {
   const name = project.name.toLowerCase();
   const description = (project.description || '').toLowerCase();
   
-  // Exclude profile READMEs (username/username pattern)
-  if (name === project.name && description.includes('profile')) {
+  // Exclude profile READMEs (exact username match)
+  // Common patterns: username/username, username.github.io
+  if (name === 'guillaume18100' || name === 'gderamchi' || 
+      name.endsWith('.github.io') || 
+      (description.includes('profile') && description.includes('readme'))) {
     return { isRelevant: false, reason: 'Profile README' };
   }
   
-  // Exclude config repositories
-  if (name.includes('config') || name.includes('dotfiles') || name.includes('settings')) {
+  // Exclude pure config repositories (must have config/dotfiles in name AND no description)
+  if ((name.includes('config') || name.includes('dotfiles') || name.includes('settings')) && 
+      !project.description) {
     return { isRelevant: false, reason: 'Configuration repository' };
   }
   
-  // Only exclude if BOTH no description AND no topics AND no stars
-  if (!project.description && (!project.topics || project.topics.length === 0) && (!project.stars || project.stars === 0)) {
-    return { isRelevant: false, reason: 'No description, topics, or activity' };
+  // IMPORTANT: Be very inclusive - only exclude if completely empty
+  // Include if ANY of these conditions are true:
+  // - Has a description
+  // - Has topics/tags
+  // - Has stars
+  // - Is owned by user (not a fork)
+  // - Has any activity (not 0 stars AND not 0 topics)
+  
+  const hasDescription = project.description && project.description.length > 0;
+  const hasTopics = project.topics && project.topics.length > 0;
+  const hasStars = project.stars && project.stars > 0;
+  const isOwned = !project.fork;
+  
+  // Include if it has ANY indicator of being a real project
+  if (hasDescription || hasTopics || hasStars || isOwned) {
+    return { isRelevant: true, reason: 'Has project indicators' };
   }
   
-  // Include everything else by default
-  return { isRelevant: true, reason: 'Appears to be a project' };
+  // Only exclude if it's a fork with absolutely nothing
+  return { isRelevant: false, reason: 'Empty fork with no activity' };
 }
 
 /**
