@@ -18,6 +18,11 @@ on:
   repository_dispatch:
     types: [update-portfolio]
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
