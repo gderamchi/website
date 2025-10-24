@@ -262,44 +262,8 @@ function setupScrollProgress() {
   });
 }
 
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initScrollAnimations);
-} else {
-  initScrollAnimations();
-}
-
-function initScrollAnimations() {
-  // Check if user prefers reduced motion
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  
-  if (!prefersReducedMotion) {
-    // Initialize scroll animations
-    const scrollAnimations = new ScrollAnimations({
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px',
-      animationDelay: 100
-    });
-    
-    // Setup smooth scroll for anchor links
-    setupSmoothScroll();
-    
-    // Setup scroll progress indicator
-    setupScrollProgress();
-    
-    // Add fade-in animations to specific sections
-    scrollAnimations.addFadeInAnimation('.section-header', 0);
-    scrollAnimations.addFadeInAnimation('.hero-buttons', 200);
-    
-    // Store instance globally for potential cleanup
-    window.scrollAnimations = scrollAnimations;
-  } else {
-    // For users who prefer reduced motion, just make everything visible
-    document.querySelectorAll('.reveal').forEach(el => {
-      el.classList.add('active');
-    });
-  }
-}
-
-// Export for use in other scripts
+// Export ScrollAnimations class and helper functions for external initialization
+// Auto-initialization removed - handled by init-animations.js
 window.ScrollAnimations = ScrollAnimations;
+window.setupSmoothScroll = setupSmoothScroll;
+window.setupScrollProgress = setupScrollProgress;

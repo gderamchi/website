@@ -123,59 +123,6 @@ class TiltEffect {
   }
 }
 
-// Initialize tilt effects when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initTiltEffects);
-} else {
-  initTiltEffects();
-}
-
-function initTiltEffects() {
-  // Check if user prefers reduced motion
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  
-  if (!prefersReducedMotion) {
-    // Apply to project cards
-    new TiltEffect('.project-card', {
-      maxTilt: 10,
-      perspective: 1000,
-      scale: 1.03,
-      speed: 400,
-      glare: true,
-      maxGlare: 0.2
-    });
-    
-    // Apply to bento items
-    new TiltEffect('.bento-item', {
-      maxTilt: 8,
-      perspective: 1000,
-      scale: 1.02,
-      speed: 400,
-      glare: true,
-      maxGlare: 0.15
-    });
-    
-    // Apply to glass cards
-    new TiltEffect('.glass-card', {
-      maxTilt: 8,
-      perspective: 1000,
-      scale: 1.02,
-      speed: 400,
-      glare: true,
-      maxGlare: 0.15
-    });
-    
-    // Re-initialize when new projects are loaded
-    const observer = new MutationObserver(() => {
-      initTiltEffects();
-    });
-    
-    const projectsGrid = document.querySelector('.projects-grid');
-    if (projectsGrid) {
-      observer.observe(projectsGrid, { childList: true });
-    }
-  }
-}
-
-// Export for use in other scripts
+// Export TiltEffect class for external initialization
+// Auto-initialization removed - handled by init-animations.js
 window.TiltEffect = TiltEffect;
