@@ -265,13 +265,15 @@ function updateFilterCounts() {
 function updateStats() {
   // Total projects
   const totalEl = document.getElementById('total-projects');
-  if (totalEl) {
+  if (totalEl && !totalEl.dataset.animated) {
+    totalEl.dataset.animated = 'true';
     animateNumber(totalEl, 0, allProjects.length, 1000);
   }
   
   // Total technologies
   const techEl = document.getElementById('total-technologies');
-  if (techEl) {
+  if (techEl && !techEl.dataset.animated) {
+    techEl.dataset.animated = 'true';
     const uniqueTechs = new Set();
     allProjects.forEach(p => {
       if (p.topics) {
