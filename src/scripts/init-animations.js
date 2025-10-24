@@ -65,10 +65,10 @@
     try {
       if (typeof ParticleSystem !== 'undefined') {
         new ParticleSystem('particles-canvas', {
-          particleCount: 80,
-          particleSize: 2,
+          particleCount: 100,
+          particleSize: 3,
           particleSpeed: 0.3,
-          connectionDistance: 120,
+          connectionDistance: 150,
           mouseInteraction: true
         });
         state.particlesReady = true;

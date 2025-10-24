@@ -97,8 +97,8 @@ class ParticleSystem {
         
         if (distance < this.config.connectionDistance) {
           const opacity = 1 - (distance / this.config.connectionDistance);
-          this.ctx.strokeStyle = `rgba(99, 102, 241, ${opacity * 0.2})`;
-          this.ctx.lineWidth = 1;
+          this.ctx.strokeStyle = `rgba(99, 102, 241, ${opacity * 0.5})`;
+          this.ctx.lineWidth = 1.5;
           this.ctx.beginPath();
           this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
           this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
@@ -162,14 +162,12 @@ class Particle {
   }
   
   draw() {
+    // Draw particle with stronger visibility
     this.system.ctx.fillStyle = this.color;
+    this.system.ctx.shadowBlur = 15;
+    this.system.ctx.shadowColor = this.color;
     this.system.ctx.beginPath();
     this.system.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    this.system.ctx.fill();
-    
-    // Add glow effect
-    this.system.ctx.shadowBlur = 10;
-    this.system.ctx.shadowColor = this.color;
     this.system.ctx.fill();
     this.system.ctx.shadowBlur = 0;
   }
