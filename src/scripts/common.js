@@ -82,58 +82,6 @@ function initScrollToTop() {
   window.addEventListener('scroll', toggleScrollTopBtn, { passive: true });
 }
 
-// Enhanced language switcher functionality
-function initSharedLanguageSwitcher() {
-  const langOptions = document.querySelectorAll('.lang-option');
-  if (!langOptions.length) return;
-  
-  // Get saved language preference
-  let currentLang = localStorage.getItem('language') || 'en';
-  
-  // Set initial active state
-  langOptions.forEach(option => {
-    if (option.dataset.lang === currentLang) {
-      option.classList.add('active');
-    } else {
-      option.classList.remove('active');
-    }
-  });
-  
-  // Update HTML lang attribute
-  document.documentElement.setAttribute('lang', currentLang);
-  
-  // Set up click handlers for language options - with proper event removal
-  langOptions.forEach(option => {
-    // Remove any existing listeners to prevent duplicates
-    option.removeEventListener('click', handleLanguageSwitch);
-    // Add fresh listener
-    option.addEventListener('click', handleLanguageSwitch);
-  });
-  
-  // Handle language switch consistently
-  function handleLanguageSwitch(event) {
-    const newLang = this.dataset.lang;
-    const currentLang = localStorage.getItem('language') || 'en';
-    
-    // Only proceed if this is a different language
-    if (newLang !== currentLang) {
-      // Update active states
-      langOptions.forEach(opt => opt.classList.remove('active'));
-      this.classList.add('active');
-      
-      // Save preference
-      localStorage.setItem('language', newLang);
-      
-      // Update HTML lang attribute
-      document.documentElement.setAttribute('lang', newLang);
-      
-      // Trigger a custom event that specific pages can listen for
-      const languageChangeEvent = new CustomEvent('languageChanged', { detail: { language: newLang, previousLanguage: currentLang }});
-      document.dispatchEvent(languageChangeEvent);
-    }
-  }
-}
-
 // Mobile menu functionality - completely rewritten for maximum reliability
 function initMobileMenu() {
   console.log("Initializing mobile menu");
@@ -236,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
   handlePreloader();
   initThemeToggle();
   initScrollToTop();
-  initSharedLanguageSwitcher();
   
   // Ensure mobile menu is initialized last and with a slight delay
   setTimeout(() => {

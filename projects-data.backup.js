@@ -6,10 +6,7 @@ const projects = [
   {
     "name": "hackathonblackbox42",
     "title": "AI-Based Code Review Bot",
-    "description": {
-      "en": "An intelligent bot for automated code review and bug detection with security scanning.",
-      "fr": "An intelligent bot for automated code review and bug detection with security scanning."
-    },
+    "description": "An intelligent bot for automated code review and bug detection with security scanning.",
     "date": "2025",
     "image": "src/assets/images/projects/hackathonblackbox42.webp",
     "topics": [
@@ -26,10 +23,7 @@ const projects = [
   {
     "name": "website",
     "title": "Personal Portfolio Website",
-    "description": {
-      "en": "A comprehensive showcase of my skills, projects, and experience in Software & AI Engineering.",
-      "fr": "A comprehensive showcase of my skills, projects, and experience in Software & AI Engineering."
-    },
+    "description": "A comprehensive showcase of my skills, projects, and experience in Software & AI Engineering.",
     "date": "2025",
     "image": "src/assets/images/projects/website.webp",
     "topics": [
@@ -47,10 +41,7 @@ const projects = [
   {
     "name": "portfolio-florid",
     "title": "Artistic Portfolio Showcase",
-    "description": {
-      "en": "A modern and elegant React website to display an art student's creations.",
-      "fr": "A modern and elegant React website to display an art student's creations."
-    },
+    "description": "A modern and elegant React website to display an art student's creations.",
     "date": "2025",
     "image": "src/assets/images/projects/portfolio-florid.webp",
     "topics": [
@@ -68,10 +59,7 @@ const projects = [
   {
     "name": "eugeniackathon",
     "title": "Automated Workflow with Slack Integration",
-    "description": {
-      "en": "Streamlines tasks through a JSON workflow and Slack webhooks for efficient project management.",
-      "fr": "Streamlines tasks through a JSON workflow and Slack webhooks for efficient project management."
-    },
+    "description": "Streamlines tasks through a JSON workflow and Slack webhooks for efficient project management.",
     "date": "2025",
     "image": "src/assets/images/projects/eugeniackathon.webp",
     "topics": [],
@@ -84,10 +72,7 @@ const projects = [
   {
     "name": "presence-pulse-events",
     "title": "Real-Time Event Presence Tracker",
-    "description": {
-      "en": "Tracks and analyzes real-time event attendance data.",
-      "fr": "Tracks and analyzes real-time event attendance data."
-    },
+    "description": "Tracks and analyzes real-time event attendance data.",
     "date": "2025",
     "image": "src/assets/images/projects/presence-pulse-events.webp",
     "topics": [
@@ -104,10 +89,7 @@ const projects = [
   {
     "name": "hackathon_doctolib",
     "title": "AI Pathology Assistant",
-    "description": {
-      "en": "An AI system assisting in medical pathology, improving healthcare efficiency.",
-      "fr": "An AI system assisting in medical pathology, improving healthcare efficiency."
-    },
+    "description": "An AI system assisting in medical pathology, improving healthcare efficiency.",
     "date": "2025",
     "image": "src/assets/images/projects/hackathon_doctolib.webp",
     "topics": [
@@ -129,10 +111,7 @@ const projects = [
   {
     "name": "2024-2025-project-3-quickest-path-team-7",
     "title": "Optimized Pathfinding Solution",
-    "description": {
-      "en": "Enhances route efficiency using C++ algorithms.",
-      "fr": "Enhances route efficiency using C++ algorithms."
-    },
+    "description": "Enhances route efficiency using C++ algorithms.",
     "date": "2025",
     "image": "src/assets/images/projects/default.webp",
     "topics": [
@@ -150,10 +129,7 @@ const projects = [
   {
     "name": "GenAI_hackaton",
     "title": "AI Client Profile Generator",
-    "description": {
-      "en": "Automates client profile creation by merging public data for SFIL.",
-      "fr": "Automates client profile creation by merging public data for SFIL."
-    },
+    "description": "Automates client profile creation by merging public data for SFIL.",
     "date": "2025",
     "image": "src/assets/images/projects/default.webp",
     "topics": [
@@ -170,10 +146,7 @@ const projects = [
   {
     "name": "2023-2024-project-3-virtual-processor-team-2",
     "title": "Virtual Processor Development in C",
-    "description": {
-      "en": "A project developing a virtual processor using C, focusing on interpreters and assembly languages.",
-      "fr": "A project developing a virtual processor using C, focusing on interpreters and assembly languages."
-    },
+    "description": "A project developing a virtual processor using C, focusing on interpreters and assembly languages.",
     "date": "2024",
     "image": "src/assets/images/projects/2023-2024-project-3-virtual-processor-team-2.webp",
     "topics": [
@@ -195,10 +168,7 @@ const projects = [
   {
     "name": "2024-2025-project-2-serious-game-team-3",
     "title": "Green City Management Game",
-    "description": {
-      "en": "Build a city balancing economic growth and eco-sustainability.",
-      "fr": "Build a city balancing economic growth and eco-sustainability."
-    },
+    "description": "Build a city balancing economic growth and eco-sustainability.",
     "date": "2024",
     "image": "src/assets/images/projects/default.webp",
     "topics": [
@@ -220,10 +190,7 @@ const projects = [
   {
     "name": "2023-2024-project-4-sportshield-team-6",
     "title": "SportShield Enhancement",
-    "description": {
-      "en": "Enhances Coris Innovation's sports safety product.",
-      "fr": "Enhances Coris Innovation's sports safety product."
-    },
+    "description": "Enhances Coris Innovation's sports safety product.",
     "date": "2024",
     "image": "src/assets/images/projects/2023-2024-project-4-sportshield-team-6.webp",
     "topics": [
@@ -239,10 +206,7 @@ const projects = [
   {
     "name": "2024-2025-project-1-fpga-team-4",
     "title": "Frogger Arcade Game Recreation on FPGA",
-    "description": {
-      "en": "A school project emulating the classic Frogger game on an FPGA board using Verilog.",
-      "fr": "A school project emulating the classic Frogger game on an FPGA board using Verilog."
-    },
+    "description": "A school project emulating the classic Frogger game on an FPGA board using Verilog.",
     "date": "2024",
     "image": "src/assets/images/projects/2024-2025-project-1-fpga-team-4.webp",
     "topics": [
@@ -263,10 +227,7 @@ const projects = [
   {
     "name": "hackaton-blockchain-vierzon-2024",
     "title": "Blockchain Hackathon Platform",
-    "description": {
-      "en": "A platform for hosting and managing blockchain hackathons.",
-      "fr": "A platform for hosting and managing blockchain hackathons."
-    },
+    "description": "A platform for hosting and managing blockchain hackathons.",
     "date": "2024",
     "image": "src/assets/images/projects/default.webp",
     "topics": [
@@ -283,10 +244,7 @@ const projects = [
   {
     "name": "2023-2024-project-5-flutter-team-1",
     "title": "Mobile Application Development with Flutter",
-    "description": {
-      "en": "A cross-platform app project focused on enhancing mobile user experience.",
-      "fr": "A cross-platform app project focused on enhancing mobile user experience."
-    },
+    "description": "A cross-platform app project focused on enhancing mobile user experience.",
     "date": "2024",
     "image": "src/assets/images/projects/2023-2024-project-5-flutter-team-1.webp",
     "topics": [
@@ -306,10 +264,7 @@ const projects = [
   {
     "name": "video-game-project",
     "title": "Super Chicken Boy Game",
-    "description": {
-      "en": "An engaging C++ game featuring Super Chicken Boy.",
-      "fr": "An engaging C++ game featuring Super Chicken Boy."
-    },
+    "description": "An engaging C++ game featuring Super Chicken Boy.",
     "date": "2024",
     "image": "src/assets/images/projects/default.webp",
     "topics": [
@@ -324,10 +279,7 @@ const projects = [
   {
     "name": "2023-2024-project-2-x86-retrogaming-team-5",
     "title": "Retro Gaming on x86 Assembly",
-    "description": {
-      "en": "A Pac-Man game prototype built using x86 assembly and DOSBox, showcasing the potential of low-level programming.",
-      "fr": "A Pac-Man game prototype built using x86 assembly and DOSBox, showcasing the potential of low-level programming."
-    },
+    "description": "A Pac-Man game prototype built using x86 assembly and DOSBox, showcasing the potential of low-level programming.",
     "date": "2023",
     "image": "src/assets/images/projects/2023-2024-project-2-x86-retrogaming-team-5.webp",
     "topics": [

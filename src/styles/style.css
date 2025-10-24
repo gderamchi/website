@@ -111,6 +111,7 @@
   --container-max-width: 1280px;
   --container-padding: var(--space-6);
   --section-padding: var(--space-24);
+  --header-height: 80px;
 }
 
 /* Dark Mode Variables */
@@ -2100,42 +2101,8 @@ section {
   }
 }
 
-/* Fix 17: Language Switcher Styling */
-.language-switcher {
-  display: flex;
-  align-items: center;
-}
 
-.language-toggle {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: var(--space-2);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  transition: color var(--transition-fast);
-}
-
-.lang-option {
-  transition: color var(--transition-fast);
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
-}
-
-.lang-option.active {
-  color: var(--color-primary);
-  background: var(--color-bg-tertiary);
-}
-
-.lang-divider {
-  color: var(--color-text-tertiary);
-}
-
-/* Fix 18: Theme Toggle Button */
+/* Theme Toggle Button */
 .theme-toggle {
   width: 40px;
   height: 40px;
@@ -2148,6 +2115,7 @@ section {
   cursor: pointer;
   transition: all var(--transition-fast);
   position: relative;
+  margin-left: var(--space-4);
 }
 
 .theme-toggle:hover {
@@ -2263,7 +2231,7 @@ body.dark-mode .moon-icon {
 
 /* Projects Hero Section */
 .projects-hero-section {
-  padding: calc(var(--header-height) + var(--space-20)) 0 var(--space-20);
+  padding: calc(var(--header-height) + var(--space-8)) 0 var(--space-24);
   position: relative;
   overflow: hidden;
 }
@@ -2294,12 +2262,12 @@ body.dark-mode .moon-icon {
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-8);
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 auto var(--space-16);
 }
 
 .stat-item {
   text-align: center;
-  padding: var(--space-6);
+  padding: var(--space-8);
   background: var(--glass-bg);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -2337,11 +2305,6 @@ body.dark-mode .moon-icon {
   background: var(--color-bg-secondary);
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
-  position: sticky;
-  top: var(--header-height);
-  z-index: var(--z-sticky);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 .filter-container {
@@ -2391,7 +2354,7 @@ body.dark-mode .moon-icon {
 .filter-btn.active {
   background: var(--gradient-primary);
   border-color: transparent;
-  color: white;
+  color: #ffffff;
   box-shadow: var(--shadow-glow);
 }
 

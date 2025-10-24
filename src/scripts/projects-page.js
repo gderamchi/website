@@ -8,15 +8,11 @@ const CONFIG = {
 
 // State
 let currentFilter = 'all';
-let currentLanguage = 'en';
 let allProjects = [];
 
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Projects page initializing...');
-  
-  // Get language from localStorage or default to 'en'
-  currentLanguage = localStorage.getItem('language') || 'en';
   
   // Load and display projects
   loadProjects();
@@ -99,10 +95,8 @@ function createProjectCard(project, index) {
   card.className = 'project-card';
   card.style.animationDelay = `${index * 0.05}s`;
   
-  // Get description in current language
-  const description = project.description && project.description[currentLanguage] 
-    ? project.description[currentLanguage]
-    : (project.description && project.description.en ? project.description.en : 'A software project');
+  // Get description
+  const description = project.description || 'A software project';
   
   // Truncate description
   const shortDescription = description.length > 120 
@@ -340,9 +334,7 @@ function openModal(project) {
   if (!modal || !modalBody) return;
   
   // Get description
-  const description = project.description && project.description[currentLanguage]
-    ? project.description[currentLanguage]
-    : (project.description && project.description.en ? project.description.en : 'A software project');
+  const description = project.description || 'A software project';
   
   // Create modal content
   modalBody.innerHTML = `
