@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat with Guillaume | Guillaume Deramchi</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Chat with Guillaume Deramchi's AI assistant - Ask questions about his experience, projects, and interests.">
+  <meta name="keywords" content="Guillaume Deramchi, AI chat, portfolio chat, developer chat">
+  <meta name="author" content="Guillaume Deramchi">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#6366f1">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="src/styles/style.css">
+  <link rel="stylesheet" href="src/styles/chat.css">
+  <link rel="stylesheet" href="src/styles/overscroll-fix.css">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Common functionality -->
+  <script src="src/scripts/common.js" defer></script>
+  
+  <!-- Chat functionality -->
+  <script src="src/scripts/chat.js" defer></script>
+</head>
+
+<body>
+  <!-- Header & Navigation -->
+  <header id="header">
+    <div class="container">
+      <nav aria-label="Main navigation">
+        <a href="index.html" class="logo">
+          <i class="fas fa-arrow-left back-link-icon"></i>
+          Guillaume Deramchi
+        </a>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html#about" class="nav-link">About</a></li>
+          <li><a href="projects.html" class="nav-link">Projects</a></li>
+          <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+          <li>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+              <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 1V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 21V23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.22 4.22L5.64 5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M18.36 18.36L19.78 19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M21 12H23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.22 19.78L5.64 18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 A7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </li>
+        </ul>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle mobile menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="chat-main">
+    <div class="container">
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <div class="chat-header-content">
+        <div class="chat-avatar">
+          <img src="src/assets/images/profile-photo.webp" alt="Guillaume Deramchi">
+          <span class="status-indicator"></span>
+        </div>
+          <div class="chat-header-info">
+            <h1>Chat with Guillaume</h1>
+            <p class="chat-subtitle">Ask me anything about my experience, projects, or interests!</p>
+          </div>
+        </div>
+        <button id="clear-chat" class="btn-icon" aria-label="Clear chat history">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
+
+      <!-- Suggested Questions -->
+      <div class="suggested-questions" id="suggested-questions">
+        <h3>Try asking:</h3>
+        <div class="suggestions-grid">
+          <button class="suggestion-btn" data-question="What's your favorite project?">
+            <i class="fas fa-code"></i>
+            What's your favorite project?
+          </button>
+          <button class="suggestion-btn" data-question="Tell me about your experience at 42 Paris">
+            <i class="fas fa-graduation-cap"></i>
+            Tell me about 42 Paris
+          </button>
+          <button class="suggestion-btn" data-question="What hackathons have you won?">
+            <i class="fas fa-trophy"></i>
+            What hackathons have you won?
+          </button>
+          <button class="suggestion-btn" data-question="What are your career goals?">
+            <i class="fas fa-bullseye"></i>
+            What are your career goals?
+          </button>
+          <button class="suggestion-btn" data-question="What technologies do you work with?">
+            <i class="fas fa-laptop-code"></i>
+            What technologies do you use?
+          </button>
+          <button class="suggestion-btn" data-question="What are your hobbies?">
+            <i class="fas fa-heart"></i>
+            What are your hobbies?
+          </button>
+        </div>
+      </div>
+
+      <!-- Chat Container -->
+      <div class="chat-container">
+        <div class="chat-messages" id="chat-messages">
+          <!-- Welcome message -->
+          <div class="message bot-message">
+        <div class="message-avatar">
+          <img src="src/assets/images/profile-photo.webp" alt="Guillaume">
+        </div>
+            <div class="message-content">
+              <div class="message-bubble">
+                <p>Hey! 👋 I'm Guillaume's AI assistant. I can answer questions about his experience, projects, skills, and interests. What would you like to know?</p>
+              </div>
+              <span class="message-time">Just now</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typing Indicator -->
+      <div class="typing-indicator" id="typing-indicator" style="display: none;">
+        <div class="message-avatar">
+          <img src="src/assets/images/profile-photo.webp" alt="Guillaume">
+        </div>
+          <div class="typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <!-- Chat Input -->
+        <div class="chat-input-container">
+          <form class="chat-input-form" id="chat-form">
+            <textarea 
+              id="chat-input" 
+              class="chat-input" 
+              placeholder="Ask me anything..." 
+              rows="1"
+              maxlength="500"
+            ></textarea>
+            <button type="submit" class="chat-send-btn" id="send-btn" aria-label="Send message">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+          <div class="chat-input-footer">
+            <span class="char-count"><span id="char-count">0</span>/500</span>
+            <span class="powered-by">Powered by BLACKBOX AI</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Guillaume Deramchi</h4>
+          <p>Computer Science Student & AI Enthusiast</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="projects.html" class="footer-link">Projects</a></li>
+            <li><a href="index.html#contact" class="footer-link">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Connect</h4>
+          <ul class="footer-links">
+            <li>
+              <a href="https://github.com/gderamchi" target="_blank" rel="noopener" class="footer-link">
+                <i class="fab fa-github"></i> GitHub
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/guillaume-deramchi/" target="_blank" rel="noopener" class="footer-link">
+                <i class="fab fa-linkedin"></i> LinkedIn
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2025 Guillaume Deramchi. All rights reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
