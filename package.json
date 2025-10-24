@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "sync": "node scripts/sync-portfolio.js",
+    "sync:incremental": "node scripts/incremental-sync.js",
     "ai-sync": "node scripts/ai-sync-portfolio.js",
     "webhook": "node scripts/webhook-server.js",
     "generate-images": "node scripts/generate-project-image.js",

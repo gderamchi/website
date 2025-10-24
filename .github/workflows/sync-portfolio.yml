@@ -7,12 +7,21 @@ on:
       - main
       - master
   
-  # Run every Sunday at midnight UTC
+  # Run every Sunday at midnight UTC (full sync)
   schedule:
     - cron: '0 0 * * 0'
   
   # Allow manual trigger from Actions tab
   workflow_dispatch:
+    inputs:
+      sync_type:
+        description: 'Type of sync to perform'
+        required: false
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - incremental
   
   # Trigger from other repositories via webhook
   repository_dispatch:
@@ -42,13 +51,51 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Sync portfolio
+      - name: Determine sync type
+        id: sync-type
+        run: |
+          if [ "${{ github.event_name }}" == "schedule" ]; then
+            echo "type=full" >> $GITHUB_OUTPUT
+            echo "reason=Scheduled weekly full sync" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "type=${{ github.event.inputs.sync_type }}" >> $GITHUB_OUTPUT
+            echo "reason=Manual trigger" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" == "push" ]; then
+            # Check if this is a push to the portfolio repo itself
+            if [ "${{ github.repository }}" == "${{ github.event.repository.full_name }}" ]; then
+              echo "type=incremental" >> $GITHUB_OUTPUT
+              echo "reason=Push to portfolio repository" >> $GITHUB_OUTPUT
+            else
+              echo "type=full" >> $GITHUB_OUTPUT
+              echo "reason=Push event" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "type=full" >> $GITHUB_OUTPUT
+            echo "reason=Default" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Incremental Sync (Single Repository)
+        if: steps.sync-type.outputs.type == 'incremental'
+        env:
+          GITHUB_USERNAME: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BLACKBOX_API: ${{ secrets.BLACKBOX_API }}
+        run: |
+          echo "🔄 Running incremental sync for: ${{ github.repository }}"
+          echo "Reason: ${{ steps.sync-type.outputs.reason }}"
+          node scripts/incremental-sync.js "${{ github.repository }}"
+      
+      - name: Full Sync (All Repositories)
+        if: steps.sync-type.outputs.type == 'full'
         env:
           GITHUB_USERNAME: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BLACKBOX_API: ${{ secrets.BLACKBOX_API }}
           GITHUB_ORGS: algosup
-        run: npm run sync
+        run: |
+          echo "🔄 Running full sync of all repositories"
+          echo "Reason: ${{ steps.sync-type.outputs.reason }}"
+          npm run sync
       
       - name: Check for changes
         id: git-check
