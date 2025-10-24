@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { fetchGitHubRepos, getRepoDetails, getProjectYear, generateTopics } from './fetch-repos.js';
-import { generateProjectImage } from './generate-project-image.js';
+// import { generateProjectImage } from './generate-project-image.js'; // Disabled: requires puppeteer
 import { enhanceProjectDescription, generateProjectImageAI } from './enhance-descriptions.js';
 import { isProjectRelevant, areProjectsDuplicate } from './ai-project-filter.js';
 
@@ -193,22 +193,13 @@ async function syncPortfolio() {
             const projectWithTitle = { ...projectForEnhancement, title, description };
             imagePath = await generateProjectImageAI(projectWithTitle, blackboxApiKey);
           } catch (imageError) {
-            console.error(`  ⚠️  AI image generation failed, using fallback`);
-            try {
-              imagePath = await generateProjectImage(projectForEnhancement);
-            } catch (fallbackError) {
-              imagePath = 'images/projects/default.webp';
-            }
+            console.error(`  ⚠️  AI image generation failed, using default`);
+            imagePath = 'src/assets/images/projects/default.webp';
           }
         } else {
-          // Fallback to basic image generation
-          try {
-            imagePath = await generateProjectImage(projectForEnhancement);
-            console.log(`  ✓ Image generated`);
-          } catch (imageError) {
-            console.error(`  ✗ Image generation failed:`, imageError.message);
-            imagePath = 'images/projects/default.webp';
-          }
+          // Use default image when AI is not available
+          imagePath = 'src/assets/images/projects/default.webp';
+          console.log(`  ℹ️  Using default image`);
         }
         
         // Create project object
