@@ -33,7 +33,31 @@ class ParticleSystem {
     this.resizeCanvas();
     this.createParticles();
     this.setupEventListeners();
+    this.setupDarkModeListener();
     this.animate();
+  }
+  
+  setupDarkModeListener() {
+    // Update colors when dark mode changes
+    const observer = new MutationObserver(() => {
+      this.updateParticleColors();
+    });
+    
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  }
+  
+  updateParticleColors() {
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    const colors = isDarkMode 
+      ? ['#a5b4fc', '#67e8f9', '#6ee7b7', '#f9a8d4'] // Much brighter colors for dark mode
+      : ['#6366f1', '#06b6d4', '#10b981', '#ec4899']; // Original colors for light mode
+    
+    this.particles.forEach(particle => {
+      particle.color = colors[Math.floor(Math.random() * colors.length)];
+    });
   }
   
   resizeCanvas() {
@@ -48,6 +72,12 @@ class ParticleSystem {
       this.config.particleCount,
       Math.floor(area / 15000) // Adjust density based on screen size
     );
+    
+    // Use appropriate colors based on current mode
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    this.config.colors = isDarkMode 
+      ? ['#a5b4fc', '#67e8f9', '#6ee7b7', '#f9a8d4'] // Much brighter colors for dark mode
+      : ['#6366f1', '#06b6d4', '#10b981', '#ec4899']; // Original colors for light mode
     
     for (let i = 0; i < particleCount; i++) {
       this.particles.push(new Particle(this));
@@ -89,6 +119,9 @@ class ParticleSystem {
   }
   
   connectParticles() {
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    const lineColor = isDarkMode ? '165, 180, 252' : '99, 102, 241'; // Much brighter blue in dark mode
+    
     for (let i = 0; i < this.particles.length; i++) {
       for (let j = i + 1; j < this.particles.length; j++) {
         const dx = this.particles[i].x - this.particles[j].x;
@@ -97,7 +130,7 @@ class ParticleSystem {
         
         if (distance < this.config.connectionDistance) {
           const opacity = 1 - (distance / this.config.connectionDistance);
-          this.ctx.strokeStyle = `rgba(99, 102, 241, ${opacity * 0.5})`;
+          this.ctx.strokeStyle = `rgba(${lineColor}, ${opacity * 0.5})`;
           this.ctx.lineWidth = 1.5;
           this.ctx.beginPath();
           this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
@@ -163,8 +196,9 @@ class Particle {
   
   draw() {
     // Draw particle with stronger visibility
+    const isDarkMode = document.body.classList.contains('dark-mode');
     this.system.ctx.fillStyle = this.color;
-    this.system.ctx.shadowBlur = 15;
+    this.system.ctx.shadowBlur = isDarkMode ? 25 : 15; // Stronger glow in dark mode
     this.system.ctx.shadowColor = this.color;
     this.system.ctx.beginPath();
     this.system.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
