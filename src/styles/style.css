@@ -178,7 +178,7 @@ html {
 }
 
 body {
-font-family: var(--font-body);
+  font-family: var(--font-body);
   font-size: var(--font-size-base);
   line-height: 1.6;
   color: var(--color-text-primary);
@@ -2026,7 +2026,6 @@ body {
 }
 
 body.dark-mode {
-  background: var(--color-bg-primary);
   color: var(--color-text-primary);
 }
 
