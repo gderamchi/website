@@ -212,6 +212,59 @@ export async function fetchGitHubRepos(username, token = null, organizations = [
 }
 
 /**
+ * Check if repository only contains README (no actual code)
+ * @param {string} owner - Repository owner
+ * @param {string} repo - Repository name
+ * @param {string} token - GitHub personal access token
+ * @returns {Promise<boolean>} True if repo only has README
+ */
+export async function isReadmeOnlyRepo(owner, repo, token = null) {
+  const headers = {
+    'Accept': 'application/vnd.github.v3+json',
+    'User-Agent': 'Portfolio-Sync'
+  };
+  
+  if (token) {
+    headers['Authorization'] = `token ${token}`;
+  }
+  
+  try {
+    // Fetch repository contents (root directory)
+    const contentsResponse = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/contents`,
+      { headers }
+    );
+    
+    if (!contentsResponse.ok) {
+      return false; // If we can't check, assume it's not README-only
+    }
+    
+    const contents = await contentsResponse.json();
+    
+    // Filter out common non-code files
+    const nonCodeFiles = [
+      'readme.md', 'readme', 'readme.txt',
+      'license', 'license.md', 'license.txt',
+      '.gitignore', '.gitattributes',
+      'contributing.md', 'code_of_conduct.md',
+      'changelog.md', 'authors.md'
+    ];
+    
+    const codeFiles = contents.filter(item => {
+      const name = item.name.toLowerCase();
+      // Exclude directories and non-code files
+      return item.type === 'file' && !nonCodeFiles.includes(name);
+    });
+    
+    // If there are no code files, it's README-only
+    return codeFiles.length === 0;
+  } catch (error) {
+    console.error(`Error checking contents for ${owner}/${repo}:`, error);
+    return false; // If we can't check, assume it's not README-only
+  }
+}
+
+/**
  * Get detailed information about a repository including README
  * @param {string} owner - Repository owner
  * @param {string} repo - Repository name
@@ -254,17 +307,22 @@ export async function getRepoDetails(owner, repo, token = null) {
       languages = await languagesResponse.json();
     }
     
+    // Check if repo only has README
+    const isReadmeOnly = await isReadmeOnlyRepo(owner, repo, token);
+    
     return {
       readme,
       description,
-      languages: Object.keys(languages)
+      languages: Object.keys(languages),
+      isReadmeOnly
     };
   } catch (error) {
     console.error(`Error fetching details for ${owner}/${repo}:`, error);
     return {
       readme: '',
       description: '',
-      languages: []
+      languages: [],
+      isReadmeOnly: false
     };
   }
 }
