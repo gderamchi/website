@@ -57,7 +57,7 @@
     canvas.style.top = '0';
     canvas.style.left = '0';
     canvas.style.width = '100%';
-    canvas.style.height = '100%';
+    canvas.style.height = '100vh';
     canvas.style.zIndex = '-1';
     canvas.style.pointerEvents = 'none';
     canvas.style.opacity = '0.6';

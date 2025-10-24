@@ -225,7 +225,7 @@ body.dark-mode::before {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: -1;
+  z-index: -2;
   pointer-events: none;
 }
 
@@ -236,7 +236,7 @@ body.dark-mode::before {
   opacity: 0.3;
   animation: float 20s ease-in-out infinite;
   pointer-events: none;
-  z-index: -1;
+  z-index: -2;
   will-change: transform;
 }
 
