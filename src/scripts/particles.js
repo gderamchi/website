@@ -52,7 +52,7 @@ class ParticleSystem {
   updateParticleColors() {
     const isDarkMode = document.body.classList.contains('dark-mode');
     const colors = isDarkMode 
-      ? ['#a5b4fc', '#67e8f9', '#6ee7b7', '#f9a8d4'] // Much brighter colors for dark mode
+      ? ['#ffffff', '#e0e7ff', '#a5f3fc', '#d9f99d', '#fecdd3'] // White and very bright colors for dark mode
       : ['#6366f1', '#06b6d4', '#10b981', '#ec4899']; // Original colors for light mode
     
     this.particles.forEach(particle => {
@@ -76,7 +76,7 @@ class ParticleSystem {
     // Use appropriate colors based on current mode
     const isDarkMode = document.body.classList.contains('dark-mode');
     this.config.colors = isDarkMode 
-      ? ['#a5b4fc', '#67e8f9', '#6ee7b7', '#f9a8d4'] // Much brighter colors for dark mode
+      ? ['#ffffff', '#e0e7ff', '#a5f3fc', '#d9f99d', '#fecdd3'] // White and very bright colors for dark mode
       : ['#6366f1', '#06b6d4', '#10b981', '#ec4899']; // Original colors for light mode
     
     for (let i = 0; i < particleCount; i++) {
@@ -120,7 +120,7 @@ class ParticleSystem {
   
   connectParticles() {
     const isDarkMode = document.body.classList.contains('dark-mode');
-    const lineColor = isDarkMode ? '165, 180, 252' : '99, 102, 241'; // Much brighter blue in dark mode
+    const lineColor = isDarkMode ? '255, 255, 255' : '99, 102, 241'; // White lines in dark mode
     
     for (let i = 0; i < this.particles.length; i++) {
       for (let j = i + 1; j < this.particles.length; j++) {
@@ -198,12 +198,14 @@ class Particle {
     // Draw particle with stronger visibility
     const isDarkMode = document.body.classList.contains('dark-mode');
     this.system.ctx.fillStyle = this.color;
-    this.system.ctx.shadowBlur = isDarkMode ? 25 : 15; // Stronger glow in dark mode
+    this.system.ctx.shadowBlur = isDarkMode ? 40 : 15; // Much stronger glow in dark mode
     this.system.ctx.shadowColor = this.color;
+    this.system.ctx.globalAlpha = isDarkMode ? 0.9 : 0.8; // Higher opacity in dark mode
     this.system.ctx.beginPath();
-    this.system.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    this.system.ctx.arc(this.x, this.y, this.size * (isDarkMode ? 1.5 : 1), 0, Math.PI * 2); // Larger particles in dark mode
     this.system.ctx.fill();
     this.system.ctx.shadowBlur = 0;
+    this.system.ctx.globalAlpha = 1;
   }
 }
 
