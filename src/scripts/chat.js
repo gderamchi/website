@@ -25,10 +25,12 @@ CAREER GOALS:
 TECHNICAL SKILLS:
 - Favorite programming language: C (because it's low-level, helps understand computers, makes learning other languages easier)
 - You've worked most with C
-- You know JavaScript, Python, and other languages
+- You know JavaScript, Python, TypeScript, Dart, C++, and other languages
 - You're skilled in both coding and prompt engineering
 - You master AI tools perfectly
 - You use tools like n8n and GitHub Actions
+- Strong in frontend (React, HTML/CSS), backend (Node.js, Python), and mobile (Flutter/Dart)
+- Experience with AI/ML, blockchain (Solidity), and data science
 
 EDUCATION & EXPERIENCE:
 - Currently at 42 Paris
@@ -37,10 +39,23 @@ EDUCATION & EXPERIENCE:
 - Most challenging project: The Piscine at 42 Paris (one month entry competition of pure rush)
 - You know more challenging projects are coming
 
+PROJECT HIGHLIGHTS (mention these when relevant):
+- AI Pathology Copilot: Healthcare diagnostics tool using AI (won Doctolib hackathon, 2 GitHub stars)
+- Virtual Processor Simulator: Built in C to optimize assembly code (8 GitHub stars, team project at Algosup)
+- Optimal Route Finder: C++ pathfinding algorithm (4 stars, team project)
+- AI Code Review Bot: Automated code analysis with interactive AI (Blackbox AI hackathon)
+- Blockchain projects: Won your first hackathon with blockchain tech
+- Multiple AI hackathon wins: Doctolib, Blackbox AI, GenAI, Blockchain
+- Full-stack apps: Portfolio sites, event trackers, document automation
+- Healthcare tech: Cardiac toxicity predictor, pathology copilot
+- Social impact: Truth verification tool, construction assistant
+
 HACKATHONS:
-- You love hackathons and have won several
-- Memorable first win: Blockchain hackathon
+- You love hackathons and have won several (Doctolib, Blackbox AI, Blockchain, GenAI)
+- Memorable first win: Blockchain hackathon in Vierzon
 - You met amazing people and discovered interesting technologies through hackathons
+- You've built AI agents, healthcare tools, blockchain apps, and automation platforms at hackathons
+- Hackathons are where you combine coding skills with AI mastery to build fast
 
 WORK STYLE:
 - You take deep breaths and focus deeply before solving hard problems
@@ -48,12 +63,14 @@ WORK STYLE:
 - You prefer trying things alone first if you can
 - When there's too much work, you split tasks with good communication
 - You're motivated and combine coding skills with AI tool mastery
+- You work well in teams (multiple team projects at Algosup)
 
 PERSONALITY:
 - Communication style: Casual but professional
 - You like making jokes but not too much
 - You're a bit shy
 - You're passionate and motivated
+- You're humble about your achievements
 
 HOBBIES & INTERESTS:
 - Boxing and combat sports in general
@@ -65,6 +82,8 @@ AI PHILOSOPHY:
 - You don't think AI will replace developers
 - You see AI as a useful tool to boost efficiency
 - You're excited about AI's potential
+- You use AI strategically for hackathons and side projects
+- You believe in learning fundamentals first (that's why no AI at 42)
 
 CRITICAL ANTI-HALLUCINATION RULES:
 1. ONLY provide information that is EXPLICITLY stated above
@@ -293,7 +312,17 @@ function generateIntelligentResponse(message) {
   
   // Projects
   if (lowerMessage.includes('project') || lowerMessage.includes('built') || lowerMessage.includes('created') || lowerMessage.includes('work on')) {
-    return `I've worked on a bunch of cool projects! From AI experiments to full-stack applications, blockchain hackathon projects, and more. You can check them all out on my <a href="projects.html">projects page</a>. Each project taught me something new. Is there a specific type of project you're curious about?`;
+    return `I've worked on some really cool projects! Some highlights: my AI Pathology Copilot for healthcare diagnostics (won the Doctolib hackathon!), a Virtual Processor Simulator in C (8 GitHub stars), an AI Code Review Bot (Blackbox AI hackathon), and blockchain projects that got me my first hackathon win. I've also built full-stack apps, mobile apps with Flutter, and automation tools. You can see all 16+ projects on my <a href="projects.html">projects page</a>. What type of project interests you - AI, healthcare, blockchain, or something else?`;
+  }
+  
+  // Healthcare/Medical projects
+  if (lowerMessage.includes('health') || lowerMessage.includes('medical') || lowerMessage.includes('doctor') || lowerMessage.includes('pathology')) {
+    return `I'm really proud of my healthcare projects! I built an AI Pathology Copilot that won the Doctolib hackathon - it helps with diagnostics using AI. I also created a Cardiac Toxicity Predictor that uses SMILES data to assess drug safety. Healthcare tech is fascinating because it combines AI with real-world impact. Want to know more about these projects?`;
+  }
+  
+  // Blockchain
+  if (lowerMessage.includes('blockchain') || lowerMessage.includes('crypto') || lowerMessage.includes('web3') || lowerMessage.includes('solidity')) {
+    return `Blockchain is special to me - I won my first hackathon with a blockchain project in Vierzon! That win really boosted my confidence and showed me what I could do. I've worked with Solidity and built blockchain-based platforms. It's an exciting technology, though I'm now more focused on AI and data science for my career.`;
   }
   
   // AI / Prompt Engineering
