@@ -33,6 +33,7 @@ body.dark-mode #particles-canvas {
   transform-style: preserve-3d;
   will-change: transform;
   overflow: hidden;
+  isolation: isolate;
 }
 
 /* Tilt glare effect */
