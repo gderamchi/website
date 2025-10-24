@@ -1067,6 +1067,10 @@ display: flex;
   cursor: default;
 }
 
+body.dark-mode .skill-item {
+  background: rgba(51, 65, 85, 0.7);
+}
+
 .skill-item:hover {
   transform: translateY(-4px);
   background: var(--color-surface);
