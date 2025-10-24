@@ -1,10 +1,11 @@
 {
   "name": "guillaume-deramchi-portfolio",
   "version": "2.0.0",
-  "description": "Modern portfolio with GitHub automation",
-  "type": "module",
+  "description": "Modern portfolio with AI-powered GitHub automation",
   "scripts": {
     "sync": "node scripts/sync-portfolio.js",
+    "ai-sync": "node scripts/ai-sync-portfolio.js",
+    "webhook": "node scripts/webhook-server.js",
     "generate-images": "node scripts/generate-project-image.js",
     "dev": "python3 -m http.server 8000",
     "test": "node scripts/test-sync.js"
@@ -12,15 +13,13 @@
   "keywords": [
     "portfolio",
     "github-automation",
+    "ai-powered",
     "web-development"
   ],
   "author": "Guillaume Deramchi",
   "license": "MIT",
   "dependencies": {
-    "node-fetch": "^3.3.2",
-    "puppeteer": "^21.6.1"
-  },
-  "devDependencies": {
     "dotenv": "^16.3.1"
-  }
+  },
+  "devDependencies": {}
 }

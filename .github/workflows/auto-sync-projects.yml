@@ -1,0 +1,50 @@
+name: Auto-Sync Portfolio Projects
+
+on:
+  # Trigger on push to main branch of ANY repository you contribute to
+  push:
+    branches:
+      - main
+      - master
+  
+  # Also run daily to catch any missed updates
+  schedule:
+    - cron: '0 0 * * *'  # Run at midnight UTC every day
+  
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  sync-projects:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout portfolio repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: |
+          npm install
+      
+      - name: Run AI-powered project sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BLACKBOX_API: ${{ secrets.BLACKBOX_API }}
+          GITHUB_USERNAME: ${{ github.repository_owner }}
+        run: |
+          npm run sync
+      
+      - name: Commit and push if changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Auto-sync: Updated portfolio projects [skip ci]" && git push)
