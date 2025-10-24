@@ -182,14 +182,27 @@ body {
   font-size: var(--font-size-base);
   line-height: 1.6;
   color: var(--color-text-primary);
-  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  background: transparent;
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
   transition: background-color var(--transition-base), color var(--transition-base);
 }
 
-body.dark-mode {
+/* Background gradient layer behind particles */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  z-index: -3;
+  pointer-events: none;
+}
+
+body.dark-mode::before {
   background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
 }
 
