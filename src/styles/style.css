@@ -1461,6 +1461,13 @@ display: flex;
   outline: none;
 }
 
+body.dark-mode .form-input,
+body.dark-mode .form-textarea {
+  background: rgba(51, 65, 85, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text-primary);
+}
+
 .form-input:focus,
 .form-textarea:focus {
   border-color: var(--color-primary);
@@ -2376,7 +2383,7 @@ body.dark-mode .moon-icon {
 .filter-btn.active {
   background: var(--gradient-primary);
   border-color: transparent;
-  color: #ffffff;
+  color: #ffffff !important;
   box-shadow: var(--shadow-glow);
 }
 

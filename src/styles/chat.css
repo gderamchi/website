@@ -291,7 +291,11 @@ body.dark-mode .bot-message .message-bubble {
 
 .user-message .message-bubble {
   background: var(--gradient-primary);
-  color: white;
+  color: white !important;
+}
+
+.user-message .message-bubble * {
+  color: white !important;
 }
 
 .message-bubble p {
