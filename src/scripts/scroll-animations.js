@@ -133,7 +133,8 @@ class ScrollAnimations {
    */
   setupCounterAnimations() {
     // Skip counter animations on projects page - handled by projects-page.js
-    if (window.location.pathname.includes('projects.html')) {
+    if (window.location.pathname.includes('projects.html') || 
+        window.location.href.includes('projects.html')) {
       console.log('[Scroll Animations] Skipping counter animations on projects page');
       return;
     }
@@ -144,9 +145,17 @@ class ScrollAnimations {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const target = entry.target;
+          
+          // Skip if already animated (prevents double animation)
+          if (target.dataset.animated === 'true') {
+            console.log('[Scroll Animations] Counter already animated, skipping:', target.id);
+            return;
+          }
+          
           const finalValue = parseInt(target.textContent.replace(/\D/g, '')) || 0;
           const suffix = target.textContent.replace(/[0-9]/g, '');
           
+          target.dataset.animated = 'true';
           this.animateCounter(target, 0, finalValue, 2000, suffix);
           counterObserver.unobserve(target);
         }
