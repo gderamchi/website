@@ -197,6 +197,41 @@
         document.querySelector('.copyright').textContent = '© 2025 Guillaume Deramchi. Tous droits réservés.';
       }
     });
+
+    // Track 404 errors in Google Analytics
+    if (typeof gtag === 'function') {
+      gtag('event', '404_error', {
+        'event_category': 'Error',
+        'event_label': document.referrer + ' -> ' + window.location.href,
+        'non_interaction': true
+      });
+    }
+    
+    // Suggest alternatives based on URL path
+    document.addEventListener('DOMContentLoaded', () => {
+      // Get the current path
+      const path = window.location.pathname;
+      
+      // Simple suggestion algorithm
+      if (path.includes('project')) {
+        document.getElementById('suggestion-projects').style.display = 'block';
+      } else if (path.includes('about')) {
+        document.getElementById('suggestion-about').style.display = 'block';
+      } else if (path.includes('contact')) {
+        document.getElementById('suggestion-contact').style.display = 'block';
+      }
+    });
   </script>
+
+  <!-- Add suggestion sections that will be conditionally shown -->
+  <div id="suggestion-projects" style="display: none;">
+    <p>Looking for projects? <a href="/website/projects.html">View all projects</a></p>
+  </div>
+  <div id="suggestion-about" style="display: none;">
+    <p>Want to know more about me? <a href="/website/#about">Check out the about section</a></p>
+  </div>
+  <div id="suggestion-contact" style="display: none;">
+    <p>Need to get in touch? <a href="/website/#contact">Go to the contact section</a></p>
+  </div>
 </body>
 </html>
