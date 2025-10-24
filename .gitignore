@@ -5,7 +5,6 @@
 
 # Netlify
 .netlify/
-netlify/
 
 # Node modules
 node_modules/
