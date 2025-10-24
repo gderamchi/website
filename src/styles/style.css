@@ -2436,6 +2436,7 @@ body.dark-mode .moon-icon {
   height: 240px;
   overflow: hidden;
   background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
 }
 
 body.dark-mode .project-image-container {
@@ -2447,6 +2448,7 @@ body.dark-mode .project-image-container {
   height: 100%;
   object-fit: cover;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
 }
 
 .project-card:hover .project-image {
