@@ -124,7 +124,15 @@ export async function generateProjectImageAI(project, apiKey) {
     return `images/projects/${project.name}.webp`;
   }
 
-  const prompt = `Create a simple, modern, minimalist illustration for: ${project.title || project.name}. ${project.description}. Technologies: ${project.topics?.slice(0, 3).join(', ') || 'software'}. Style: Clean geometric professional design, modern tech aesthetic, purple and cyan gradient background, simple icons or abstract shapes, minimalist composition, no text, high contrast, suitable for developer portfolio.`;
+  const prompt = `Create a simple, modern, minimalist illustration for: ${project.title || project.name}. ${project.description}. Technologies: ${project.topics?.slice(0, 3).join(', ') || 'software'}. 
+
+CRITICAL REQUIREMENTS:
+- NO TEXT whatsoever (no letters, no words, no labels, no titles)
+- NO numbers or characters
+- ONLY visual elements: icons, shapes, gradients, symbols
+- Pure illustration without any typography
+
+Style: Clean geometric professional design, modern tech aesthetic, purple and cyan gradient background, simple icons or abstract shapes representing the technology/concept, minimalist composition, high contrast, suitable for developer portfolio card thumbnail.`;
 
   try {
     // Use Blackbox AI with OpenJourney model for image generation
