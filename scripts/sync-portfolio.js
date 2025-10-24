@@ -139,34 +139,55 @@ async function syncPortfolio() {
           language: repo.language
         };
         
-        // Step 1: Check for existing AI-generated title/description to save API credits
+        // Step 1: Check for existing AI-generated title/description/image to save API credits
         let title = repo.name;
         let hasExistingEnhancement = false;
+        let existingImagePath = null;
         
         try {
           const projectsDataPath = path.join(__dirname, '../projects-data.js');
           if (fs.existsSync(projectsDataPath)) {
             const existingData = fs.readFileSync(projectsDataPath, 'utf8');
-            // Look for this project in existing data
-            const projectMatch = existingData.match(
-              new RegExp(`"name":\\s*"${repo.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^}]*?"title":\\s*"([^"]+)"[^}]*?"description":\\s*\\{[^}]*?"en":\\s*"([^"]+)"`, 's')
-            );
             
-            if (projectMatch && projectMatch[1] && projectMatch[2]) {
-              // Check if title looks AI-generated (not just formatted repo name)
-              const existingTitle = projectMatch[1];
-              const formattedName = formatTitle(repo.name);
+            // Parse the existing projects data
+            const projectsMatch = existingData.match(/const projects = (\[[\s\S]*?\]);/);
+            if (projectsMatch) {
+              const existingProjects = JSON.parse(projectsMatch[1]);
+              const existingProject = existingProjects.find(p => p.name === repo.name);
               
-              if (existingTitle !== formattedName && existingTitle.length > 10) {
-                title = existingTitle;
-                description = projectMatch[2];
-                hasExistingEnhancement = true;
-                console.log(`  ↻ Using existing AI title: "${title}"`);
+              if (existingProject) {
+                // Check if title looks AI-generated (not just formatted repo name)
+                const formattedName = formatTitle(repo.name);
+                
+                if (existingProject.title && 
+                    existingProject.title !== formattedName && 
+                    existingProject.title.length > 10) {
+                  title = existingProject.title;
+                  
+                  // Handle both old format (string) and new format (object)
+                  if (typeof existingProject.description === 'string') {
+                    description = existingProject.description;
+                  } else if (existingProject.description && existingProject.description.en) {
+                    description = existingProject.description.en;
+                  }
+                  
+                  // Reuse existing image if it exists
+                  if (existingProject.image && existingProject.image !== 'src/assets/images/projects/default.webp') {
+                    existingImagePath = existingProject.image;
+                  }
+                  
+                  hasExistingEnhancement = true;
+                  console.log(`  ↻ Using cached data: "${title}"`);
+                  if (existingImagePath) {
+                    console.log(`     Image: ${existingImagePath}`);
+                  }
+                }
               }
             }
           }
         } catch (error) {
-          // Ignore errors, will generate new data
+          console.warn(`  ⚠️  Could not load existing data: ${error.message}`);
+          // Continue with fresh generation
         }
         
         if (!hasExistingEnhancement && blackboxApiKey && useAI) {
@@ -187,7 +208,11 @@ async function syncPortfolio() {
         
         // Step 2: Generate project image with AI (if API key available and enabled)
         let imagePath;
-        if (blackboxApiKey && useAI) {
+        
+        // Use existing image if available
+        if (existingImagePath) {
+          imagePath = existingImagePath;
+        } else if (blackboxApiKey && useAI) {
           try {
             console.log(`  🎨 Generating AI image...`);
             const projectWithTitle = { ...projectForEnhancement, title, description };
@@ -202,14 +227,11 @@ async function syncPortfolio() {
           console.log(`  ℹ️  Using default image`);
         }
         
-        // Create project object
+        // Create project object (use simple string for description, not object)
         const project = {
           name: repo.name,
           title: title,
-          description: {
-            en: description,
-            fr: description // TODO: Add translation support
-          },
+          description: description, // Simple string format
           date: getProjectYear(repo),
           image: imagePath,
           topics: topics,
