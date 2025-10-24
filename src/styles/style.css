@@ -174,6 +174,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 body {
@@ -230,11 +231,13 @@ body.dark-mode::before {
 }
 
 .blob {
-  position: absolute;
+  position: fixed;
   border-radius: 50%;
   filter: blur(60px);
   opacity: 0.3;
   animation: float 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .blob-1 {
