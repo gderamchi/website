@@ -67,6 +67,7 @@
   <!-- CSS -->
   <link rel="stylesheet" href="src/styles/style.css">
   <link rel="stylesheet" href="src/styles/overscroll-fix.css">
+  <link rel="stylesheet" href="src/styles/enhancements.css">
   
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -129,9 +130,17 @@
   
   <!-- Custom JavaScript - Load after projects-data -->
   <script src="src/scripts/script.js" defer></script>
+  
+  <!-- Enhancement Scripts -->
+  <script src="src/scripts/particles.js" defer></script>
+  <script src="src/scripts/tilt-effect.js" defer></script>
+  <script src="src/scripts/scroll-animations.js" defer></script>
 </head>
 
 <body>
+  <!-- Interactive Particle Canvas -->
+  <canvas id="particles-canvas"></canvas>
+  
   <!-- Floating Blobs Background -->
   <div class="background-blobs">
     <div class="blob blob-1"></div>

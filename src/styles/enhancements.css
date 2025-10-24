@@ -1,0 +1,536 @@
+/* ============================================
+   DESIGN ENHANCEMENTS
+   Interactive Particles, 3D Tilt, Smooth Animations
+   ============================================ */
+
+/* ============================================
+   1. PARTICLE CANVAS
+   ============================================ */
+
+#particles-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+body.dark-mode #particles-canvas {
+  opacity: 0.8;
+}
+
+/* ============================================
+   2. 3D TILT ENHANCEMENTS
+   ============================================ */
+
+/* Ensure cards are ready for 3D transforms */
+.project-card,
+.bento-item,
+.glass-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Tilt glare effect */
+.tilt-glare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+/* Inner content should be slightly elevated in 3D space */
+.project-card .project-content,
+.bento-item > *:not(.tilt-glare),
+.glass-card > *:not(.tilt-glare) {
+  transform: translateZ(20px);
+  position: relative;
+  z-index: 2;
+}
+
+.project-card .project-image-container {
+  transform: translateZ(10px);
+}
+
+/* Enhanced shadows for 3D depth */
+.project-card:hover,
+.bento-item:hover,
+.glass-card:hover {
+  box-shadow: 
+    0 30px 60px -12px rgba(0, 0, 0, 0.25),
+    0 18px 36px -18px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(99, 102, 241, 0.4);
+}
+
+/* ============================================
+   3. SCROLL ANIMATIONS
+   ============================================ */
+
+/* Reveal animation base */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reveal variants */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-left.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-right.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-scale.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Scroll progress bar */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #6366f1 0%, #06b6d4 100%);
+  z-index: 9999;
+  transition: width 0.1s ease;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+}
+
+/* ============================================
+   4. ENHANCED HOVER EFFECTS
+   ============================================ */
+
+/* Magnetic button effect */
+.btn-magnetic {
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-magnetic:hover {
+  transform: translateY(-2px);
+}
+
+/* Ripple effect on click */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* ============================================
+   5. PARALLAX ELEMENTS
+   ============================================ */
+
+[data-parallax] {
+  will-change: transform;
+  transition: transform 0.1s ease-out;
+}
+
+/* Parallax background layers */
+.parallax-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.parallax-layer-1 {
+  transform: translateZ(-100px) scale(2);
+}
+
+.parallax-layer-2 {
+  transform: translateZ(-50px) scale(1.5);
+}
+
+/* ============================================
+   6. ENHANCED CARD INTERACTIONS
+   ============================================ */
+
+/* Card shine effect on hover */
+.project-card::after,
+.bento-item::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  transition: transform 0.6s;
+  pointer-events: none;
+}
+
+.project-card:hover::after,
+.bento-item:hover::after {
+  transform: translateX(100%) translateY(100%) rotate(45deg);
+}
+
+/* ============================================
+   7. SMOOTH TRANSITIONS
+   ============================================ */
+
+/* Page transition overlay */
+.page-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-primary);
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  pointer-events: none;
+}
+
+.page-transition.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ============================================
+   8. LOADING STATES
+   ============================================ */
+
+/* Skeleton loading for cards */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-tertiary) 25%,
+    var(--color-bg-secondary) 50%,
+    var(--color-bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+  border-radius: var(--radius-lg);
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-text {
+  height: 1em;
+  margin-bottom: 0.5em;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-title {
+  height: 2em;
+  width: 70%;
+  margin-bottom: 1em;
+}
+
+.skeleton-image {
+  height: 200px;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+/* ============================================
+   9. ENHANCED FOCUS STATES
+   ============================================ */
+
+/* Better focus indicators for accessibility */
+*:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.btn:focus-visible,
+.project-card:focus-visible,
+.nav-link:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 4px;
+}
+
+/* ============================================
+   10. MICRO-INTERACTIONS
+   ============================================ */
+
+/* Icon bounce on hover */
+.icon-bounce:hover {
+  animation: icon-bounce 0.6s ease;
+}
+
+@keyframes icon-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-10px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  75% {
+    transform: translateY(-7px);
+  }
+}
+
+/* Pulse animation for important elements */
+.pulse {
+  animation: pulse-animation 2s ease-in-out infinite;
+}
+
+@keyframes pulse-animation {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+/* Shake animation for errors */
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px);
+  }
+}
+
+/* ============================================
+   11. ENHANCED TYPOGRAPHY ANIMATIONS
+   ============================================ */
+
+/* Gradient text animation */
+.gradient-text-animated {
+  background: linear-gradient(
+    90deg,
+    #6366f1 0%,
+    #06b6d4 25%,
+    #10b981 50%,
+    #ec4899 75%,
+    #6366f1 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-flow 3s linear infinite;
+}
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Text reveal animation */
+.text-reveal {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.text-reveal span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(100%);
+  animation: text-reveal-animation 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes text-reveal-animation {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   12. PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* GPU acceleration for animated elements */
+.project-card,
+.bento-item,
+.glass-card,
+.btn,
+[data-parallax] {
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  #particles-canvas {
+    display: none;
+  }
+}
+
+/* ============================================
+   13. RESPONSIVE ENHANCEMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Reduce 3D effects on mobile for performance */
+  .project-card,
+  .bento-item,
+  .glass-card {
+    transform-style: flat;
+  }
+  
+  /* Simplify animations on mobile */
+  .reveal,
+  .reveal-left,
+  .reveal-right {
+    transform: translateY(20px);
+  }
+  
+  /* Reduce particle count on mobile (handled in JS) */
+  #particles-canvas {
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 480px) {
+  .scroll-progress {
+    height: 2px;
+  }
+}
+
+/* ============================================
+   14. DARK MODE ENHANCEMENTS
+   ============================================ */
+
+body.dark-mode .tilt-glare {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+}
+
+body.dark-mode .skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-tertiary) 25%,
+    rgba(51, 65, 85, 0.5) 50%,
+    var(--color-bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+}
+
+/* ============================================
+   15. PRINT STYLES
+   ============================================ */
+
+@media print {
+  #particles-canvas,
+  .scroll-progress,
+  .tilt-glare,
+  .page-transition {
+    display: none !important;
+  }
+  
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
