@@ -175,24 +175,6 @@ class Particle {
   }
 }
 
-// Initialize particle system when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initParticles);
-} else {
-  initParticles();
-}
-
-function initParticles() {
-  // Check if user prefers reduced motion
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  
-  if (!prefersReducedMotion) {
-    new ParticleSystem('particles-canvas', {
-      particleCount: 80,
-      particleSize: 2,
-      particleSpeed: 0.3,
-      connectionDistance: 120,
-      mouseInteraction: true
-    });
-  }
-}
+// Export ParticleSystem class for external initialization
+// Auto-initialization removed - handled by init-animations.js
+window.ParticleSystem = ParticleSystem;
