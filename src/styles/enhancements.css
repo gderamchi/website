@@ -32,6 +32,7 @@ body.dark-mode #particles-canvas {
 .glass-card {
   transform-style: preserve-3d;
   will-change: transform;
+  overflow: hidden;
 }
 
 /* Tilt glare effect */
@@ -45,6 +46,7 @@ body.dark-mode #particles-canvas {
   pointer-events: none;
   z-index: 1;
   mix-blend-mode: overlay;
+  overflow: hidden;
 }
 
 /* Inner content should be slightly elevated in 3D space */
@@ -222,6 +224,8 @@ body.dark-mode #particles-canvas {
   transform: translateX(-100%) translateY(-100%) rotate(45deg);
   transition: transform 0.6s;
   pointer-events: none;
+  border-radius: inherit;
+  overflow: hidden;
 }
 
 .project-card:hover::after,

@@ -511,6 +511,8 @@ nav {
   background: linear-gradient(135deg, #818cf8 0%, #3b82f6 100%);
   opacity: 0;
   transition: opacity var(--transition-base);
+  z-index: 0;
+  border-radius: inherit;
 }
 
 .btn-primary:hover {
@@ -522,9 +524,12 @@ nav {
   opacity: 1;
 }
 
-.btn-primary span {
+.btn-primary span,
+.btn-primary i,
+.btn-primary * {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  color: white;
 }
 
 .btn-outline {
