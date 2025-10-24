@@ -174,7 +174,6 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
 }
 
 body {
@@ -238,31 +237,32 @@ body.dark-mode::before {
   animation: float 20s ease-in-out infinite;
   pointer-events: none;
   z-index: -1;
+  will-change: transform;
 }
 
 .blob-1 {
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 300px;
   background: var(--gradient-primary);
-  top: -200px;
-  left: -200px;
+  top: 10%;
+  left: 5%;
   animation-delay: 0s;
 }
 
 .blob-2 {
-  width: 350px;
-  height: 350px;
+  width: 250px;
+  height: 250px;
   background: var(--gradient-secondary);
   top: 50%;
-  right: -175px;
+  right: 5%;
   animation-delay: -5s;
 }
 
 .blob-3 {
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   background: var(--gradient-accent);
-  bottom: -150px;
+  bottom: 10%;
   left: 30%;
   animation-delay: -10s;
 }
