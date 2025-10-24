@@ -222,7 +222,8 @@ body.dark-mode .projects-filter-section {
   border-radius: 12px;
   font-size: 12px;
   font-weight: 700;
-  background: var(--color-bg-tertiary);
+  background: rgba(241, 245, 249, 0.7);
+  backdrop-filter: blur(10px);
   color: var(--color-text-primary);
   transition: all 0.3s ease;
 }
