@@ -125,6 +125,14 @@ async function syncPortfolio() {
         const repoOwner = repo.owner?.login || username;
         const details = await getRepoDetails(repoOwner, repo.name, token);
         
+        // Check if repo only contains README (no actual code)
+        if (details.isReadmeOnly) {
+          console.log(`  🚫 Filtered out: README-only repository (no code files)`);
+          console.log('');
+          filteredCount++;
+          continue;
+        }
+        
         // Use README description if available, otherwise use repo description
         let description = details.description || repo.description || 'A software project';
         
