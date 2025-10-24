@@ -322,6 +322,11 @@ function generateIntelligentResponse(message) {
 
 // Convert markdown to HTML
 function markdownToHtml(text) {
+  // Convert headers (## Header) to <h3>
+  text = text.replace(/^###\s+(.+)$/gm, '<h4>$1</h4>');
+  text = text.replace(/^##\s+(.+)$/gm, '<h3>$1</h3>');
+  text = text.replace(/^#\s+(.+)$/gm, '<h2>$1</h2>');
+  
   // Convert **bold** to <strong>
   text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   
@@ -330,6 +335,9 @@ function markdownToHtml(text) {
   
   // Convert `code` to <code>
   text = text.replace(/`(.+?)`/g, '<code>$1</code>');
+  
+  // Convert horizontal rules (---)
+  text = text.replace(/^---$/gm, '<hr>');
   
   // Convert numbered lists (1. item)
   text = text.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
@@ -348,8 +356,8 @@ function markdownToHtml(text) {
     return match;
   });
   
-  // Convert line breaks to <br> (but not inside lists)
-  text = text.replace(/\n(?!<[ou]l>|<li>|<\/[ou]l>|<\/li>)/g, '<br>');
+  // Convert line breaks to <br> (but not inside lists or after headers)
+  text = text.replace(/\n(?!<[ou]l>|<li>|<\/[ou]l>|<\/li>|<h[2-4]>|<\/h[2-4]>|<hr>)/g, '<br>');
   
   return text;
 }
