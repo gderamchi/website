@@ -60,24 +60,29 @@ function initHeaderScroll() {
 // Skills data
 const skills = [
   {
-    icon: '⚛️',
-    title: 'Frontend',
-    description: 'React, Vue, HTML/CSS'
+    icon: '💬',
+    title: 'Communication',
+    description: 'Clear & Effective'
   },
   {
-    icon: '🔧',
-    title: 'Backend',
-    description: 'Node.js, Python, APIs'
+    icon: '🤝',
+    title: 'Team work',
+    description: 'Collaborative Spirit'
   },
   {
-    icon: '📱',
-    title: 'Mobile',
-    description: 'React Native, Flutter'
+    icon: '<i class="fab fa-git-alt"></i>',
+    title: 'Git',
+    description: 'Version Control'
   },
   {
-    icon: '🤖',
-    title: 'AI/Prompts',
-    description: 'LLM, Prompt Engineering'
+    icon: '👨‍💻',
+    title: 'C',
+    description: 'Systems Programming'
+  },
+  {
+    icon: '🧩',
+    title: 'Problem solving',
+    description: 'Analytical Thinking'
   }
 ];
 
