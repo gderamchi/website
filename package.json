@@ -2,10 +2,13 @@
   "name": "guillaume-portfolio",
   "version": "1.0.0",
   "description": "Guillaume Deramchi's Portfolio Website",
+  "type": "module",
   "scripts": {
     "dev": "netlify dev",
     "build": "echo 'Static site - no build needed'",
-    "deploy": "netlify deploy --prod"
+    "deploy": "netlify deploy --prod",
+    "sync": "node scripts/sync-portfolio.js",
+    "sync:incremental": "node scripts/incremental-sync.js"
   },
   "keywords": [
     "portfolio",
@@ -14,6 +17,10 @@
   ],
   "author": "Guillaume Deramchi",
   "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "sharp": "^0.33.0"
+  },
   "devDependencies": {
     "netlify-cli": "^17.38.1"
   }
