@@ -109,16 +109,23 @@ async function syncPortfolio() {
             continue;
           }
           
-          // Filter 3: Only filter if COMPLETELY empty (no description, no topics, no stars)
-          if (!repo.description && (!repo.topics || repo.topics.length === 0) && 
-              (!repo.stargazers_count || repo.stargazers_count === 0)) {
-            console.log(`  🚫 Filtered out: No description, topics, or activity`);
+          // Filter 3: Be VERY inclusive - only filter if it's a fork with absolutely nothing
+          // Include ALL owned repos (not forks) even if they have no description
+          const isOwned = !repo.fork;
+          const hasAnyContent = repo.description || 
+                               (repo.topics && repo.topics.length > 0) || 
+                               (repo.stargazers_count && repo.stargazers_count > 0) ||
+                               repo.size > 0; // Has any files
+          
+          // Only exclude forks that are completely empty
+          if (repo.fork && !hasAnyContent) {
+            console.log(`  🚫 Filtered out: Empty fork with no activity`);
             console.log('');
             filteredCount++;
             continue;
           }
           
-          console.log(`  ✓ Relevant: Appears to be a project`);
+          console.log(`  ✓ Relevant: ${isOwned ? 'Owned repository' : 'Has activity'}`);
         }
         // Get detailed information
         // Use repo owner for organization repos

@@ -121,26 +121,27 @@ function fallbackRelevanceCheck(project) {
     return { isRelevant: false, reason: 'Configuration repository' };
   }
   
-  // IMPORTANT: Be very inclusive - only exclude if completely empty
-  // Include if ANY of these conditions are true:
-  // - Has a description
-  // - Has topics/tags
-  // - Has stars
-  // - Is owned by user (not a fork)
-  // - Has any activity (not 0 stars AND not 0 topics)
+  // IMPORTANT: Be VERY inclusive - include ALL owned repos
+  // Only exclude forks that are completely empty
   
   const hasDescription = project.description && project.description.length > 0;
   const hasTopics = project.topics && project.topics.length > 0;
   const hasStars = project.stars && project.stars > 0;
   const isOwned = !project.fork;
+  const hasSize = project.size && project.size > 0;
   
-  // Include if it has ANY indicator of being a real project
-  if (hasDescription || hasTopics || hasStars || isOwned) {
-    return { isRelevant: true, reason: 'Has project indicators' };
+  // Include ALL owned repositories (even without description)
+  if (isOwned) {
+    return { isRelevant: true, reason: 'Owned repository' };
   }
   
-  // Only exclude if it's a fork with absolutely nothing
-  return { isRelevant: false, reason: 'Empty fork with no activity' };
+  // For forks, include if they have ANY activity
+  if (hasDescription || hasTopics || hasStars || hasSize) {
+    return { isRelevant: true, reason: 'Fork with activity' };
+  }
+  
+  // Only exclude completely empty forks
+  return { isRelevant: false, reason: 'Empty fork' };
 }
 
 /**
