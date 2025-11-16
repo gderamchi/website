@@ -60,6 +60,9 @@ jobs:
           elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             echo "type=${{ github.event.inputs.sync_type }}" >> $GITHUB_OUTPUT
             echo "reason=Manual trigger" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" == "repository_dispatch" ]; then
+            echo "type=full" >> $GITHUB_OUTPUT
+            echo "reason=Triggered by push to ${{ github.event.client_payload.repository }}" >> $GITHUB_OUTPUT
           elif [ "${{ github.event_name }}" == "push" ]; then
             # Check if this is a push to the portfolio repo itself
             if [ "${{ github.repository }}" == "${{ github.event.repository.full_name }}" ]; then
