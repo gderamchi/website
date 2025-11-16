@@ -1,0 +1,87 @@
+/* ============================================
+   MOBILE & RESPONSIVE FIXES
+   ============================================ */
+
+/* Better mobile navigation */
+@media (max-width: 768px) {
+  /* Fix mobile menu */
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background: var(--color-bg-primary);
+    flex-direction: column;
+    padding: 80px 20px 20px;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    z-index: 1000;
+  }
+  
+  .nav-links.active {
+    right: 0;
+  }
+  
+  /* Ensure menu toggle is visible */
+  .menu-toggle {
+    display: block !important;
+    z-index: 1001;
+  }
+  
+  /* Fix hero section on mobile */
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .hero-image {
+    max-width: 250px;
+    margin: 0 auto;
+  }
+  
+  /* Fix bento grid on mobile */
+  .bento-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+  }
+  
+  /* Fix project cards on mobile */
+  .projects-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Better touch targets */
+  .btn, .filter-btn, .nav-link {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Tablet fixes */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Small mobile fixes */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.75rem !important;
+  }
+  
+  .section-title {
+    font-size: 1.5rem !important;
+  }
+  
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
