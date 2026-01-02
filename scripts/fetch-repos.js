@@ -415,9 +415,13 @@ function extractDescription(readme) {
  * @returns {string} Year as string
  */
 export function getProjectYear(repo) {
-  // Use pushed_at for most recent activity, or created_at as fallback
-  const date = new Date(repo.pushed_at || repo.created_at);
-  return date.getFullYear().toString();
+  // Use pushed_at for most recent activity, or created_at, or updated_at as fallbacks
+  const dateStr = repo.pushed_at || repo.created_at || repo.updated_at;
+  if (!dateStr) {
+    return new Date().getFullYear().toString(); // Default to current year
+  }
+  const date = new Date(dateStr);
+  return isNaN(date.getFullYear()) ? new Date().getFullYear().toString() : date.getFullYear().toString();
 }
 
 /**
