@@ -11,7 +11,7 @@ exports.handler = async (event, context) => {
   }
 
   // Get API key from environment variable
-  const BLACKBOX_API_KEY = process.env.BLACKBOX_API_KEY;
+  const BLACKBOX_API_KEY = process.env.BLACKBOX_API;
 
   if (!BLACKBOX_API_KEY) {
     console.error('BLACKBOX_API_KEY not found in environment variables');

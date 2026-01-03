@@ -19,7 +19,7 @@ async function syncPortfolio() {
   // Get configuration from environment or use defaults
   const username = process.env.GITHUB_USERNAME || 'gderamchi';
   const token = process.env.GITHUB_TOKEN;
-  const blackboxApiKey = process.env.BLACKBOX_API_KEY;
+  const blackboxApiKey = process.env.BLACKBOX_API;
 
   // Organizations to check for contributions
   const organizations = process.env.GITHUB_ORGS
@@ -35,8 +35,8 @@ async function syncPortfolio() {
   const useAI = true; // Enabled: Using paid models for optimal results
 
   if (!blackboxApiKey) {
-    console.warn('⚠️  No BLACKBOX_API_KEY found. AI enhancements will be skipped.');
-    console.warn('   Set BLACKBOX_API_KEY environment variable for AI-generated descriptions and images.\n');
+    console.warn('⚠️  No BLACKBOX_API found. AI enhancements will be skipped.');
+    console.warn('   Set BLACKBOX_API environment variable for AI-generated descriptions and images.\n');
   } else if (!useAI) {
     console.warn('ℹ️  AI features temporarily disabled - using fallback system.');
     console.warn('   Waiting for correct Blackbox API endpoint documentation.\n');

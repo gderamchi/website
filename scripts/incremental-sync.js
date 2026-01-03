@@ -22,7 +22,7 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
   console.log(`📦 Processing repository: ${repoFullName}\n`);
 
   const token = process.env.GITHUB_TOKEN;
-  const blackboxApiKey = process.env.BLACKBOX_API_KEY;
+  const blackboxApiKey = process.env.BLACKBOX_API;
   const username = process.env.GITHUB_USERNAME || repoOwner;
 
   if (!token) {
@@ -30,7 +30,7 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
   }
 
   if (!blackboxApiKey) {
-    console.warn('⚠️  No BLACKBOX_API_KEY found. AI enhancements will be skipped.\n');
+    console.warn('⚠️  No BLACKBOX_API found. AI enhancements will be skipped.\n');
   }
 
   try {

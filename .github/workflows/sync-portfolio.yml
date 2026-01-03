@@ -82,7 +82,7 @@ jobs:
         env:
           GITHUB_USERNAME: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BLACKBOX_API_KEY: ${{ secrets.BLACKBOX_API_KEY }}
+          BLACKBOX_API: ${{ secrets.BLACKBOX_API }}
         run: |
           echo "🔄 Running incremental sync for: ${{ github.repository }}"
           echo "Reason: ${{ steps.sync-type.outputs.reason }}"
@@ -93,7 +93,7 @@ jobs:
         env:
           GITHUB_USERNAME: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BLACKBOX_API_KEY: ${{ secrets.BLACKBOX_API_KEY }}
+          BLACKBOX_API: ${{ secrets.BLACKBOX_API }}
           GITHUB_ORGS: algosup
         run: |
           echo "🔄 Running full sync of all repositories"
