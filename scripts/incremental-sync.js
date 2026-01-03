@@ -12,7 +12,7 @@ const __dirname = dirname(__filename);
 /**
  * Incremental sync - Only process the specific repository that was pushed
  * This is much more efficient than re-analyzing all repositories
- * 
+ *
  * @param {string} repoFullName - Full repository name (e.g., "username/repo-name")
  * @param {string} repoOwner - Repository owner username
  * @param {string} repoName - Repository name
@@ -20,34 +20,34 @@ const __dirname = dirname(__filename);
 async function incrementalSync(repoFullName, repoOwner, repoName) {
   console.log('🚀 Starting incremental portfolio sync...\n');
   console.log(`📦 Processing repository: ${repoFullName}\n`);
-  
+
   const token = process.env.GITHUB_TOKEN;
-  const blackboxApiKey = process.env.BLACKBOX_API;
+  const blackboxApiKey = process.env.BLACKBOX_API_KEY;
   const username = process.env.GITHUB_USERNAME || repoOwner;
-  
+
   if (!token) {
     console.warn('⚠️  No GITHUB_TOKEN found. API rate limits will be lower.\n');
   }
-  
+
   if (!blackboxApiKey) {
-    console.warn('⚠️  No BLACKBOX_API found. AI enhancements will be skipped.\n');
+    console.warn('⚠️  No BLACKBOX_API_KEY found. AI enhancements will be skipped.\n');
   }
-  
+
   try {
     // Step 1: Load existing projects data
     console.log('📂 Loading existing projects data...');
     const projectsDataPath = path.join(__dirname, '../projects-data.js');
     let existingProjects = [];
     let existingProject = null;
-    
+
     if (fs.existsSync(projectsDataPath)) {
       const existingData = fs.readFileSync(projectsDataPath, 'utf8');
       const projectsMatch = existingData.match(/const projects = (\[[\s\S]*?\]);/);
-      
+
       if (projectsMatch) {
         existingProjects = JSON.parse(projectsMatch[1]);
         existingProject = existingProjects.find(p => p.name === repoName);
-        
+
         if (existingProject) {
           console.log(`  ✓ Found existing project: "${existingProject.title || repoName}"`);
         } else {
@@ -56,11 +56,11 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
       }
     }
     console.log('');
-    
+
     // Step 2: Fetch repository details
     console.log(`🔍 Fetching repository details...`);
     const details = await getRepoDetails(repoOwner, repoName, token);
-    
+
     // Basic repo info from API
     const repoInfo = {
       name: repoName,
@@ -73,17 +73,17 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
       updated_at: details.updated_at || new Date().toISOString(),
       owner: { login: repoOwner }
     };
-    
+
     console.log(`  ✓ Repository: ${repoName}`);
     console.log(`  ✓ Language: ${repoInfo.language}`);
     console.log(`  ✓ Stars: ${repoInfo.stargazers_count}`);
     console.log(`  ✓ Topics: ${repoInfo.topics.join(', ') || 'none'}`);
     console.log('');
-    
+
     // Step 3: Check if repo only contains README (no actual code)
     if (details.isReadmeOnly) {
       console.log(`🚫 Repository is README-only (no code files)`);
-      
+
       // If it exists in portfolio, remove it
       if (existingProject) {
         console.log(`  → Removing from portfolio...`);
@@ -93,22 +93,22 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
       } else {
         console.log(`  ℹ️  Not in portfolio, nothing to do\n`);
       }
-      
+
       return;
     }
-    
+
     // Step 4: If project exists, just update the date to bring it to top
     if (existingProject) {
       console.log(`♻️  Project already exists in portfolio`);
       console.log(`  → Updating timestamp to bring to top...`);
-      
+
       // Update the project's updated_at timestamp
       existingProject.updated = repoInfo.updated_at;
       existingProject.date = getProjectYear(repoInfo);
-      
+
       // Update stars count
       existingProject.stars = repoInfo.stargazers_count;
-      
+
       // Re-sort projects by date (newest first)
       existingProjects.sort((a, b) => {
         const dateA = parseInt(a.date);
@@ -116,23 +116,23 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
         if (dateB !== dateA) return dateB - dateA;
         return new Date(b.updated) - new Date(a.updated);
       });
-      
+
       updateProjectsDataFile(existingProjects);
       console.log(`  ✓ Project moved to top of portfolio\n`);
-      
+
       console.log('✨ Incremental sync complete!\n');
       console.log(`📊 Summary:`);
       console.log(`  • Action: Updated existing project`);
       console.log(`  • Project: "${existingProject.title}"`);
       console.log(`  • New position: Top of portfolio`);
       console.log(`  • Total projects: ${existingProjects.length}\n`);
-      
+
       return;
     }
-    
+
     // Step 5: New project - Check relevance with AI
     console.log(`🆕 New project detected - checking relevance...`);
-    
+
     if (blackboxApiKey) {
       const relevanceCheck = await isProjectRelevant({
         name: repoInfo.name,
@@ -141,46 +141,46 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
         language: repoInfo.language,
         stars: repoInfo.stargazers_count
       }, blackboxApiKey);
-      
+
       if (!relevanceCheck.isRelevant) {
         console.log(`  🚫 Not relevant: ${relevanceCheck.reason}`);
         console.log(`  ℹ️  Skipping portfolio addition\n`);
         return;
       }
-      
+
       console.log(`  ✓ Relevant: ${relevanceCheck.reason}`);
     } else {
       // Fallback: Rule-based filtering
       const repoNameLower = repoName.toLowerCase();
       const description = (repoInfo.description || '').toLowerCase();
-      
+
       // Filter profile README
       if (repoNameLower === username.toLowerCase()) {
         console.log(`  🚫 Not relevant: Profile README`);
         return;
       }
-      
+
       // Filter config/dotfiles
-      if (repoNameLower.includes('config') || repoNameLower.includes('dotfiles') || 
+      if (repoNameLower.includes('config') || repoNameLower.includes('dotfiles') ||
           description.includes('my personal') || description.includes('configuration')) {
         console.log(`  🚫 Not relevant: Configuration/personal repo`);
         return;
       }
-      
+
       console.log(`  ✓ Relevant: Appears to be a project`);
     }
     console.log('');
-    
+
     // Step 6: Generate project card with AI
     console.log(`🎨 Generating project card...`);
-    
+
     // Use README description if available
     let description = details.description || repoInfo.description || 'A software project';
     let title = formatTitle(repoName);
-    
+
     // Generate topics
     const topics = generateTopics(repoInfo, details.languages);
-    
+
     // AI enhancement for title and description
     if (blackboxApiKey) {
       try {
@@ -191,7 +191,7 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
           topics: topics,
           language: repoInfo.language
         };
-        
+
         const enhanced = await enhanceProjectDescription(projectForEnhancement, blackboxApiKey);
         title = enhanced.title;
         description = enhanced.description;
@@ -201,10 +201,10 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
         console.error(`  ⚠️  AI enhancement failed, using fallback`);
       }
     }
-    
+
     // Generate AI image
     let imagePath = 'src/assets/images/projects/default.webp';
-    
+
     if (blackboxApiKey) {
       try {
         console.log(`  🎨 Generating AI image...`);
@@ -215,7 +215,7 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
           topics,
           language: repoInfo.language
         };
-        
+
         imagePath = await generateProjectImageAI(projectWithTitle, blackboxApiKey);
         console.log(`  ✓ Image generated: ${imagePath}`);
       } catch (error) {
@@ -223,7 +223,7 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
       }
     }
     console.log('');
-    
+
     // Step 7: Create new project object
     const newProject = {
       name: repoName,
@@ -238,11 +238,11 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
       language: repoInfo.language,
       updated: repoInfo.updated_at
     };
-    
+
     // Step 8: Add to portfolio and sort
     console.log(`📝 Adding to portfolio...`);
     existingProjects.unshift(newProject); // Add to beginning
-    
+
     // Sort by date
     existingProjects.sort((a, b) => {
       const dateA = parseInt(a.date);
@@ -250,10 +250,10 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
       if (dateB !== dateA) return dateB - dateA;
       return new Date(b.updated) - new Date(a.updated);
     });
-    
+
     updateProjectsDataFile(existingProjects);
     console.log(`  ✓ Project added successfully\n`);
-    
+
     // Step 9: Summary
     console.log('✨ Incremental sync complete!\n');
     console.log(`📊 Summary:`);
@@ -262,7 +262,7 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
     console.log(`  • Language: ${repoInfo.language}`);
     console.log(`  • Topics: ${topics.join(', ')}`);
     console.log(`  • Total projects: ${existingProjects.length}\n`);
-    
+
   } catch (error) {
     console.error('\n❌ Error during incremental sync:', error);
     console.error(error.stack);
@@ -288,16 +288,16 @@ function formatTitle(name) {
  */
 function updateProjectsDataFile(projects) {
   const projectsDataPath = path.join(__dirname, '../projects-data.js');
-  
+
   // Create backup
   if (fs.existsSync(projectsDataPath)) {
     const backupPath = path.join(__dirname, '../projects-data.backup.js');
     fs.copyFileSync(projectsDataPath, backupPath);
   }
-  
+
   const timestamp = new Date().toISOString();
   const projectsJson = JSON.stringify(projects, null, 2);
-  
+
   const fileContent = `// Projects data - Auto-generated by incremental-sync.js
 // Last updated: ${timestamp}
 // Total projects: ${projects.length}
@@ -309,28 +309,28 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = { projects };
 }
 `;
-  
+
   fs.writeFileSync(projectsDataPath, fileContent, 'utf8');
 }
 
 // Run if called directly
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = process.argv.slice(2);
-  
+
   if (args.length < 1) {
     console.error('Usage: node incremental-sync.js <repo-full-name>');
     console.error('Example: node incremental-sync.js gderamchi/my-project');
     process.exit(1);
   }
-  
+
   const repoFullName = args[0];
   const [repoOwner, repoName] = repoFullName.split('/');
-  
+
   if (!repoOwner || !repoName) {
     console.error('Invalid repository format. Use: owner/repo-name');
     process.exit(1);
   }
-  
+
   incrementalSync(repoFullName, repoOwner, repoName).catch(error => {
     console.error('Fatal error:', error);
     process.exit(1);
