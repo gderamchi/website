@@ -64,14 +64,9 @@ jobs:
             echo "type=full" >> $GITHUB_OUTPUT
             echo "reason=Triggered by push to ${{ github.event.client_payload.repository }}" >> $GITHUB_OUTPUT
           elif [ "${{ github.event_name }}" == "push" ]; then
-            # Check if this is a push to the portfolio repo itself
-            if [ "${{ github.repository }}" == "${{ github.event.repository.full_name }}" ]; then
-              echo "type=incremental" >> $GITHUB_OUTPUT
-              echo "reason=Push to portfolio repository" >> $GITHUB_OUTPUT
-            else
-              echo "type=full" >> $GITHUB_OUTPUT
-              echo "reason=Push event" >> $GITHUB_OUTPUT
-            fi
+            # Force full sync to regenerate projects with new AI model
+            echo "type=full" >> $GITHUB_OUTPUT
+            echo "reason=Push event - full sync" >> $GITHUB_OUTPUT
           else
             echo "type=full" >> $GITHUB_OUTPUT
             echo "reason=Default" >> $GITHUB_OUTPUT
