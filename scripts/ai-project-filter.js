@@ -74,25 +74,26 @@ Analyze carefully and respond ONLY with valid JSON (no markdown, no code blocks)
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`API error ${response.status}: ${errorText}`);
+      console.warn(`  ⚠️  AI API error ${response.status}: ${errorText.substring(0, 100)}`);
+      return fallbackRelevanceCheck(project);
     }
 
     const data = await response.json();
     let content = data.choices?.[0]?.message?.content || data.response || '';
-    
+
     // Clean up response
     content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-    
+
     const result = JSON.parse(content);
-    
+
     return {
       isRelevant: result.isRelevant === true,
       reason: result.reason || 'No reason provided'
     };
-    
+
   } catch (error) {
     console.error(`  ⚠️  AI filtering failed for ${project.name}:`, error.message);
-    
+
     // Fallback: Use basic heuristics
     return fallbackRelevanceCheck(project);
   }
@@ -106,40 +107,40 @@ Analyze carefully and respond ONLY with valid JSON (no markdown, no code blocks)
 function fallbackRelevanceCheck(project) {
   const name = project.name.toLowerCase();
   const description = (project.description || '').toLowerCase();
-  
+
   // Exclude profile READMEs (exact username match)
   // Common patterns: username/username, username.github.io
-  if (name === 'guillaume18100' || name === 'gderamchi' || 
-      name.endsWith('.github.io') || 
+  if (name === 'guillaume18100' || name === 'gderamchi' ||
+      name.endsWith('.github.io') ||
       (description.includes('profile') && description.includes('readme'))) {
     return { isRelevant: false, reason: 'Profile README' };
   }
-  
+
   // Exclude pure config repositories (must have config/dotfiles in name AND no description)
-  if ((name.includes('config') || name.includes('dotfiles') || name.includes('settings')) && 
+  if ((name.includes('config') || name.includes('dotfiles') || name.includes('settings')) &&
       !project.description) {
     return { isRelevant: false, reason: 'Configuration repository' };
   }
-  
+
   // IMPORTANT: Be VERY inclusive - include ALL owned repos
   // Only exclude forks that are completely empty
-  
+
   const hasDescription = project.description && project.description.length > 0;
   const hasTopics = project.topics && project.topics.length > 0;
   const hasStars = project.stars && project.stars > 0;
   const isOwned = !project.fork;
   const hasSize = project.size && project.size > 0;
-  
+
   // Include ALL owned repositories (even without description)
   if (isOwned) {
     return { isRelevant: true, reason: 'Owned repository' };
   }
-  
+
   // For forks, include if they have ANY activity
   if (hasDescription || hasTopics || hasStars || hasSize) {
     return { isRelevant: true, reason: 'Fork with activity' };
   }
-  
+
   // Only exclude completely empty forks
   return { isRelevant: false, reason: 'Empty fork' };
 }
@@ -229,23 +230,29 @@ Analyze thoroughly and respond ONLY with valid JSON (no markdown, no code blocks
     });
 
     if (!response.ok) {
-      throw new Error(`API error ${response.status}`);
+      console.warn(`  ⚠️  AI duplicate API error ${response.status}`);
+      const similarity = calculateSimpleSimilarity(project1.title, project2.title);
+      return {
+        isDuplicate: similarity > 0.85,
+        confidence: similarity,
+        reason: 'Fallback: API error'
+      };
     }
 
     const data = await response.json();
     let content = data.choices?.[0]?.message?.content || data.response || '';
-    
+
     // Clean up response
     content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-    
+
     const result = JSON.parse(content);
-    
+
     return {
       isDuplicate: result.isDuplicate === true && result.confidence > 0.85,
       confidence: result.confidence || 0,
       reason: result.reason || 'No reason provided'
     };
-    
+
   } catch (error) {
     // Fallback to simple title comparison
     const similarity = calculateSimpleSimilarity(project1.title, project2.title);
@@ -263,15 +270,15 @@ Analyze thoroughly and respond ONLY with valid JSON (no markdown, no code blocks
 function calculateSimpleSimilarity(str1, str2) {
   if (!str1 || !str2) return 0;
   if (str1 === str2) return 1;
-  
+
   const words1 = str1.toLowerCase().split(/\s+/);
   const words2 = str2.toLowerCase().split(/\s+/);
-  
+
   const set1 = new Set(words1);
   const set2 = new Set(words2);
-  
+
   const intersection = new Set([...set1].filter(x => set2.has(x)));
   const union = new Set([...set1, ...set2]);
-  
+
   return intersection.size / union.size;
 }
