@@ -72,20 +72,20 @@ Format your response ONLY as valid JSON with no additional text:
 
     const data = await response.json();
     let content = data.choices?.[0]?.message?.content || data.response || '';
-    
+
     // Clean up response - remove markdown code blocks if present
     content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-    
+
     // Parse JSON response
     const enhanced = JSON.parse(content);
-    
+
     return {
       title: enhanced.title || formatTitle(project.name),
       description: enhanced.description || project.description || `A ${project.language || 'software'} project`
     };
   } catch (error) {
     console.error(`  ⚠️  Failed to enhance description for ${project.name}:`, error.message);
-    
+
     // Fallback: Create basic enhanced version
     return {
       title: formatTitle(project.name),
@@ -118,13 +118,13 @@ export async function generateProjectImageAI(project, apiKey) {
   // Check if image already exists to save API credits
   const projectsDir = path.join(__dirname, '..', 'images', 'projects');
   const imagePath = path.join(projectsDir, `${project.name}.webp`);
-  
+
   if (fs.existsSync(imagePath)) {
     console.log(`  ↻ Using existing image: ${project.name}.webp`);
     return `images/projects/${project.name}.webp`;
   }
 
-  const prompt = `Create a simple, modern, minimalist illustration for: ${project.title || project.name}. ${project.description}. Technologies: ${project.topics?.slice(0, 3).join(', ') || 'software'}. 
+  const prompt = `Create a simple, modern, minimalist illustration for: ${project.title || project.name}. ${project.description}. Technologies: ${project.topics?.slice(0, 3).join(', ') || 'software'}.
 
 CRITICAL REQUIREMENTS:
 - NO TEXT whatsoever (no letters, no words, no labels, no titles)
@@ -143,7 +143,7 @@ Style: Clean geometric professional design, modern tech aesthetic, purple and cy
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: 'blackboxai/black-forest-labs/flux-pro',
+        model: 'blackboxai/black-forest-labs/flux-1.1-pro-ultra',
         messages: [
           {
             role: 'user',
@@ -159,14 +159,14 @@ Style: Clean geometric professional design, modern tech aesthetic, purple and cy
     }
 
     const data = await response.json();
-    
+
     // Extract image data from response
     const imageContent = data.choices?.[0]?.message?.content;
-    
+
     if (!imageContent) {
       throw new Error('No image data in response');
     }
-    
+
     // Check if it's a URL or base64 data
     let buffer;
     if (typeof imageContent === 'string' && imageContent.startsWith('http')) {
@@ -183,19 +183,19 @@ Style: Clean geometric professional design, modern tech aesthetic, purple and cy
     } else {
       throw new Error('Unknown image data format');
     }
-    
+
     // Save to images/projects directory
     const projectsDir = path.join(__dirname, '..', 'images', 'projects');
     if (!fs.existsSync(projectsDir)) {
       fs.mkdirSync(projectsDir, { recursive: true });
     }
-    
+
     const imagePath = path.join(projectsDir, `${project.name}.webp`);
     fs.writeFileSync(imagePath, Buffer.from(buffer));
-    
+
     console.log(`  ✓ Generated image: ${project.name}.webp`);
     return `images/projects/${project.name}.webp`;
-    
+
   } catch (error) {
     console.error(`  ✗ Failed to generate image for ${project.name}:`, error.message);
     return 'images/projects/default.webp';

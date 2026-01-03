@@ -12,7 +12,7 @@ exports.handler = async (event, context) => {
 
   // Get API key from environment variable
   const BLACKBOX_API_KEY = process.env.BLACKBOX_API_KEY;
-  
+
   if (!BLACKBOX_API_KEY) {
     console.error('BLACKBOX_API_KEY not found in environment variables');
     return {
@@ -23,7 +23,7 @@ exports.handler = async (event, context) => {
 
   try {
     // Parse the request body
-    const { messages, model = 'blackboxai/anthropic/claude-sonnet-4.5', max_tokens = 500, temperature = 0.7 } = JSON.parse(event.body);
+    const { messages, model = 'blackboxai/google/gemini-2.5-flash-preview-05-20', max_tokens = 500, temperature = 0.7 } = JSON.parse(event.body);
 
     // Validate messages
     if (!messages || !Array.isArray(messages)) {
@@ -55,16 +55,16 @@ exports.handler = async (event, context) => {
       console.error('BLACKBOX API Error:', response.status, errorData);
       return {
         statusCode: response.status,
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           error: 'API request failed',
-          details: errorData 
+          details: errorData
         })
       };
     }
 
     // Parse and return the response
     const data = await response.json();
-    
+
     return {
       statusCode: 200,
       headers: {
@@ -80,9 +80,9 @@ exports.handler = async (event, context) => {
     console.error('Function error:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         error: 'Internal server error',
-        message: error.message 
+        message: error.message
       })
     };
   }

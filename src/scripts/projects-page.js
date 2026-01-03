@@ -13,16 +13,16 @@ let allProjects = [];
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Projects page initializing...');
-  
+
   // Load and display projects
   loadProjects();
-  
+
   // Setup filter buttons
   setupFilters();
-  
+
   // Setup modal
   setupModal();
-  
+
   // Note: updateStats() is called inside loadProjects(), no need to call it again here
 });
 
@@ -31,24 +31,24 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 function loadProjects() {
   console.log('Loading projects...');
-  
+
   // Check if projects data is available
   if (typeof projects === 'undefined' || !Array.isArray(projects)) {
     console.error('Projects data not found!');
     showError();
     return;
   }
-  
+
   allProjects = projects;
   console.log(`Found ${allProjects.length} projects`);
   console.log('Projects array:', allProjects);
-  
+
   // Display projects
   displayProjects(allProjects);
-  
+
   // Update filter counts
   updateFilterCounts();
-  
+
   // Update stats
   updateStats();
 }
@@ -58,15 +58,15 @@ function loadProjects() {
  */
 function displayProjects(projectsToDisplay) {
   const grid = document.getElementById('projects-grid');
-  
+
   if (!grid) {
     console.error('Projects grid not found!');
     return;
   }
-  
+
   // Clear loading state
   grid.innerHTML = '';
-  
+
   if (projectsToDisplay.length === 0) {
     grid.innerHTML = `
       <div class="no-projects">
@@ -76,13 +76,13 @@ function displayProjects(projectsToDisplay) {
     `;
     return;
   }
-  
+
   // Create project cards
   projectsToDisplay.forEach((project, index) => {
     const card = createProjectCard(project, index);
     grid.appendChild(card);
   });
-  
+
   // Make grid visible
   grid.classList.add('visible');
 }
@@ -94,26 +94,26 @@ function createProjectCard(project, index) {
   const card = document.createElement('div');
   card.className = 'project-card';
   card.style.animationDelay = `${index * 0.05}s`;
-  
+
   // Get description
   const description = project.description || 'A software project';
-  
+
   // Truncate description
-  const shortDescription = description.length > 120 
+  const shortDescription = description.length > 120
     ? description.substring(0, 117) + '...'
     : description;
-  
+
   // Create topics HTML
   const topicsHTML = project.topics && project.topics.length > 0
-    ? project.topics.slice(0, 4).map(topic => 
+    ? project.topics.slice(0, 4).map(topic =>
         `<span class="project-tag">${escapeHtml(topic)}</span>`
       ).join('')
     : '';
-  
+
   card.innerHTML = `
     <div class="project-image-container">
-      <img 
-        src="${project.image || 'src/assets/images/projects/default.webp'}" 
+      <img
+        src="${project.image || 'src/assets/images/projects/default.webp'}"
         alt="${escapeHtml(project.title || project.name)}"
         class="project-image"
         loading="lazy"
@@ -122,13 +122,13 @@ function createProjectCard(project, index) {
         <span class="project-year">${project.date || '2024'}</span>
       </div>
     </div>
-    
+
     <div class="project-content">
       <h3 class="project-title">${escapeHtml(project.title || project.name)}</h3>
       <p class="project-description">${escapeHtml(shortDescription)}</p>
-      
+
       ${topicsHTML ? `<div class="project-tags">${topicsHTML}</div>` : ''}
-      
+
       <div class="project-footer">
         <button class="project-btn project-btn-primary" data-project-index="${index}">
           <span>View Details</span>
@@ -142,13 +142,13 @@ function createProjectCard(project, index) {
       </div>
     </div>
   `;
-  
+
   // Add click handler for "View Details" button
   const viewBtn = card.querySelector('.project-btn-primary');
   if (viewBtn) {
     viewBtn.addEventListener('click', () => openModal(project));
   }
-  
+
   return card;
 }
 
@@ -157,15 +157,15 @@ function createProjectCard(project, index) {
  */
 function setupFilters() {
   const filterButtons = document.querySelectorAll('.filter-btn');
-  
+
   filterButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const filter = btn.dataset.filter;
-      
+
       // Update active state
       filterButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      
+
       // Apply filter
       currentFilter = filter;
       filterProjects(filter);
@@ -178,41 +178,43 @@ function setupFilters() {
  */
 function filterProjects(filter) {
   let filtered = allProjects;
-  
+
   if (filter !== 'all') {
     filtered = allProjects.filter(project => {
       const topics = (project.topics || []).map(t => t.toLowerCase());
-      const description = (project.description?.en || '').toLowerCase();
+      const description = (typeof project.description === 'string'
+        ? project.description
+        : project.description?.en || '').toLowerCase();
       const name = (project.name || '').toLowerCase();
-      
+
       switch(filter) {
         case 'ai':
           return topics.some(t => t.includes('ai') || t.includes('ml') || t.includes('machine learning')) ||
                  description.includes('ai') || description.includes('artificial intelligence');
-        
+
         case 'web':
           return topics.some(t => t.includes('web') || t.includes('website') || t.includes('frontend') || t.includes('backend')) ||
                  description.includes('web');
-        
+
         case 'mobile':
           return topics.some(t => t.includes('mobile') || t.includes('ios') || t.includes('android') || t.includes('flutter')) ||
                  description.includes('mobile');
-        
+
         case 'hackathon':
-          return topics.includes('hackathon') || 
+          return topics.includes('hackathon') ||
                  name.includes('hackathon') ||
                  description.includes('hackathon');
-        
+
         default:
           return true;
       }
     });
   }
-  
+
   // Animate out current projects
   const grid = document.getElementById('projects-grid');
   grid.style.opacity = '0';
-  
+
   setTimeout(() => {
     displayProjects(filtered);
     grid.style.opacity = '1';
@@ -230,12 +232,14 @@ function updateFilterCounts() {
     mobile: 0,
     hackathon: 0
   };
-  
+
   allProjects.forEach(project => {
     const topics = (project.topics || []).map(t => t.toLowerCase());
-    const description = (project.description?.en || '').toLowerCase();
+    const description = (typeof project.description === 'string'
+      ? project.description
+      : project.description?.en || '').toLowerCase();
     const name = (project.name || '').toLowerCase();
-    
+
     if (topics.some(t => t.includes('ai') || t.includes('ml')) || description.includes('ai')) {
       counts.ai++;
     }
@@ -249,7 +253,7 @@ function updateFilterCounts() {
       counts.hackathon++;
     }
   });
-  
+
   // Update count badges
   Object.keys(counts).forEach(key => {
     const countEl = document.getElementById(`count-${key}`);
@@ -269,7 +273,7 @@ function updateStats() {
     totalEl.dataset.animated = 'true';
     animateNumber(totalEl, 0, allProjects.length, 1000);
   }
-  
+
   // Total technologies
   const techEl = document.getElementById('total-technologies');
   if (techEl && !techEl.dataset.animated) {
@@ -282,7 +286,7 @@ function updateStats() {
     });
     animateNumber(techEl, 0, uniqueTechs.size, 1000);
   }
-  
+
   // Calculate years active
   const yearsEl = document.getElementById('years-active');
   if (yearsEl) {
@@ -297,7 +301,7 @@ function updateStats() {
 function calculateYearsActive() {
   const currentYear = new Date().getFullYear();
   let earliestYear = currentYear;
-  
+
   allProjects.forEach(project => {
     if (project.date && project.date !== 'NaN') {
       const year = parseInt(project.date);
@@ -306,7 +310,7 @@ function calculateYearsActive() {
       }
     }
   });
-  
+
   const yearsActive = currentYear - earliestYear + 1;
   return yearsActive > 1 ? `${yearsActive}+` : '1';
 }
@@ -319,11 +323,11 @@ function animateNumber(element, start, end, duration) {
   if (element._animationTimer) {
     clearInterval(element._animationTimer);
   }
-  
+
   const range = end - start;
   const increment = range / (duration / 16);
   let current = start;
-  
+
   element._animationTimer = setInterval(() => {
     current += increment;
     if (current >= end) {
@@ -342,15 +346,15 @@ function setupModal() {
   const modal = document.getElementById('project-modal');
   const closeBtn = modal?.querySelector('.modal-close');
   const overlay = modal?.querySelector('.modal-overlay');
-  
+
   if (closeBtn) {
     closeBtn.addEventListener('click', closeModal);
   }
-  
+
   if (overlay) {
     overlay.addEventListener('click', closeModal);
   }
-  
+
   // Close on Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal?.classList.contains('active')) {
@@ -365,17 +369,17 @@ function setupModal() {
 function openModal(project) {
   const modal = document.getElementById('project-modal');
   const modalBody = document.getElementById('modal-body');
-  
+
   if (!modal || !modalBody) return;
-  
+
   // Get description
   const description = project.description || 'A software project';
-  
+
   // Create modal content
   modalBody.innerHTML = `
     <div class="modal-header">
-      <img 
-        src="${project.image || 'src/assets/images/projects/default.webp'}" 
+      <img
+        src="${project.image || 'src/assets/images/projects/default.webp'}"
         alt="${escapeHtml(project.title || project.name)}"
         class="modal-image"
       />
@@ -385,25 +389,25 @@ function openModal(project) {
         <p class="modal-description">${escapeHtml(description)}</p>
       </div>
     </div>
-    
+
     ${project.topics && project.topics.length > 0 ? `
       <div class="modal-section">
         <h3>Technologies</h3>
         <div class="modal-tags">
-          ${project.topics.map(topic => 
+          ${project.topics.map(topic =>
             `<span class="modal-tag">${escapeHtml(topic)}</span>`
           ).join('')}
         </div>
       </div>
     ` : ''}
-    
+
     ${project.language ? `
       <div class="modal-section">
         <h3>Primary Language</h3>
         <p>${escapeHtml(project.language)}</p>
       </div>
     ` : ''}
-    
+
     <div class="modal-actions">
       ${project.html_url ? `
         <a href="${project.html_url}" target="_blank" rel="noopener" class="modal-btn modal-btn-primary">
@@ -419,7 +423,7 @@ function openModal(project) {
       ` : ''}
     </div>
   `;
-  
+
   // Show modal
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';

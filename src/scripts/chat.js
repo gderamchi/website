@@ -161,7 +161,7 @@ function setupEventListeners() {
 // Handle form submission
 async function handleSubmit(e) {
   e.preventDefault();
-  
+
   const message = chatInput.value.trim();
   if (!message || isProcessing) return;
 
@@ -185,17 +185,17 @@ async function handleSubmit(e) {
   try {
     // Get AI response
     const response = await getAIResponse(message);
-    
+
     // Hide typing indicator
     typingIndicator.style.display = 'none';
-    
+
     // Add bot response
     addMessage(response, 'bot');
-    
+
   } catch (error) {
     console.error('Error getting AI response:', error);
     typingIndicator.style.display = 'none';
-    
+
     // Show error message
     const errorMsg = `I'm having trouble connecting right now. Please try again or <a href="index.html#contact">contact me directly</a>.`;
     addMessage(errorMsg, 'bot');
@@ -234,7 +234,7 @@ async function getAIResponse(userMessage) {
           },
           ...conversationHistory
         ],
-        model: 'blackboxai/anthropic/claude-sonnet-4.5',
+        model: 'blackboxai/google/gemini-2.5-flash-preview-05-20',
         max_tokens: 500,
         temperature: 0.7
       })
@@ -263,7 +263,7 @@ async function getAIResponse(userMessage) {
 
   // Intelligent fallback based on question keywords
   const assistantMessage = generateIntelligentResponse(userMessage);
-  
+
   // Add assistant response to history
   conversationHistory.push({
     role: 'assistant',
@@ -279,72 +279,72 @@ async function getAIResponse(userMessage) {
 // Generate intelligent responses based on keywords
 function generateIntelligentResponse(message) {
   const lowerMessage = message.toLowerCase();
-  
+
   // About Guillaume / Background
   if (lowerMessage.includes('who are you') || lowerMessage.includes('about you') || lowerMessage.includes('tell me about')) {
     return `Hey! I'm Guillaume, a computer science student at 42 Paris. I grew up in Toulouse and discovered CS kind of by accident when a friend introduced me to a CS school. I never coded before that! In my second year, I started using AI heavily and eventually dropped out, but then I discovered hackathons and fell in love with them. That's where I met people from 42 Paris, and I realized that's where I was meant to be. Now I'm here, learning without AI for my studies (though I still use it for hackathons and side projects!). Want to know more about something specific?`;
   }
-  
+
   // Education
   if (lowerMessage.includes('42') || lowerMessage.includes('school') || lowerMessage.includes('education') || lowerMessage.includes('study')) {
     return `I'm currently at 42 Paris! Before that, I was at Algosup in Vierzon where I learned a ton - not just programming, but also English, how to present projects, create slides, sell ideas, and professional behavior. The Piscine at 42 (the one-month entry competition) was probably the most challenging thing I've done - pure rush for a month straight! But I know even more challenging projects are coming. The peer-learning approach at 42 is perfect for me.`;
   }
-  
+
   // Hackathons
   if (lowerMessage.includes('hackathon') || lowerMessage.includes('competition')) {
     return `Oh man, I LOVE hackathons! I discovered them in my second year and they completely changed my perspective. I've won several, including my first blockchain hackathon which was super memorable. Hackathons are where I met amazing people and discovered interesting technologies. They're also where I use AI tools to their full potential - combining my coding skills with prompt engineering to build things fast. If you want to see my hackathon projects, check out my <a href="projects.html">projects page</a>!`;
   }
-  
+
   // Skills / Programming
   if (lowerMessage.includes('skill') || lowerMessage.includes('language') || lowerMessage.includes('program') || lowerMessage.includes('code')) {
     return `My favorite programming language is C! I know it might sound old-school, but I love it because it's low-level and really helps you understand how computers work. Once you master C, learning other languages becomes so much easier. I've worked most with C, but I also know JavaScript, Python, and other languages. I'm also really good at prompt engineering - I master AI tools perfectly and use them strategically for hackathons and side projects.`;
   }
-  
+
   // Career goals
   if (lowerMessage.includes('goal') || lowerMessage.includes('future') || lowerMessage.includes('career') || lowerMessage.includes('want to')) {
     return `I want to become a data scientist or work in the data/AI field - that's my main goal. Alternatively, I'd love to join an early-stage startup where I can be versatile and wear multiple hats. I'm passionate about combining technical skills with AI, and I think the future is in knowing how to leverage both traditional programming and AI tools effectively.`;
   }
-  
+
   // Hobbies / Interests
   if (lowerMessage.includes('hobby') || lowerMessage.includes('hobbies') || lowerMessage.includes('interest') || lowerMessage.includes('free time') || lowerMessage.includes('boxing') || lowerMessage.includes('cook') || lowerMessage.includes('read')) {
     return `Outside of coding, I'm really into boxing and combat sports in general - there's something about the discipline and focus that I love. I also enjoy cooking (experimenting with new recipes is fun!) and reading. I'm always down to discuss code, series, boxing, cooking, or books. What about you - what are you into?`;
   }
-  
+
   // Projects
   if (lowerMessage.includes('project') || lowerMessage.includes('built') || lowerMessage.includes('created') || lowerMessage.includes('work on')) {
     return `I've worked on some really cool projects! Some highlights: my AI Pathology Copilot for healthcare diagnostics (won the Doctolib hackathon!), a Virtual Processor Simulator in C (8 GitHub stars), an AI Code Review Bot (Blackbox AI hackathon), and blockchain projects that got me my first hackathon win. I've also built full-stack apps, mobile apps with Flutter, and automation tools. You can see all 16+ projects on my <a href="projects.html">projects page</a>. What type of project interests you - AI, healthcare, blockchain, or something else?`;
   }
-  
+
   // Healthcare/Medical projects
   if (lowerMessage.includes('health') || lowerMessage.includes('medical') || lowerMessage.includes('doctor') || lowerMessage.includes('pathology')) {
     return `I'm really proud of my healthcare projects! I built an AI Pathology Copilot that won the Doctolib hackathon - it helps with diagnostics using AI. I also created a Cardiac Toxicity Predictor that uses SMILES data to assess drug safety. Healthcare tech is fascinating because it combines AI with real-world impact. Want to know more about these projects?`;
   }
-  
+
   // Blockchain
   if (lowerMessage.includes('blockchain') || lowerMessage.includes('crypto') || lowerMessage.includes('web3') || lowerMessage.includes('solidity')) {
     return `Blockchain is special to me - I won my first hackathon with a blockchain project in Vierzon! That win really boosted my confidence and showed me what I could do. I've worked with Solidity and built blockchain-based platforms. It's an exciting technology, though I'm now more focused on AI and data science for my career.`;
   }
-  
+
   // AI / Prompt Engineering
   if (lowerMessage.includes('ai') || lowerMessage.includes('prompt') || lowerMessage.includes('chatgpt') || lowerMessage.includes('artificial intelligence')) {
     return `I'm really passionate about AI! I don't think AI will replace developers - I see it as a powerful tool to boost efficiency. I'm skilled in prompt engineering and know how to get the most out of AI tools. I use tools like n8n and GitHub Actions to automate workflows. For my studies at 42, I don't use AI (to really learn the fundamentals), but for hackathons and side projects, I combine my coding skills with AI mastery to build things quickly and effectively.`;
   }
-  
+
   // Contact / Collaboration
   if (lowerMessage.includes('contact') || lowerMessage.includes('reach') || lowerMessage.includes('email') || lowerMessage.includes('collaborate') || lowerMessage.includes('work together')) {
     return `I'd love to connect! You can reach me through the <a href="index.html#contact">contact form</a> on my website, or find me on <a href="https://github.com/gderamchi" target="_blank">GitHub</a> and <a href="https://www.linkedin.com/in/guillaume-deramchi/" target="_blank">LinkedIn</a>. Whether it's about a project, hackathon, or just to chat about tech, feel free to reach out!`;
   }
-  
+
   // Toulouse
   if (lowerMessage.includes('toulouse') || lowerMessage.includes('where from') || lowerMessage.includes('hometown')) {
     return `I'm from Toulouse! It's a great city in the south of France. That's where I grew up and first got introduced to computer science. Now I'm in Paris for 42, but Toulouse will always be home.`;
   }
-  
+
   // Challenges / Difficult
   if (lowerMessage.includes('challenge') || lowerMessage.includes('difficult') || lowerMessage.includes('hard') || lowerMessage.includes('struggle')) {
     return `The most challenging thing I've done so far was definitely the Piscine at 42 Paris - one month of pure intensity and rush. When I face hard problems, I take deep breaths and focus deeply. I like debugging with printf everywhere and valgrind. I prefer trying things alone first if I can, but when there's too much work, I split tasks with good communication. And I know more challenging projects are coming at 42!`;
   }
-  
+
   // Default response
   return `That's an interesting question! While I can share general info about my background, experience, and interests, for more specific questions or detailed discussions, I'd recommend <a href="index.html#contact">reaching out directly</a>. I'm always happy to chat! Is there something specific about my experience, projects, or skills you'd like to know more about?`;
 }
@@ -355,28 +355,28 @@ function markdownToHtml(text) {
   text = text.replace(/^###\s+(.+)$/gm, '<h4>$1</h4>');
   text = text.replace(/^##\s+(.+)$/gm, '<h3>$1</h3>');
   text = text.replace(/^#\s+(.+)$/gm, '<h2>$1</h2>');
-  
+
   // Convert **bold** to <strong>
   text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  
+
   // Convert *italic* to <em>
   text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
-  
+
   // Convert `code` to <code>
   text = text.replace(/`(.+?)`/g, '<code>$1</code>');
-  
+
   // Convert horizontal rules (---)
   text = text.replace(/^---$/gm, '<hr>');
-  
+
   // Convert numbered lists (1. item)
   text = text.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
-  
+
   // Wrap consecutive <li> in <ol>
   text = text.replace(/(<li>.*<\/li>\n?)+/g, '<ol>$&</ol>');
-  
+
   // Convert bullet points (- item or * item)
   text = text.replace(/^[-*]\s+(.+)$/gm, '<li>$1</li>');
-  
+
   // Wrap consecutive <li> that aren't in <ol> in <ul>
   text = text.replace(/(<li>(?:(?!<\/ol>).)*<\/li>\n?)+/g, (match) => {
     if (!match.includes('<ol>')) {
@@ -384,10 +384,10 @@ function markdownToHtml(text) {
     }
     return match;
   });
-  
+
   // Convert line breaks to <br> (but not inside lists or after headers)
   text = text.replace(/\n(?!<[ou]l>|<li>|<\/[ou]l>|<\/li>|<h[2-4]>|<\/h[2-4]>|<hr>)/g, '<br>');
-  
+
   return text;
 }
 
@@ -398,7 +398,7 @@ function addMessage(content, type) {
 
   const avatarDiv = document.createElement('div');
   avatarDiv.className = 'message-avatar';
-  
+
   if (type === 'bot') {
     avatarDiv.innerHTML = '<img src="src/assets/images/profile-photo.webp" alt="Guillaume">';
   } else {
@@ -410,7 +410,7 @@ function addMessage(content, type) {
 
   const bubbleDiv = document.createElement('div');
   bubbleDiv.className = 'message-bubble';
-  
+
   // Convert markdown to HTML for bot messages
   const formattedContent = type === 'bot' ? markdownToHtml(content) : content;
   bubbleDiv.innerHTML = `<p>${formattedContent}</p>`;
@@ -439,7 +439,7 @@ function autoResizeTextarea() {
 function updateCharCount() {
   const count = chatInput.value.length;
   charCount.textContent = count;
-  
+
   if (count > 450) {
     charCount.style.color = '#ef4444';
   } else {
@@ -458,15 +458,15 @@ function scrollToBottom() {
 function formatTime(date) {
   const now = new Date();
   const diff = now - date;
-  
+
   if (diff < 60000) return 'Just now';
   if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`;
   if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`;
-  
-  return date.toLocaleTimeString('en-US', { 
-    hour: 'numeric', 
+
+  return date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
     minute: '2-digit',
-    hour12: true 
+    hour12: true
   });
 }
 
@@ -485,7 +485,7 @@ function loadChatHistory() {
     const saved = localStorage.getItem('chatHistory');
     if (saved) {
       conversationHistory = JSON.parse(saved);
-      
+
       // Restore messages to UI
       conversationHistory.forEach(msg => {
         if (msg.role === 'user') {
@@ -510,7 +510,7 @@ function clearChat() {
   if (confirm('Are you sure you want to clear the chat history?')) {
     conversationHistory = [];
     localStorage.removeItem('chatHistory');
-    
+
     // Clear messages except welcome message
     const messages = chatMessages.querySelectorAll('.message');
     messages.forEach((msg, index) => {
