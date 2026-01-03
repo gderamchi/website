@@ -6,11 +6,11 @@ on:
     branches:
       - main
       - master
-  
+
   # Run every 6 hours to automatically detect new repos (full sync)
   schedule:
     - cron: '0 */6 * * *'
-  
+
   # Allow manual trigger from Actions tab
   workflow_dispatch:
     inputs:
@@ -22,7 +22,7 @@ on:
         options:
           - full
           - incremental
-  
+
   # Trigger from other repositories via webhook
   repository_dispatch:
     types: [update-portfolio]
@@ -35,22 +35,22 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Determine sync type
         id: sync-type
         run: |
@@ -76,35 +76,35 @@ jobs:
             echo "type=full" >> $GITHUB_OUTPUT
             echo "reason=Default" >> $GITHUB_OUTPUT
           fi
-      
+
       - name: Incremental Sync (Single Repository)
         if: steps.sync-type.outputs.type == 'incremental'
         env:
           GITHUB_USERNAME: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BLACKBOX_API: ${{ secrets.BLACKBOX_API }}
+          BLACKBOX_API_KEY: ${{ secrets.BLACKBOX_API_KEY }}
         run: |
           echo "🔄 Running incremental sync for: ${{ github.repository }}"
           echo "Reason: ${{ steps.sync-type.outputs.reason }}"
           node scripts/incremental-sync.js "${{ github.repository }}"
-      
+
       - name: Full Sync (All Repositories)
         if: steps.sync-type.outputs.type == 'full'
         env:
           GITHUB_USERNAME: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BLACKBOX_API: ${{ secrets.BLACKBOX_API }}
+          BLACKBOX_API_KEY: ${{ secrets.BLACKBOX_API_KEY }}
           GITHUB_ORGS: algosup
         run: |
           echo "🔄 Running full sync of all repositories"
           echo "Reason: ${{ steps.sync-type.outputs.reason }}"
           npm run sync
-      
+
       - name: Check for changes
         id: git-check
         run: |
           git diff --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
-      
+
       - name: Commit and push changes
         if: steps.git-check.outputs.changes == 'true'
         run: |
@@ -113,7 +113,7 @@ jobs:
           git add projects-data.js images/projects/
           git commit -m "🤖 Auto-update portfolio projects [skip ci]"
           git push
-      
+
       - name: Create summary
         if: always()
         run: |
