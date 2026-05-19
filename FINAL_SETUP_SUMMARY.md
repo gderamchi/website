@@ -140,7 +140,7 @@ Push to ANY existing repo → Portfolio updates in 2 minutes ✅
 3. **Wait for next sync:**
    - Next run: Check GitHub Actions page
    - After run: Should have 20+ projects
-   - Website: https://guillaume-portfolio-omega.vercel.app/projects
+   - Website: https://gderamchi.vercel.app/projects
 
 ---
 

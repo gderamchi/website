@@ -4,7 +4,7 @@ This repository contains the code for my personal portfolio website, showcasing 
 
 ## 🌐 Live Demo
 
-Visit the [website](https://guillaume-portfolio-omega.vercel.app/)
+Visit the [website](https://gderamchi.vercel.app/)
 
 ## ✨ Features
 

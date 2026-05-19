@@ -1,5 +1,5 @@
 # robots.txt for Guillaume Deramchi Portfolio
-# https://guillaume-portfolio-omega.vercel.app/
+# https://gderamchi.vercel.app/
 
 User-agent: *
 Allow: /
@@ -18,7 +18,7 @@ Disallow: /.env
 Disallow: /api/
 
 # Sitemap location
-Sitemap: https://guillaume-portfolio-omega.vercel.app/sitemap.xml
+Sitemap: https://gderamchi.vercel.app/sitemap.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1

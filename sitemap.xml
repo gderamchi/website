@@ -4,19 +4,19 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://guillaume-portfolio-omega.vercel.app/</loc>
+    <loc>https://gderamchi.vercel.app/</loc>
     <lastmod>2025-01-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://guillaume-portfolio-omega.vercel.app/images/profile-photo.webp</image:loc>
-      <image:title>Guillaume Deramchi - 42 Paris Student</image:title>
+      <image:loc>https://gderamchi.vercel.app/images/profile-photo.webp</image:loc>
+      <image:title>Guillaume Deramchi - Software and AI Engineer</image:title>
     </image:image>
   </url>
   
   <!-- Projects Page -->
   <url>
-    <loc>https://guillaume-portfolio-omega.vercel.app/projects</loc>
+    <loc>https://gderamchi.vercel.app/projects</loc>
     <lastmod>2025-01-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -24,7 +24,7 @@
   
   <!-- Chat AI Page -->
   <url>
-    <loc>https://guillaume-portfolio-omega.vercel.app/chat</loc>
+    <loc>https://gderamchi.vercel.app/chat</loc>
     <lastmod>2025-01-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

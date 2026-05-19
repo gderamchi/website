@@ -129,7 +129,7 @@ You need to do this for:
 4. Wait 2-3 minutes
 
 5. Check your portfolio:
-   - Go to: https://guillaume-portfolio-omega.vercel.app/projects
+   - Go to: https://gderamchi.vercel.app/projects
    - Your project should be updated!
 
 ## 📊 What Happens When You Push
