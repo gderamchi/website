@@ -2,6 +2,21 @@
    MOBILE & RESPONSIVE FIXES
    ============================================ */
 
+  .mobile-title-line::before {
+    content: "";
+  }
+
+  .mobile-title-line {
+    display: block;
+  }
+
+  .hero-subtitle,
+  .projects-hero-subtitle {
+    font-size: 1rem !important;
+    line-height: 1.55;
+    max-width: 20rem;
+  }
+
 /* Better mobile navigation */
 @media (max-width: 768px) {
   /* Fix mobile menu */
@@ -34,8 +49,32 @@
   .hero-content {
     flex-direction: column;
     text-align: center;
+    width: 100%;
+    min-width: 0;
   }
-  
+
+  .hero-text,
+  .projects-hero-content {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .hero-title,
+  .hero-subtitle,
+  .projects-hero-title,
+  .projects-hero-subtitle {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    text-wrap: balance;
+  }
+
+  .hero-subtitle,
+  .projects-hero-subtitle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .hero-image {
     max-width: 250px;
     margin: 0 auto;
@@ -73,7 +112,16 @@
 /* Small mobile fixes */
 @media (max-width: 480px) {
   .hero-title {
-    font-size: 1.75rem !important;
+    font-size: 2.15rem !important;
+    line-height: 1.08;
+  }
+
+  .hero-buttons {
+    width: 100%;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
   }
   
   .section-title {
