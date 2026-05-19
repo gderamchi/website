@@ -6,8 +6,8 @@
 (function() {
   'use strict';
   
-  // Debug mode - set to true to see console logs
-  const DEBUG = true;
+  // Keep animation diagnostics quiet in production.
+  const DEBUG = false;
   
   function log(...args) {
     if (DEBUG) {
@@ -33,53 +33,10 @@
   
   // Animation initialization state
   const state = {
-    particlesReady: false,
     tiltReady: false,
     scrollReady: false,
     pageTransitionsReady: false
   };
-  
-  /**
-   * Initialize Particle System
-   */
-  function initParticles() {
-    log('Initializing particles...');
-    
-    const canvas = document.getElementById('particles-canvas');
-    if (!canvas) {
-      log('ERROR: Particles canvas not found!');
-      return;
-    }
-    
-    // Make sure canvas is visible
-    canvas.style.display = 'block';
-    canvas.style.position = 'fixed';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
-    canvas.style.width = '100%';
-    canvas.style.height = '100vh';
-    canvas.style.zIndex = '-1';
-    canvas.style.pointerEvents = 'none';
-    canvas.style.opacity = '0.6';
-    
-    try {
-      if (typeof ParticleSystem !== 'undefined') {
-        new ParticleSystem('particles-canvas', {
-          particleCount: 100,
-          particleSize: 3,
-          particleSpeed: 0.3,
-          connectionDistance: 150,
-          mouseInteraction: true
-        });
-        state.particlesReady = true;
-        log('✓ Particles initialized successfully');
-      } else {
-        log('ERROR: ParticleSystem class not found');
-      }
-    } catch (error) {
-      log('ERROR initializing particles:', error);
-    }
-  }
   
   /**
    * Initialize 3D Tilt Effects
@@ -237,7 +194,6 @@
     log('Starting animation initialization...');
     
     // Initialize in sequence with delays to ensure proper loading
-    setTimeout(initParticles, 100);
     setTimeout(initTilt, 300);
     setTimeout(initScroll, 500);
     setTimeout(initPageTransitions, 200);
@@ -245,7 +201,7 @@
     // Check status after all should be loaded
     setTimeout(() => {
       log('Animation Status:', state);
-      if (state.particlesReady && state.tiltReady && state.scrollReady && state.pageTransitionsReady) {
+      if (state.tiltReady && state.scrollReady && state.pageTransitionsReady) {
         log('✓ All animations initialized successfully!');
       } else {
         log('⚠ Some animations failed to initialize:', state);
