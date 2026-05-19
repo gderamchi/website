@@ -1,0 +1,4 @@
+# Netlify builds are intentionally disabled.
+# Production hosting for this site is Vercel.
+[build]
+  ignore = "node -e 'process.exit(0)'"

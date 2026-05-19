@@ -1,12 +1,6 @@
 name: Sync Portfolio Projects
 
 on:
-  # Trigger on every push to main/master branch
-  push:
-    branches:
-      - main
-      - master
-
   # Run every 6 hours to automatically detect new repos (full sync)
   schedule:
     - cron: '0 */6 * * *'

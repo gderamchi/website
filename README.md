@@ -74,8 +74,9 @@ Visit the [website](https://guillaume-portfolio-omega.vercel.app/)
 
 ## 🚀 Deployment
 
-This site is deployed on Vercel. GitHub Pages and Netlify deployment configs
-are intentionally not used.
+This site is deployed on Vercel. GitHub Pages is disabled, and Netlify builds
+are intentionally ignored through `netlify.toml` if the old Netlify project is
+still connected.
 
 Required production environment variable for the chat API:
 
