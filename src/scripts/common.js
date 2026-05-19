@@ -90,12 +90,10 @@ function initMobileMenu() {
   
   // Safety checks with better error messages
   if (!menuToggle) {
-    console.error("Mobile menu toggle button not found!");
     return;
   }
   
   if (!navLinks) {
-    console.error("Navigation links container not found!");
     return;
   }
   

@@ -21,16 +21,16 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
   console.log('🚀 Starting incremental portfolio sync...\n');
   console.log(`📦 Processing repository: ${repoFullName}\n`);
 
-  const token = process.env.GITHUB_TOKEN;
-  const blackboxApiKey = process.env.BLACKBOX_API;
+  const token = process.env.GITHUB_API_TOKEN || process.env.PORTFOLIO_TOKEN || process.env.GITHUB_TOKEN;
+  const openaiApiKey = process.env.OPENAI_API_KEY;
   const username = process.env.GITHUB_USERNAME || repoOwner;
 
   if (!token) {
     console.warn('⚠️  No GITHUB_TOKEN found. API rate limits will be lower.\n');
   }
 
-  if (!blackboxApiKey) {
-    console.warn('⚠️  No BLACKBOX_API found. AI enhancements will be skipped.\n');
+  if (!openaiApiKey) {
+    console.warn('⚠️  No OPENAI_API_KEY found. AI enhancements will be skipped.\n');
   }
 
   try {
@@ -133,14 +133,14 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
     // Step 5: New project - Check relevance with AI
     console.log(`🆕 New project detected - checking relevance...`);
 
-    if (blackboxApiKey) {
+    if (openaiApiKey) {
       const relevanceCheck = await isProjectRelevant({
         name: repoInfo.name,
         description: repoInfo.description,
         topics: repoInfo.topics,
         language: repoInfo.language,
         stars: repoInfo.stargazers_count
-      }, blackboxApiKey);
+      }, openaiApiKey);
 
       if (!relevanceCheck.isRelevant) {
         console.log(`  🚫 Not relevant: ${relevanceCheck.reason}`);
@@ -180,19 +180,22 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
 
     // Generate topics
     const topics = generateTopics(repoInfo, details.languages);
+    const projectTopics = repoName === 'automatisations'
+      ? [...new Set([...topics, 'automation', 'documents', 'ocr', 'ai', 'portfolio-featured'])]
+      : topics;
 
     // AI enhancement for title and description
-    if (blackboxApiKey) {
+    if (openaiApiKey) {
       try {
         console.log(`  🤖 Generating AI title and description...`);
         const projectForEnhancement = {
           name: repoName,
           description: description,
-          topics: topics,
+          topics: projectTopics,
           language: repoInfo.language
         };
 
-        const enhanced = await enhanceProjectDescription(projectForEnhancement, blackboxApiKey);
+        const enhanced = await enhanceProjectDescription(projectForEnhancement, openaiApiKey);
         title = enhanced.title;
         description = enhanced.description;
         console.log(`  ✓ AI enhancement complete`);
@@ -205,7 +208,7 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
     // Generate AI image
     let imagePath = 'src/assets/images/projects/default.webp';
 
-    if (blackboxApiKey) {
+    if (openaiApiKey) {
       try {
         console.log(`  🎨 Generating AI image...`);
         const projectWithTitle = {
@@ -216,7 +219,7 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
           language: repoInfo.language
         };
 
-        imagePath = await generateProjectImageAI(projectWithTitle, blackboxApiKey);
+        imagePath = await generateProjectImageAI(projectWithTitle, openaiApiKey);
         console.log(`  ✓ Image generated: ${imagePath}`);
       } catch (error) {
         console.error(`  ⚠️  AI image generation failed, using default`);
@@ -231,7 +234,7 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
       description: description,
       date: getProjectYear(repoInfo),
       image: imagePath,
-      topics: topics,
+      topics: projectTopics,
       html_url: repoInfo.html_url,
       homepage: repoInfo.homepage,
       stars: repoInfo.stargazers_count,
@@ -260,7 +263,7 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
     console.log(`  • Action: Added new project`);
     console.log(`  • Project: "${title}"`);
     console.log(`  • Language: ${repoInfo.language}`);
-    console.log(`  • Topics: ${topics.join(', ')}`);
+    console.log(`  • Topics: ${projectTopics.join(', ')}`);
     console.log(`  • Total projects: ${existingProjects.length}\n`);
 
   } catch (error) {

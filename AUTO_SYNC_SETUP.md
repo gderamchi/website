@@ -186,8 +186,8 @@ echo "YOUR_TOKEN" | gh secret set PORTFOLIO_TOKEN
 3. Click on the workflow to see error logs
 
 **Common issues:**
-- ❌ BLACKBOX_API secret not set → AI features disabled (but sync still works)
-- ❌ Rate limit exceeded → Wait 1 hour or add GITHUB_TOKEN
+- ❌ OPENAI_API_KEY secret not set → AI enhancements disabled (but sync still works)
+- ❌ Rate limit exceeded → Wait 1 hour or add PORTFOLIO_TOKEN or GITHUB_API_TOKEN
 - ❌ Syntax error in workflow → Check YAML formatting
 
 ### Token expired

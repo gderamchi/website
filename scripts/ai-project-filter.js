@@ -1,10 +1,14 @@
-import fetch from 'node-fetch';
+import {
+  createOpenAIResponse,
+  extractResponseText,
+  getOpenAITextModel,
+} from './openai-api.js';
 
 /**
  * Use AI to determine if a project is relevant for a portfolio
  * Filters out non-portfolio items like profile READMEs, config repos, etc.
  * @param {Object} project - Project object with name, description, topics
- * @param {string} apiKey - Blackbox API key
+ * @param {string} apiKey - OpenAI API key
  * @returns {Promise<Object>} { isRelevant: boolean, reason: string }
  */
 export async function isProjectRelevant(project, apiKey) {
@@ -48,38 +52,16 @@ Analyze carefully and respond ONLY with valid JSON (no markdown, no code blocks)
 }`;
 
   try {
-    const response = await fetch('https://api.blackbox.ai/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: 'blackboxai/openai/gpt-4o',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a portfolio curator. Respond ONLY with valid JSON, no markdown, no code blocks.'
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        temperature: 0.2, // Very low temperature for strict, consistent filtering
-        max_tokens: 100,
-        stream: false
-      })
+    const data = await createOpenAIResponse({
+      apiKey,
+      model: getOpenAITextModel(),
+      instructions: 'You are a portfolio curator. Respond ONLY with valid JSON, no markdown, no code blocks.',
+      input: prompt,
+      temperature: 0.2,
+      maxOutputTokens: 100,
+      textFormat: { type: 'json_object' },
     });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.warn(`  ⚠️  AI API error ${response.status}: ${errorText.substring(0, 100)}`);
-      return fallbackRelevanceCheck(project);
-    }
-
-    const data = await response.json();
-    let content = data.choices?.[0]?.message?.content || data.response || '';
+    let content = extractResponseText(data);
 
     // Clean up response
     content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
@@ -150,7 +132,7 @@ function fallbackRelevanceCheck(project) {
  * Uses AI to determine if two projects are actually the same
  * @param {Object} project1 - First project
  * @param {Object} project2 - Second project
- * @param {string} apiKey - Blackbox API key
+ * @param {string} apiKey - OpenAI API key
  * @returns {Promise<Object>} { isDuplicate: boolean, confidence: number, reason: string }
  */
 export async function areProjectsDuplicate(project1, project2, apiKey) {
@@ -205,42 +187,16 @@ Analyze thoroughly and respond ONLY with valid JSON (no markdown, no code blocks
 }`;
 
   try {
-    const response = await fetch('https://api.blackbox.ai/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: 'blackboxai/openai/gpt-4o',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a duplicate detector. Respond ONLY with valid JSON, no markdown, no code blocks.'
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        temperature: 0.1, // Extremely low temperature for strict, consistent duplicate detection
-        max_tokens: 100,
-        stream: false
-      })
+    const data = await createOpenAIResponse({
+      apiKey,
+      model: getOpenAITextModel(),
+      instructions: 'You are a duplicate detector. Respond ONLY with valid JSON, no markdown, no code blocks.',
+      input: prompt,
+      temperature: 0.1,
+      maxOutputTokens: 100,
+      textFormat: { type: 'json_object' },
     });
-
-    if (!response.ok) {
-      console.warn(`  ⚠️  AI duplicate API error ${response.status}`);
-      const similarity = calculateSimpleSimilarity(project1.title, project2.title);
-      return {
-        isDuplicate: similarity > 0.85,
-        confidence: similarity,
-        reason: 'Fallback: API error'
-      };
-    }
-
-    const data = await response.json();
-    let content = data.choices?.[0]?.message?.content || data.response || '';
+    let content = extractResponseText(data);
 
     // Clean up response
     content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();

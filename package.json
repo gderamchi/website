@@ -4,7 +4,8 @@
   "description": "Guillaume Deramchi's Portfolio Website",
   "type": "module",
   "scripts": {
-    "dev": "npx vercel dev",
+    "dev": "node scripts/local-dev-server.js",
+    "vercel:dev": "vercel dev",
     "build": "echo 'Static site - no build needed'",
     "deploy": "npx vercel deploy --prod",
     "sync": "node scripts/sync-portfolio.js",

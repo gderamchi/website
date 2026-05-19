@@ -7,7 +7,7 @@
   'use strict';
   
   // Debug mode - set to true to see console logs
-  const DEBUG = true;
+  const DEBUG = false;
   
   function log(...args) {
     if (DEBUG) {

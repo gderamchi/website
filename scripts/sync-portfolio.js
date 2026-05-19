@@ -18,8 +18,8 @@ async function syncPortfolio() {
 
   // Get configuration from environment or use defaults
   const username = process.env.GITHUB_USERNAME || 'gderamchi';
-  const token = process.env.GITHUB_TOKEN;
-  const blackboxApiKey = process.env.BLACKBOX_API;
+  const token = process.env.GITHUB_API_TOKEN || process.env.PORTFOLIO_TOKEN || process.env.GITHUB_TOKEN;
+  const openaiApiKey = process.env.OPENAI_API_KEY;
 
   // Organizations to check for contributions
   const organizations = process.env.GITHUB_ORGS
@@ -31,15 +31,13 @@ async function syncPortfolio() {
     console.warn('   Set GITHUB_TOKEN environment variable for better performance.\n');
   }
 
-  // AI features: Using premium models (GPT-4 + DALL-E 3) for best quality
-  const useAI = true; // Enabled: Using paid models for optimal results
+  const useAI = true;
 
-  if (!blackboxApiKey) {
-    console.warn('⚠️  No BLACKBOX_API found. AI enhancements will be skipped.');
-    console.warn('   Set BLACKBOX_API environment variable for AI-generated descriptions and images.\n');
+  if (!openaiApiKey) {
+    console.warn('⚠️  No OPENAI_API_KEY found. AI enhancements will be skipped.');
+    console.warn('   Set OPENAI_API_KEY for AI-generated descriptions and images.\n');
   } else if (!useAI) {
     console.warn('ℹ️  AI features temporarily disabled - using fallback system.');
-    console.warn('   Waiting for correct Blackbox API endpoint documentation.\n');
   }
 
   try {
@@ -70,14 +68,14 @@ async function syncPortfolio() {
 
       try {
         // AI-powered relevance check (if API key available)
-        if (blackboxApiKey && useAI) {
+        if (openaiApiKey && useAI) {
           const relevanceCheck = await isProjectRelevant({
             name: repo.name,
             description: repo.description,
             topics: repo.topics,
             language: repo.language,
             stars: repo.stargazers_count
-          }, blackboxApiKey);
+          }, openaiApiKey);
 
           if (!relevanceCheck.isRelevant) {
             console.log(`  🚫 Filtered out: ${relevanceCheck.reason}`);
@@ -160,6 +158,7 @@ async function syncPortfolio() {
         let title = repo.name;
         let hasExistingEnhancement = false;
         let existingImagePath = null;
+        let existingProject = null;
 
         try {
           const projectsDataPath = path.join(__dirname, '../projects-data.js');
@@ -170,7 +169,7 @@ async function syncPortfolio() {
             const projectsMatch = existingData.match(/const projects = (\[[\s\S]*?\]);/);
             if (projectsMatch) {
               const existingProjects = JSON.parse(projectsMatch[1]);
-              const existingProject = existingProjects.find(p => p.name === repo.name);
+              existingProject = existingProjects.find(p => p.name === repo.name);
 
               if (existingProject) {
                 // Check if title looks AI-generated (not just formatted repo name)
@@ -207,10 +206,10 @@ async function syncPortfolio() {
           // Continue with fresh generation
         }
 
-        if (!hasExistingEnhancement && blackboxApiKey && useAI) {
+        if (!hasExistingEnhancement && openaiApiKey && useAI) {
           try {
             console.log(`  🤖 Generating AI title and description...`);
-            const enhanced = await enhanceProjectDescription(projectForEnhancement, blackboxApiKey);
+            const enhanced = await enhanceProjectDescription(projectForEnhancement, openaiApiKey);
             title = enhanced.title;
             description = enhanced.description;
             console.log(`  ✓ AI enhancement complete`);
@@ -229,11 +228,11 @@ async function syncPortfolio() {
         // Use existing image if available
         if (existingImagePath) {
           imagePath = existingImagePath;
-        } else if (blackboxApiKey && useAI) {
+        } else if (openaiApiKey && useAI) {
           try {
             console.log(`  🎨 Generating AI image...`);
             const projectWithTitle = { ...projectForEnhancement, title, description };
-            imagePath = await generateProjectImageAI(projectWithTitle, blackboxApiKey);
+            imagePath = await generateProjectImageAI(projectWithTitle, openaiApiKey);
           } catch (imageError) {
             console.error(`  ⚠️  AI image generation failed, using default`);
             imagePath = 'src/assets/images/projects/default.webp';
@@ -244,6 +243,8 @@ async function syncPortfolio() {
           console.log(`  ℹ️  Using default image`);
         }
 
+        const projectTopics = mergeProjectTopics(repo.name, topics, existingProject);
+
         // Create project object (use simple string for description, not object)
         const project = {
           name: repo.name,
@@ -251,7 +252,7 @@ async function syncPortfolio() {
           description: description, // Simple string format
           date: getProjectYear(repo),
           image: imagePath,
-          topics: topics,
+          topics: projectTopics,
           html_url: repo.html_url,
           homepage: repo.homepage || null,
           stars: repo.stargazers_count || 0,
@@ -282,9 +283,9 @@ async function syncPortfolio() {
 
       // Check against all previously processed projects
       for (const existing of processedProjects) {
-        if (blackboxApiKey && useAI) {
+        if (openaiApiKey && useAI) {
           // Use AI to detect duplicates
-          const duplicateCheck = await areProjectsDuplicate(project, existing, blackboxApiKey);
+          const duplicateCheck = await areProjectsDuplicate(project, existing, openaiApiKey);
 
           if (duplicateCheck.isDuplicate) {
             isDuplicate = true;
@@ -356,7 +357,7 @@ async function syncPortfolio() {
       }
 
       // Small delay to avoid rate limiting
-      if (blackboxApiKey && useAI) {
+      if (openaiApiKey && useAI) {
         await new Promise(resolve => setTimeout(resolve, 200));
       }
     }
@@ -472,6 +473,20 @@ function formatTitle(name) {
     .replace(/project\s+\d+/gi, 'Project')
     .replace(/team\s+\d+/gi, '')
     .trim();
+}
+
+function mergeProjectTopics(projectName, generatedTopics, existingProject) {
+  const customTopics = [];
+
+  if (existingProject?.topics?.includes('portfolio-featured')) {
+    customTopics.push('portfolio-featured');
+  }
+
+  if (projectName === 'automatisations') {
+    customTopics.push('automation', 'documents', 'ocr', 'ai', 'portfolio-featured');
+  }
+
+  return [...new Set([...generatedTopics, ...customTopics])];
 }
 
 /**

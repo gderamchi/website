@@ -2,14 +2,22 @@ import fetch from 'node-fetch';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import sharp from 'sharp';
+import {
+  OPENAI_IMAGES_URL,
+  createOpenAIResponse,
+  extractResponseText,
+  getOpenAIImageModel,
+  getOpenAITextModel,
+} from './openai-api.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /**
- * Enhance project title and description using Blackbox AI
+ * Enhance project title and description using OpenAI
  * @param {Object} project - Project object with name, description, topics
- * @param {string} apiKey - Blackbox API key
+ * @param {string} apiKey - OpenAI API key
  * @returns {Promise<Object>} Enhanced project with title and description
  */
 export async function enhanceProjectDescription(project, apiKey) {
@@ -40,38 +48,17 @@ Format your response ONLY as valid JSON with no additional text:
 }`;
 
   try {
-    // Use correct Blackbox API endpoint with required model parameter
-    const response = await fetch('https://api.blackbox.ai/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: 'blackboxai/openai/gpt-4o',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a technical writer. Respond ONLY with valid JSON, no markdown, no code blocks, no additional text.'
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 256,
-        stream: false
-      })
+    const data = await createOpenAIResponse({
+      apiKey,
+      model: getOpenAITextModel(),
+      instructions: 'You are a technical writer. Respond ONLY with valid JSON, no markdown, no code blocks, no additional text.',
+      input: prompt,
+      temperature: 0.5,
+      maxOutputTokens: 256,
+      textFormat: { type: 'json_object' },
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`API error ${response.status}: ${errorText}`);
-    }
-
-    const data = await response.json();
-    let content = data.choices?.[0]?.message?.content || data.response || '';
+    let content = extractResponseText(data);
 
     // Clean up response - remove markdown code blocks if present
     content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
@@ -109,9 +96,9 @@ function formatTitle(name) {
 }
 
 /**
- * Generate project image using Blackbox AI FLUX model
+ * Generate project image using OpenAI Images API
  * @param {Object} project - Project object
- * @param {string} apiKey - Blackbox API key
+ * @param {string} apiKey - OpenAI API key
  * @returns {Promise<string>} Path to generated image
  */
 export async function generateProjectImageAI(project, apiKey) {
@@ -135,22 +122,18 @@ CRITICAL REQUIREMENTS:
 Style: Clean geometric professional design, modern tech aesthetic, purple and cyan gradient background, simple icons or abstract shapes representing the technology/concept, minimalist composition, high contrast, suitable for developer portfolio card thumbnail.`;
 
   try {
-    // Use Blackbox AI with OpenJourney model for image generation
-    const response = await fetch('https://api.blackbox.ai/chat/completions', {
+    const response = await fetch(OPENAI_IMAGES_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'blackboxai/black-forest-labs/flux-1.1-pro-ultra',
-        messages: [
-          {
-            role: 'user',
-            content: prompt
-          }
-        ]
-      })
+        model: getOpenAIImageModel(),
+        prompt,
+        n: 1,
+        size: '1024x1024',
+      }),
     });
 
     if (!response.ok) {
@@ -160,28 +143,10 @@ Style: Clean geometric professional design, modern tech aesthetic, purple and cy
 
     const data = await response.json();
 
-    // Extract image data from response
-    const imageContent = data.choices?.[0]?.message?.content;
+    const imageContent = data.data?.[0]?.b64_json;
 
     if (!imageContent) {
       throw new Error('No image data in response');
-    }
-
-    // Check if it's a URL or base64 data
-    let buffer;
-    if (typeof imageContent === 'string' && imageContent.startsWith('http')) {
-      // It's a URL - download it
-      const imageResponse = await fetch(imageContent);
-      if (!imageResponse.ok) {
-        throw new Error(`Failed to download image: ${imageResponse.status}`);
-      }
-      buffer = await imageResponse.arrayBuffer();
-    } else if (typeof imageContent === 'string' && imageContent.includes('base64')) {
-      // It's base64 data
-      const base64Data = imageContent.replace(/^data:image\/\w+;base64,/, '');
-      buffer = Buffer.from(base64Data, 'base64');
-    } else {
-      throw new Error('Unknown image data format');
     }
 
     // Save to images/projects directory
@@ -191,7 +156,8 @@ Style: Clean geometric professional design, modern tech aesthetic, purple and cy
     }
 
     const imagePath = path.join(projectsDir, `${project.name}.webp`);
-    fs.writeFileSync(imagePath, Buffer.from(buffer));
+    const buffer = Buffer.from(imageContent, 'base64');
+    await sharp(buffer).webp({ quality: 86 }).toFile(imagePath);
 
     console.log(`  ✓ Generated image: ${project.name}.webp`);
     return `images/projects/${project.name}.webp`;

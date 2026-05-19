@@ -117,6 +117,7 @@ function createProjectCard(project, index) {
         alt="${escapeHtml(project.title || project.name)}"
         class="project-image"
         loading="lazy"
+        onerror="this.onerror=null;this.src='images/projects/default.webp';"
       />
       <div class="project-overlay">
         <span class="project-year">${project.date || '2024'}</span>

@@ -25,14 +25,25 @@ export async function fetchGitHubRepos(username, token = null, organizations = [
     let repoPage = 1;
     const maxRepoPages = 3; // Fetch up to 300 repos (3 pages * 100)
 
+    let useAuthenticatedOwnedEndpoint = Boolean(token);
+
     while (repoPage <= maxRepoPages) {
-      const endpoint = token
+      const endpoint = useAuthenticatedOwnedEndpoint
         ? `https://api.github.com/user/repos?visibility=public&affiliation=owner&sort=updated&per_page=100&page=${repoPage}`
         : `https://api.github.com/users/${username}/repos?sort=updated&per_page=100&page=${repoPage}`;
 
       const ownedResponse = await fetch(endpoint, { headers });
 
       if (!ownedResponse.ok) {
+        if (repoPage === 1 && useAuthenticatedOwnedEndpoint && ownedResponse.status === 403) {
+          console.warn('Authenticated repo discovery returned 403; falling back to public user repositories.');
+          delete headers.Authorization;
+          useAuthenticatedOwnedEndpoint = false;
+          repoPage = 1;
+          ownedRepos.length = 0;
+          continue;
+        }
+
         if (repoPage === 1) {
           throw new Error(`GitHub API error: ${ownedResponse.status} ${ownedResponse.statusText}`);
         }

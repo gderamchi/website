@@ -32,7 +32,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -68,8 +68,11 @@ jobs:
         if: steps.sync-type.outputs.type == 'incremental'
         env:
           GITHUB_USERNAME: ${{ github.repository_owner }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BLACKBOX_API: ${{ secrets.BLACKBOX_API }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_API_TOKEN: ${{ secrets.PORTFOLIO_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_SYNC_MODEL: gpt-5.4-mini
+          OPENAI_IMAGE_MODEL: gpt-image-1.5
         run: |
           echo "🔄 Running incremental sync for: ${{ github.repository }}"
           echo "Reason: ${{ steps.sync-type.outputs.reason }}"
@@ -79,8 +82,11 @@ jobs:
         if: steps.sync-type.outputs.type == 'full'
         env:
           GITHUB_USERNAME: ${{ github.repository_owner }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BLACKBOX_API: ${{ secrets.BLACKBOX_API }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_API_TOKEN: ${{ secrets.PORTFOLIO_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_SYNC_MODEL: gpt-5.4-mini
+          OPENAI_IMAGE_MODEL: gpt-image-1.5
           GITHUB_ORGS: algosup
         run: |
           echo "🔄 Running full sync of all repositories"
@@ -98,7 +104,7 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add projects-data.js images/projects/
-          git commit -m "🤖 Auto-update portfolio projects [skip ci]"
+          git commit -m "Auto-update portfolio projects [skip ci]" -m "Co-authored-by: Codex <noreply@openai.com>"
           git push
 
       - name: Create summary

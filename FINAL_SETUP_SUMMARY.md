@@ -151,7 +151,7 @@ Push to ANY existing repo → Portfolio updates in 2 minutes ✅
 **Check:**
 1. Did the workflow run? (Check Actions tab)
 2. Any errors in workflow logs?
-3. Is BLACKBOX_API secret set?
+3. Is OPENAI_API_KEY secret set?
 
 **Fix:**
 ```bash

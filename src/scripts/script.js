@@ -121,7 +121,13 @@ function loadProjects() {
     return;
   }
   
-  const featuredProjects = projects.slice(0, CONFIG.initialProjectsToShow);
+  const featuredProjects = [...projects]
+    .sort((a, b) => {
+      const featuredDelta = getFeaturedScore(b) - getFeaturedScore(a);
+      if (featuredDelta !== 0) return featuredDelta;
+      return new Date(b.updated || b.date) - new Date(a.updated || a.date);
+    })
+    .slice(0, CONFIG.initialProjectsToShow);
   
   console.log(`Loading ${featuredProjects.length} featured projects`);
   
@@ -139,6 +145,12 @@ function loadProjects() {
   projectsGrid.appendChild(fragment);
   
   console.log('Projects loaded successfully');
+}
+
+function getFeaturedScore(project) {
+  if (project.name === 'automatisations') return 3;
+  if (project.topics?.includes('portfolio-featured')) return 2;
+  return 0;
 }
 
 // Create project card
@@ -159,7 +171,7 @@ function createProjectCard(project) {
   card.innerHTML = `
     <div class="project-image-container">
       ${project.date ? `<div class="project-overlay-badge">${project.date}</div>` : ''}
-      <img src="${project.image || 'src/assets/images/projects/default.webp'}" alt="${project.title || project.name}" class="project-image">
+      <img src="${project.image || 'images/projects/default.webp'}" alt="${project.title || project.name}" class="project-image" onerror="this.onerror=null;this.src='images/projects/default.webp';">
     </div>
     <div class="project-content">
       <h3 class="project-title">${project.title || project.name.replace(/-/g, ' ')}</h3>

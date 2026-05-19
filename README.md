@@ -1,6 +1,6 @@
 # Guillaume Deramchi - Personal Portfolio Website
 
-This repository contains the code for my personal portfolio website, showcasing my projects, skills, and experience as a Software & AI Prompt Engineer.
+This repository contains the code for my personal portfolio website, showcasing my projects, skills, and experience across 42 Paris, AI, data, automation, and software engineering.
 
 ## 🌐 Live Demo
 
@@ -15,6 +15,8 @@ Visit the [website](https://guillaume-portfolio-omega.vercel.app/)
 - **Offline Capabilities**: Service worker implementation for offline browsing
 - **Accessibility**: WCAG compliance for better accessibility
 - **SEO Optimized**: Meta tags and structured data for better search engine ranking
+- **OpenAI Chat Assistant**: Vercel serverless chat proxy using the OpenAI Responses API
+- **Project Auto-Sync**: GitHub Actions workflow that refreshes portfolio projects from GitHub repositories
 
 ## 🛠️ Technologies Used
 
@@ -23,6 +25,9 @@ Visit the [website](https://guillaume-portfolio-omega.vercel.app/)
 - Service Workers for offline functionality
 - Font Awesome for icons
 - Structured data (schema.org) for SEO
+- Vercel Functions for `/api/chat`
+- OpenAI Responses API for chat and portfolio text automation
+- OpenAI Images API for project image generation
 
 ## 📂 Project Structure
 
@@ -66,11 +71,11 @@ Visit the [website](https://guillaume-portfolio-omega.vercel.app/)
    # Using Python
    python -m http.server
 
-   # Using Vercel, including /api routes
+   # Local static site plus /api/chat proxy
    npm run dev
    ```
 
-4. Visit the local URL printed by Vercel
+4. Visit the local URL printed by the dev server
 
 ## 🚀 Deployment
 
@@ -81,8 +86,20 @@ still connected.
 Required production environment variable for the chat API:
 
 ```bash
-BLACKBOX_API_KEY=<your-blackbox-api-key>
+OPENAI_API_KEY=<your-openai-api-key>
+OPENAI_CHAT_MODEL=gpt-5.4-mini
 ```
+
+Required GitHub Actions secrets/environment for project sync:
+
+```bash
+OPENAI_API_KEY=<your-openai-api-key>
+OPENAI_SYNC_MODEL=gpt-5.4-mini
+OPENAI_IMAGE_MODEL=gpt-image-1.5
+PORTFOLIO_TOKEN=<optional-github-token-for-private-or-authenticated-discovery>
+```
+
+`GITHUB_TOKEN` is still used by GitHub Actions for checkout and push. Repo discovery uses `PORTFOLIO_TOKEN` or `GITHUB_API_TOKEN` when available, then falls back to public GitHub repository discovery if the authenticated endpoint returns `403`.
 
 ## 🌙 Dark Mode
 

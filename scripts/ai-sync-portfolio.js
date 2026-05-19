@@ -20,6 +20,7 @@ const CONFIG = {
   GITHUB_USERNAME: process.env.GITHUB_USERNAME || 'gderamchi',
   GITHUB_TOKEN: process.env.GITHUB_TOKEN,
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  OPENAI_MODEL: process.env.OPENAI_SYNC_MODEL || 'gpt-5.4-mini',
   PROJECTS_FILE: path.join(__dirname, '../projects-data.js'),
   IMAGES_DIR: path.join(__dirname, '../src/assets/images/projects'),
   MIN_STARS: 0,
@@ -167,30 +168,45 @@ async function analyzeRepoWithAI(repo, readme) {
     .replace('{readme}', readme || 'No README available');
   
   try {
-    const response = await httpsRequest('https://api.openai.com/v1/chat/completions', {
+    const response = await httpsRequest('https://api.openai.com/v1/responses', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${CONFIG.OPENAI_API_KEY}`
       },
       body: {
-        model: 'gpt-4o-mini',
-        messages: [
-          { role: 'system', content: 'You are a portfolio curation assistant.' },
-          { role: 'user', content: prompt }
-        ],
+        model: CONFIG.OPENAI_MODEL,
+        instructions: 'You are a portfolio curation assistant. Respond only with valid JSON.',
+        input: prompt,
         temperature: 0.7,
-        response_format: { type: 'json_object' }
+        max_output_tokens: 700,
+        store: false,
+        text: {
+          format: { type: 'json_object' }
+        }
       }
     });
     
-    const analysis = JSON.parse(response.choices[0].message.content);
+    const analysis = JSON.parse(extractResponseText(response));
     console.log(`   Score: ${analysis.score} | Relevant: ${analysis.relevant}`);
     return analysis;
   } catch (error) {
     console.error(`   ❌ AI analysis failed: ${error.message}`);
     return basicAnalysis(repo);
   }
+}
+
+function extractResponseText(response) {
+  if (typeof response?.output_text === 'string') {
+    return response.output_text;
+  }
+
+  return (response?.output || [])
+    .flatMap(item => item?.content || [])
+    .filter(content => content?.type === 'output_text' && typeof content.text === 'string')
+    .map(content => content.text)
+    .join('\n')
+    .trim();
 }
 
 /**
