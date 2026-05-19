@@ -24,7 +24,7 @@ const projects = [
     "title": "42cursus",
     "description": "42 projects",
     "date": "2025",
-    "image": "src/assets/images/projects/default.webp",
+    "image": "images/projects/default.webp",
     "topics": [
       "C"
     ],
@@ -69,7 +69,7 @@ const projects = [
     "title": "Mini Hack",
     "description": "Mini hackathon about foodtech",
     "date": "2025",
-    "image": "src/assets/images/projects/default.webp",
+    "image": "images/projects/default.webp",
     "topics": [],
     "html_url": "https://github.com/gderamchi/mini-hack",
     "homepage": null,
@@ -170,7 +170,7 @@ const projects = [
     "title": "Hackathon Eugenic",
     "description": "A software project",
     "date": "2025",
-    "image": "src/assets/images/projects/default.webp",
+    "image": "images/projects/default.webp",
     "topics": [],
     "html_url": "https://github.com/gderamchi/hackathon-eugenic",
     "homepage": null,
@@ -220,7 +220,7 @@ const projects = [
     "title": "Telecom Hackathon Data",
     "description": "A software project",
     "date": "2025",
-    "image": "src/assets/images/projects/default.webp",
+    "image": "images/projects/default.webp",
     "topics": [
       "Python"
     ],
@@ -280,7 +280,7 @@ const projects = [
     "title": "Fichotron",
     "description": "A software project",
     "date": "2025",
-    "image": "src/assets/images/projects/default.webp",
+    "image": "images/projects/default.webp",
     "topics": [],
     "html_url": "https://github.com/gderamchi/fichotron",
     "homepage": null,

@@ -1,169 +1,105 @@
-// Service Worker for caching assets and enabling offline access
+// Service Worker for offline fallback and low-risk asset caching.
 
-const CACHE_NAME = 'guillaume-deramchi-cache-v1';
-
-// Resources to cache immediately on install
+const CACHE_NAME = 'guillaume-deramchi-cache-v2';
 const PRECACHE_RESOURCES = [
-  '/website/',
-  '/website/index.html',
-  '/website/projects.html',
-  '/website/404.html',
-  '/website/style.css',
-  '/website/overscroll-fix.css',
-  '/website/projects-page.css',
-  '/website/common.js',
-  '/website/script.js',
-  '/website/projects-page.js',
-  '/website/projects-data.js',
-  '/website/images/profile-photo.webp',
-  '/website/images/projects/default.webp',
-  '/website/favicon.ico',
-  '/website/site.webmanifest'
+  './',
+  './index.html',
+  './projects.html',
+  './404.html',
+  './projects-data.js',
+  './src/styles/style.css',
+  './src/styles/overscroll-fix.css',
+  './src/styles/projects-page.css',
+  './src/styles/page-transitions.css',
+  './src/styles/enhancements.css',
+  './src/styles/browser-fixes.css',
+  './src/styles/mobile-fixes.css',
+  './src/scripts/common.js',
+  './src/scripts/script.js',
+  './src/scripts/projects-page.js',
+  './src/scripts/page-transitions.js',
+  './src/scripts/chat-widget.js',
+  './images/profile-photo.webp',
+  './images/projects/default.webp',
+  './favicon.ico',
+  './favicon.png',
+  './site.webmanifest'
 ];
 
-// Resources to cache when visited
-const DYNAMIC_RESOURCES = [
-  '/website/images/projects/'
-];
+const IMAGE_FALLBACK = './images/projects/default.webp';
+const PAGE_FALLBACK = './index.html';
 
-// Install event - cache static assets
-self.addEventListener('install', event => {
-  console.log('Service Worker: Installing...');
-  
+self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Service Worker: Caching core assets');
-        return cache.addAll(PRECACHE_RESOURCES);
-      })
-      .then(() => {
-        console.log('Service Worker: Install completed');
-        return self.skipWaiting();
-      })
-      .catch(error => {
-        console.error('Service Worker: Install failed:', error);
-      })
+      .then((cache) => cache.addAll(PRECACHE_RESOURCES))
+      .then(() => self.skipWaiting())
   );
 });
 
-// Activate event - clean up old caches
-self.addEventListener('activate', event => {
-  console.log('Service Worker: Activating...');
-  
+self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
-      .then(cacheNames => {
-        return Promise.all(
-          cacheNames.map(cacheName => {
-            if (cacheName !== CACHE_NAME) {
-              console.log('Service Worker: Clearing old cache:', cacheName);
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      })
-      .then(() => {
-        console.log('Service Worker: Activation completed');
-        return self.clients.claim();
-      })
-      .catch(error => {
-        console.error('Service Worker: Activation failed:', error);
-      })
+      .then((cacheNames) => Promise.all(
+        cacheNames
+          .filter((cacheName) => cacheName !== CACHE_NAME)
+          .map((cacheName) => caches.delete(cacheName))
+      ))
+      .then(() => self.clients.claim())
   );
 });
 
-// Fetch event - serve from cache or network with dynamic caching
-self.addEventListener('fetch', event => {
-  // Skip non-GET requests and browser extensions
-  if (event.request.method !== 'GET' || 
-      event.request.url.startsWith('chrome-extension://') ||
-      event.request.url.startsWith('http://localhost:') ||
-      event.request.url.includes('/sockjs-node')) {
+self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) {
     return;
   }
-  
-  // Network-first strategy for HTML requests to ensure fresh content
-  if (event.request.headers.get('Accept').includes('text/html')) {
-    event.respondWith(
-      fetch(event.request)
-        .then(response => {
-          let responseClone = response.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, responseClone);
-          });
-          return response;
-        })
-        .catch(() => {
-          return caches.match(event.request)
-            .then(cachedResponse => {
-              return cachedResponse || caches.match('/website/404.html');
-            });
-        })
-    );
+
+  const accepts = event.request.headers.get('accept') || '';
+
+  if (event.request.mode === 'navigate' || accepts.includes('text/html')) {
+    event.respondWith(networkFirst(event.request, PAGE_FALLBACK));
     return;
   }
-  
-  // Cache-first strategy for assets
-  let shouldCache = DYNAMIC_RESOURCES.some(urlPrefix => 
-    event.request.url.includes(urlPrefix)
-  );
-  
-  event.respondWith(
-    caches.match(event.request)
-      .then(cachedResponse => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-        
-        return fetch(event.request)
-          .then(response => {
-            // Only cache valid responses
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-            
-            // Clone the response as it can only be consumed once
-            let responseClone = response.clone();
-            
-            // Cache dynamic resources
-            if (shouldCache) {
-              caches.open(CACHE_NAME).then(cache => {
-                cache.put(event.request, responseClone);
-              });
-            }
-            
-            return response;
-          })
-          .catch(error => {
-            console.error('Service Worker: Fetch failed:', error);
-            
-            // For image requests, return a fallback image
-            if (event.request.url.match(/\.(jpe?g|png|gif|webp|svg)$/)) {
-              return caches.match('/website/images/projects/default.webp');
-            }
-            
-            // Return a previously cached response if available
-            return caches.match(event.request);
-          });
-      })
-  );
+
+  event.respondWith(cacheFirst(event.request));
 });
 
-// Handle offline fallback
-self.addEventListener('fetch', event => {
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request)
-        .catch(() => {
-          return caches.match('/website/index.html');
-        })
-    );
-  }
-});
-
-// Handle messages from the main thread
-self.addEventListener('message', event => {
+self.addEventListener('message', (event) => {
   if (event.data === 'skipWaiting') {
     self.skipWaiting();
   }
 });
+
+async function networkFirst(request, fallbackUrl) {
+  const cache = await caches.open(CACHE_NAME);
+
+  try {
+    const response = await fetch(request);
+    if (response?.ok) {
+      await cache.put(request, response.clone());
+    }
+    return response;
+  } catch (error) {
+    return (await cache.match(request)) || cache.match(fallbackUrl);
+  }
+}
+
+async function cacheFirst(request) {
+  const cachedResponse = await caches.match(request);
+  if (cachedResponse) return cachedResponse;
+
+  try {
+    const response = await fetch(request);
+    if (response?.ok && response.type === 'basic') {
+      const cache = await caches.open(CACHE_NAME);
+      await cache.put(request, response.clone());
+    }
+    return response;
+  } catch (error) {
+    if (request.destination === 'image') {
+      return caches.match(IMAGE_FALLBACK);
+    }
+
+    return caches.match(request);
+  }
+}

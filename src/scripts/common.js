@@ -82,22 +82,11 @@ function initScrollToTop() {
   window.addEventListener('scroll', toggleScrollTopBtn, { passive: true });
 }
 
-// Mobile menu functionality - completely rewritten for maximum reliability
 function initMobileMenu() {
-  console.log("Initializing mobile menu");
   const menuToggle = document.getElementById('menu-toggle');
   const navLinks = document.getElementById('nav-links');
   
-  // Safety checks with better error messages
-  if (!menuToggle) {
-    console.error("Mobile menu toggle button not found!");
-    return;
-  }
-  
-  if (!navLinks) {
-    console.error("Navigation links container not found!");
-    return;
-  }
+  if (!menuToggle || !navLinks) return;
   
   // Remove any existing click handlers to prevent conflicts
   menuToggle.removeEventListener('click', handleMenuToggle);
@@ -108,17 +97,13 @@ function initMobileMenu() {
   // Function to handle menu toggle clicks
   function handleMenuToggle(e) {
     e.preventDefault();
-    console.log("Menu button clicked");
     
-    // Force toggle the active class
     if (navLinks.classList.contains('active')) {
       navLinks.classList.remove('active');
       menuToggle.setAttribute('aria-expanded', 'false');
-      console.log("Menu closed");
     } else {
       navLinks.classList.add('active');
       menuToggle.setAttribute('aria-expanded', 'true');
-      console.log("Menu opened");
     }
   }
   
@@ -128,14 +113,22 @@ function initMobileMenu() {
     item.onclick = function() {
       navLinks.classList.remove('active');
       menuToggle.setAttribute('aria-expanded', 'false');
-      console.log("Nav link clicked, menu closed");
     };
   });
   
   // Reset initial ARIA state
   menuToggle.setAttribute('aria-expanded', navLinks.classList.contains('active') ? 'true' : 'false');
-  
-  console.log("Mobile menu fully initialized");
+}
+
+function safeExternalUrl(value, fallback = '#') {
+  if (!value || typeof value !== 'string') return fallback;
+
+  try {
+    const url = new URL(value, window.location.href);
+    return ['http:', 'https:', 'mailto:'].includes(url.protocol) ? url.href : fallback;
+  } catch (error) {
+    return fallback;
+  }
 }
 
 // Lazy load images for better performance
@@ -193,3 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize lazy loading
   setTimeout(initLazyLoadImages, 100);
 });
+
+window.PortfolioUtils = {
+  ...(window.PortfolioUtils || {}),
+  safeExternalUrl
+};

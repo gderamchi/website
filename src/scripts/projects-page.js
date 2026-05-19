@@ -12,8 +12,6 @@ let allProjects = [];
 
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Projects page initializing...');
-
   // Load and display projects
   loadProjects();
 
@@ -30,18 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
  * Load and display all projects
  */
 function loadProjects() {
-  console.log('Loading projects...');
-
   // Check if projects data is available
   if (typeof projects === 'undefined' || !Array.isArray(projects)) {
-    console.error('Projects data not found!');
     showError();
     return;
   }
 
   allProjects = projects;
-  console.log(`Found ${allProjects.length} projects`);
-  console.log('Projects array:', allProjects);
 
   // Display projects
   displayProjects(allProjects);
@@ -60,7 +53,6 @@ function displayProjects(projectsToDisplay) {
   const grid = document.getElementById('projects-grid');
 
   if (!grid) {
-    console.error('Projects grid not found!');
     return;
   }
 
@@ -96,7 +88,7 @@ function createProjectCard(project, index) {
   card.style.animationDelay = `${index * 0.05}s`;
 
   // Get description
-  const description = project.description || 'A software project';
+  const description = getProjectDescription(project);
 
   // Truncate description
   const shortDescription = description.length > 120
@@ -113,7 +105,7 @@ function createProjectCard(project, index) {
   card.innerHTML = `
     <div class="project-image-container">
       <img
-        src="${project.image || 'src/assets/images/projects/default.webp'}"
+        src="${escapeHtml(safeAssetUrl(project.image))}"
         alt="${escapeHtml(project.title || project.name)}"
         class="project-image"
         loading="lazy"
@@ -135,7 +127,7 @@ function createProjectCard(project, index) {
           <i class="fas fa-arrow-right"></i>
         </button>
         ${project.html_url ? `
-          <a href="${project.html_url}" target="_blank" rel="noopener" class="project-btn project-btn-secondary">
+          <a href="${escapeHtml(safeExternalUrl(project.html_url))}" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-secondary">
             <i class="fab fa-github"></i>
           </a>
         ` : ''}
@@ -213,6 +205,8 @@ function filterProjects(filter) {
 
   // Animate out current projects
   const grid = document.getElementById('projects-grid');
+  if (!grid) return;
+
   grid.style.opacity = '0';
 
   setTimeout(() => {
@@ -304,7 +298,7 @@ function calculateYearsActive() {
 
   allProjects.forEach(project => {
     if (project.date && project.date !== 'NaN') {
-      const year = parseInt(project.date);
+      const year = parseInt(project.date, 10);
       if (!isNaN(year) && year < earliestYear) {
         earliestYear = year;
       }
@@ -373,13 +367,13 @@ function openModal(project) {
   if (!modal || !modalBody) return;
 
   // Get description
-  const description = project.description || 'A software project';
+  const description = getProjectDescription(project);
 
   // Create modal content
   modalBody.innerHTML = `
     <div class="modal-header">
       <img
-        src="${project.image || 'src/assets/images/projects/default.webp'}"
+        src="${escapeHtml(safeAssetUrl(project.image))}"
         alt="${escapeHtml(project.title || project.name)}"
         class="modal-image"
       />
@@ -410,13 +404,13 @@ function openModal(project) {
 
     <div class="modal-actions">
       ${project.html_url ? `
-        <a href="${project.html_url}" target="_blank" rel="noopener" class="modal-btn modal-btn-primary">
+        <a href="${escapeHtml(safeExternalUrl(project.html_url))}" target="_blank" rel="noopener noreferrer" class="modal-btn modal-btn-primary">
           <i class="fab fa-github"></i>
           <span>View on GitHub</span>
         </a>
       ` : ''}
       ${project.homepage ? `
-        <a href="${project.homepage}" target="_blank" rel="noopener" class="modal-btn modal-btn-secondary">
+        <a href="${escapeHtml(safeExternalUrl(project.homepage))}" target="_blank" rel="noopener noreferrer" class="modal-btn modal-btn-secondary">
           <i class="fas fa-external-link-alt"></i>
           <span>Live Demo</span>
         </a>
@@ -465,12 +459,46 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+function getProjectDescription(project) {
+  const description = project.description;
+  if (typeof description === 'string') return description;
+  return description?.en || description?.fr || 'A software project';
+}
+
+function safeExternalUrl(value, fallback = '#') {
+  if (window.PortfolioUtils?.safeExternalUrl) {
+    return window.PortfolioUtils.safeExternalUrl(value, fallback);
+  }
+
+  if (!value || typeof value !== 'string') return fallback;
+
+  try {
+    const url = new URL(value, window.location.href);
+    return ['http:', 'https:', 'mailto:'].includes(url.protocol) ? url.href : fallback;
+  } catch (error) {
+    return fallback;
+  }
+}
+
+function safeAssetUrl(value, fallback = 'images/projects/default.webp') {
+  if (!value || typeof value !== 'string') return fallback;
+
+  try {
+    const url = new URL(value, window.location.href);
+    return url.origin === window.location.origin || url.protocol === 'https:' ? url.href : fallback;
+  } catch (error) {
+    return fallback;
+  }
+}
+
 // Export for use in other scripts if needed
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     loadProjects,
     filterProjects,
     openModal,
-    closeModal
+    closeModal,
+    safeExternalUrl,
+    safeAssetUrl
   };
 }

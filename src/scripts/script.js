@@ -19,6 +19,44 @@ function debounce(func, wait = CONFIG.debounceTime) {
   };
 }
 
+function escapeHtml(value) {
+  const div = document.createElement('div');
+  div.textContent = value ?? '';
+  return div.innerHTML;
+}
+
+function getProjectDescription(project) {
+  const description = project.description;
+  if (typeof description === 'string') return description;
+  return description?.en || description?.fr || 'A student project';
+}
+
+function safeExternalUrl(value, fallback = '#') {
+  if (window.PortfolioUtils?.safeExternalUrl) {
+    return window.PortfolioUtils.safeExternalUrl(value, fallback);
+  }
+
+  if (!value || typeof value !== 'string') return fallback;
+
+  try {
+    const url = new URL(value, window.location.href);
+    return ['http:', 'https:', 'mailto:'].includes(url.protocol) ? url.href : fallback;
+  } catch (error) {
+    return fallback;
+  }
+}
+
+function safeAssetUrl(value, fallback = 'images/projects/default.webp') {
+  if (!value || typeof value !== 'string') return fallback;
+
+  try {
+    const url = new URL(value, window.location.href);
+    return url.origin === window.location.origin || url.protocol === 'https:' ? url.href : fallback;
+  } catch (error) {
+    return fallback;
+  }
+}
+
 // Intersection Observer for scroll animations
 function createScrollObserver() {
   return new IntersectionObserver((entries) => {
@@ -109,21 +147,15 @@ function loadSkills() {
 // Load projects
 function loadProjects() {
   const projectsGrid = document.getElementById('projects-grid');
-  if (!projectsGrid) {
-    console.error('Projects grid container not found');
-    return;
-  }
+  if (!projectsGrid) return;
   
   // Check if projects data is available
   if (typeof projects === 'undefined' || !projects || projects.length === 0) {
-    console.error('Projects data not available');
     projectsGrid.innerHTML = '<p style="text-align: center; color: var(--color-text-secondary);">No projects available at the moment.</p>';
     return;
   }
   
   const featuredProjects = projects.slice(0, CONFIG.initialProjectsToShow);
-  
-  console.log(`Loading ${featuredProjects.length} featured projects`);
   
   // Clear existing content
   projectsGrid.innerHTML = '';
@@ -137,8 +169,6 @@ function loadProjects() {
   });
   
   projectsGrid.appendChild(fragment);
-  
-  console.log('Projects loaded successfully');
 }
 
 // Create project card
@@ -146,30 +176,30 @@ function createProjectCard(project) {
   const card = document.createElement('div');
   card.classList.add('project-card');
   
-  const description = project.description || 'A student project';
+  const description = getProjectDescription(project);
   
   const shortDescription = description.length > 120 ? 
     description.substring(0, 120) + '...' : 
     description;
   
   const tagsHTML = project.topics && project.topics.length > 0 
-    ? project.topics.slice(0, 3).map(tag => `<span class="project-tag">${tag}</span>`).join('')
+    ? project.topics.slice(0, 3).map(tag => `<span class="project-tag">${escapeHtml(tag)}</span>`).join('')
     : '<span class="project-tag">Project</span>';
   
   card.innerHTML = `
     <div class="project-image-container">
-      ${project.date ? `<div class="project-overlay-badge">${project.date}</div>` : ''}
-      <img src="${project.image || 'src/assets/images/projects/default.webp'}" alt="${project.title || project.name}" class="project-image">
+      ${project.date ? `<div class="project-overlay-badge">${escapeHtml(project.date)}</div>` : ''}
+      <img src="${escapeHtml(safeAssetUrl(project.image))}" alt="${escapeHtml(project.title || project.name)}" class="project-image">
     </div>
     <div class="project-content">
-      <h3 class="project-title">${project.title || project.name.replace(/-/g, ' ')}</h3>
-      <p class="project-description">${shortDescription}</p>
+      <h3 class="project-title">${escapeHtml(project.title || project.name.replace(/-/g, ' '))}</h3>
+      <p class="project-description">${escapeHtml(shortDescription)}</p>
       <div class="project-tags">${tagsHTML}</div>
       <div class="project-links">
-        ${project.homepage ? `<a href="${project.homepage}" target="_blank" rel="noopener" class="project-link">
+        ${project.homepage ? `<a href="${escapeHtml(safeExternalUrl(project.homepage))}" target="_blank" rel="noopener noreferrer" class="project-link">
           <i class="fas fa-external-link-alt"></i> Live Demo
         </a>` : ''}
-        <a href="${project.html_url}" target="_blank" rel="noopener" class="project-link">
+        <a href="${escapeHtml(safeExternalUrl(project.html_url))}" target="_blank" rel="noopener noreferrer" class="project-link">
           <i class="fab fa-github"></i> View Repository
         </a>
       </div>
@@ -259,11 +289,11 @@ function setupContactForm() {
       CONFIG.emailjsTemplateId,
       formData
     ).then(
-      function(response) {
+      function() {
         showFormMessage('Message sent successfully!', 'success');
         contactForm.reset();
       },
-      function(error) {
+      function() {
         showFormMessage('Failed to send message. Please try again.', 'error');
       }
     ).finally(() => {
