@@ -189,7 +189,7 @@ body {
   transition: background-color var(--transition-base), color var(--transition-base);
 }
 
-/* Background gradient layer behind particles */
+/* Background gradient layer */
 body::before {
   content: '';
   position: fixed;

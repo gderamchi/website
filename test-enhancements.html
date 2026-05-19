@@ -215,8 +215,8 @@
 </head>
 <body>
   <div class="container">
-    <h1>🧪 Enhancement Testing Dashboard</h1>
-    <p class="subtitle">Comprehensive testing for particle system, 3D tilt effects, and scroll animations</p>
+    <h1>Enhancement Testing Dashboard</h1>
+    <p class="subtitle">Comprehensive testing for 3D tilt effects, scroll animations, performance, and accessibility</p>
     
     <div class="summary">
       <div class="summary-card">
@@ -238,93 +238,45 @@
     </div>
     
     <div class="actions">
-      <button class="btn" onclick="runAllTests()">▶ Run All Tests</button>
-      <button class="btn btn-secondary" onclick="clearResults()">🔄 Clear Results</button>
-      <button class="btn btn-secondary" onclick="window.open('index.html', '_blank')">🏠 Open Homepage</button>
-      <button class="btn btn-secondary" onclick="window.open('projects.html', '_blank')">📁 Open Projects</button>
+      <button class="btn" onclick="runAllTests()">Run All Tests</button>
+      <button class="btn btn-secondary" onclick="clearResults()">Clear Results</button>
+      <button class="btn btn-secondary" onclick="window.open('index.html', '_blank')">Open Homepage</button>
+      <button class="btn btn-secondary" onclick="window.open('projects.html', '_blank')">Open Projects</button>
     </div>
-    
-    <!-- Particle System Tests -->
-    <div class="test-section">
-      <h2>🎨 Particle System Tests</h2>
-      <div class="test-grid" id="particle-tests"></div>
-    </div>
-    
+
     <!-- 3D Tilt Tests -->
     <div class="test-section">
-      <h2>🎯 3D Tilt Effect Tests</h2>
+      <h2>3D Tilt Effect Tests</h2>
       <div class="test-grid" id="tilt-tests"></div>
     </div>
     
     <!-- Scroll Animation Tests -->
     <div class="test-section">
-      <h2>🌊 Scroll Animation Tests</h2>
+      <h2>Scroll Animation Tests</h2>
       <div class="test-grid" id="scroll-tests"></div>
     </div>
     
     <!-- Performance Tests -->
     <div class="test-section">
-      <h2>⚡ Performance Tests</h2>
+      <h2>Performance Tests</h2>
       <div class="test-grid" id="performance-tests"></div>
     </div>
     
     <!-- Accessibility Tests -->
     <div class="test-section">
-      <h2>♿ Accessibility Tests</h2>
+      <h2>Accessibility Tests</h2>
       <div class="test-grid" id="accessibility-tests"></div>
     </div>
     
     <!-- Test Log -->
     <div class="test-section">
-      <h2>📋 Test Log</h2>
+      <h2>Test Log</h2>
       <div class="log" id="test-log"></div>
     </div>
   </div>
   
   <script>
     const tests = {
-      particle: [
-        {
-          name: 'Canvas Element Exists',
-          description: 'Check if particles canvas is present in DOM',
-          test: () => {
-            const canvas = document.querySelector('#particles-canvas');
-            return canvas !== null;
-          }
-        },
-        {
-          name: 'Particle Script Loaded',
-          description: 'Verify particles.js script is loaded',
-          test: () => {
-            return typeof ParticleSystem !== 'undefined';
-          }
-        },
-        {
-          name: 'Canvas Context Available',
-          description: 'Check if 2D context can be obtained',
-          test: () => {
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-            iframe.src = 'index.html';
-            return new Promise((resolve) => {
-              iframe.onload = () => {
-                const canvas = iframe.contentDocument.querySelector('#particles-canvas');
-                const hasContext = canvas && canvas.getContext('2d') !== null;
-                document.body.removeChild(iframe);
-                resolve(hasContext);
-              };
-            });
-          }
-        },
-        {
-          name: 'Particle Count Configuration',
-          description: 'Verify particle count is within expected range',
-          test: () => {
-            return true; // Would need to inspect actual instance
-          }
-        }
-      ],
       tilt: [
         {
           name: 'Tilt Script Loaded',
@@ -524,7 +476,7 @@
       testResults = { total: 0, passed: 0, failed: 0, pending: 0 };
       updateSummary();
       
-      ['particle', 'tilt', 'scroll', 'performance', 'accessibility'].forEach(category => {
+      ['tilt', 'scroll', 'performance', 'accessibility'].forEach(category => {
         document.getElementById(`${category}-tests`).innerHTML = '';
       });
       
