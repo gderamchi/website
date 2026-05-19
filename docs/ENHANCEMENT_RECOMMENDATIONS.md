@@ -744,7 +744,7 @@ Low Impact, Low Effort (NICE TO HAVE)
 - ✅ Vanilla JavaScript (good for performance)
 - ✅ Modern CSS (custom properties, grid, flexbox)
 - ✅ Service Worker (offline support)
-- ✅ Netlify Functions (serverless)
+- ✅ Vercel Functions (serverless)
 
 ### Additions (Recommended)
 - **Chart.js** - Skills visualization
@@ -805,7 +805,7 @@ Low Impact, Low Effort (NICE TO HAVE)
 
 ### Enhancements
 1. **Content Security Policy** - Prevent XSS
-2. **HTTPS Enforcement** - Already on Netlify
+2. **HTTPS Enforcement** - Already on Vercel
 3. **Rate Limiting** - Protect contact form
 4. **GDPR Compliance** - Cookie consent, privacy policy
 5. **Data Encryption** - Sensitive form data

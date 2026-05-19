@@ -1,11 +1,11 @@
 # robots.txt for Guillaume Deramchi Portfolio
-# https://guisamder.netlify.app/
+# https://guillaume-portfolio-omega.vercel.app/
 
 User-agent: *
 Allow: /
 Allow: /index.html
-Allow: /projects.html
-Allow: /chat.html
+Allow: /projects
+Allow: /chat
 Allow: /images/
 Allow: /src/
 
@@ -15,10 +15,10 @@ Disallow: /.git/
 Disallow: /archive/
 Disallow: /docs/
 Disallow: /.env
-Disallow: /netlify/
+Disallow: /api/
 
 # Sitemap location
-Sitemap: https://guisamder.netlify.app/sitemap.xml
+Sitemap: https://guillaume-portfolio-omega.vercel.app/sitemap.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1

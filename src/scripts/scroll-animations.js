@@ -133,7 +133,8 @@ class ScrollAnimations {
    */
   setupCounterAnimations() {
     // Skip counter animations on projects page - handled by projects-page.js
-    if (window.location.pathname.includes('projects.html') || 
+    if (window.location.pathname.includes('projects.html') ||
+        window.location.pathname === '/projects' ||
         window.location.href.includes('projects.html')) {
       console.log('[Scroll Animations] Skipping counter animations on projects page');
       return;

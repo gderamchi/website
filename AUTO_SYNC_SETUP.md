@@ -129,7 +129,7 @@ You need to do this for:
 4. Wait 2-3 minutes
 
 5. Check your portfolio:
-   - Go to: https://guisamder.netlify.app/projects.html
+   - Go to: https://guillaume-portfolio-omega.vercel.app/projects
    - Your project should be updated!
 
 ## 📊 What Happens When You Push
@@ -151,7 +151,7 @@ You need to do this for:
    ↓
 8. Commits and pushes
    ↓
-9. Netlify auto-deploys
+9. Vercel deploys from `main`
    ↓
 10. Portfolio is updated! 🎉
 ```

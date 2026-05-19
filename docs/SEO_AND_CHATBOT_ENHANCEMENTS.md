@@ -74,7 +74,7 @@ Added comprehensive keywords:
 #### Enhanced OG Tags
 - Updated title: "Guillaume Deramchi | 42 Paris Student & Hackathon Winner"
 - Detailed description highlighting hackathon wins and project count
-- Updated image URLs to production domain (guisamder.netlify.app)
+- Updated image URLs to the production domain
 - Enhanced image alt text for accessibility
 
 #### Twitter Card Optimization
@@ -119,7 +119,7 @@ Created comprehensive sitemap with:
 ### Robots.txt
 Configured for optimal crawling:
 - Allow all major search engines (Google, Bing, DuckDuckGo, Yandex, Baidu)
-- Disallow sensitive directories (node_modules, .git, archive, docs, netlify)
+- Disallow sensitive directories and API internals
 - Sitemap location specified
 - Crawl-delay set to 1 second for respectful crawling
 

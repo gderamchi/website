@@ -4,7 +4,7 @@ This repository contains the code for my personal portfolio website, showcasing 
 
 ## 🌐 Live Demo
 
-Visit the [website](https://gderamchi.github.io/website/)
+Visit the [website](https://guillaume-portfolio-omega.vercel.app/)
 
 ## ✨ Features
 
@@ -47,8 +47,9 @@ Visit the [website](https://gderamchi.github.io/website/)
 │   ├── profile-photo.webp    # Profile photo
 │   ├── projects/             # Project screenshots
 │   └── favicon files         # Various favicon formats
-└── .github/workflows/        # GitHub Actions workflows
-    └── security-headers.yml  # Add security headers to deployed site
+├── api/                      # Vercel serverless functions
+│   └── chat.js               # Secure chat proxy
+└── vercel.json               # Vercel routing and security headers
 ```
 
 ## 🚀 Getting Started
@@ -65,11 +66,22 @@ Visit the [website](https://gderamchi.github.io/website/)
    # Using Python
    python -m http.server
 
-   # Or using Node.js with http-server
-   npx http-server
+   # Using Vercel, including /api routes
+   npm run dev
    ```
 
-4. Visit `http://localhost:8000` in your browser
+4. Visit the local URL printed by Vercel
+
+## 🚀 Deployment
+
+This site is deployed on Vercel. GitHub Pages and Netlify deployment configs
+are intentionally not used.
+
+Required production environment variable for the chat API:
+
+```bash
+BLACKBOX_API_KEY=<your-blackbox-api-key>
+```
 
 ## 🌙 Dark Mode
 

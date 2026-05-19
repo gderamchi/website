@@ -140,7 +140,7 @@ Push to ANY existing repo → Portfolio updates in 2 minutes ✅
 3. **Wait for next sync:**
    - Next run: Check GitHub Actions page
    - After run: Should have 20+ projects
-   - Website: https://guisamder.netlify.app/projects.html
+   - Website: https://guillaume-portfolio-omega.vercel.app/projects
 
 ---
 
@@ -207,7 +207,7 @@ git pull origin main
 - ✅ Portfolio scans all 20 repos
 - ✅ Adds: hack-the-gap, hack-station-f, minihack-foodtech, mini-hack, ai-video-maker, landing-page
 - ✅ Updates projects-data.js to 20+ projects
-- ✅ Deploys to Netlify
+- ✅ Deploys to Vercel
 
 ### After Setup Script (Optional):
 - ✅ Instant updates on every push to existing repos

@@ -88,11 +88,11 @@ AI PHILOSOPHY:
 CRITICAL ANTI-HALLUCINATION RULES:
 1. ONLY provide information that is EXPLICITLY stated above
 2. If asked about ANYTHING not mentioned above (specific projects, dates, technical details, personal info, etc.), you MUST respond with:
-   "I don't have that specific information in my current context. For detailed questions about [topic], please check my GitHub repos at https://github.com/gderamchi or reach out via the <a href='index.html#contact'>contact form</a> and I'll get back to you with accurate details!"
+   "I don't have that specific information in my current context. For detailed questions about [topic], please check my GitHub repos at https://github.com/gderamchi or reach out via the <a href='/#contact'>contact form</a> and I'll get back to you with accurate details!"
 3. NEVER make up, infer, or guess information
 4. NEVER provide specific project details, dates, or technical specifications unless explicitly listed above
 5. If uncertain about ANY detail, redirect to GitHub or contact form
-6. For project-specific questions, ALWAYS say: "You can find all my projects with full details on my <a href='projects.html'>projects page</a> or <a href='https://github.com/gderamchi' target='_blank'>GitHub</a>!"
+6. For project-specific questions, ALWAYS say: "You can find all my projects with full details on my <a href='/projects'>projects page</a> or <a href='https://github.com/gderamchi' target='_blank'>GitHub</a>!"
 
 RESPONSE GUIDELINES:
 1. Always speak in first person as Guillaume
@@ -197,7 +197,7 @@ async function handleSubmit(e) {
     typingIndicator.style.display = 'none';
 
     // Show error message
-    const errorMsg = `I'm having trouble connecting right now. Please try again or <a href="index.html#contact">contact me directly</a>.`;
+    const errorMsg = `I'm having trouble connecting right now. Please try again or <a href="/#contact">contact me directly</a>.`;
     addMessage(errorMsg, 'bot');
   } finally {
     isProcessing = false;
@@ -214,14 +214,9 @@ async function getAIResponse(userMessage) {
     content: userMessage
   });
 
-  // Try backend proxy (Netlify Function) first
+  // Try backend proxy first
   try {
-    // Determine the API endpoint based on environment
-    const apiEndpoint = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-      ? 'http://localhost:8888/api/chat'  // Local Netlify dev server
-      : '/api/chat';  // Production Netlify function
-
-    const response = await fetch(apiEndpoint, {
+    const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -292,7 +287,7 @@ function generateIntelligentResponse(message) {
 
   // Hackathons
   if (lowerMessage.includes('hackathon') || lowerMessage.includes('competition')) {
-    return `Oh man, I LOVE hackathons! I discovered them in my second year and they completely changed my perspective. I've won several, including my first blockchain hackathon which was super memorable. Hackathons are where I met amazing people and discovered interesting technologies. They're also where I use AI tools to their full potential - combining my coding skills with prompt engineering to build things fast. If you want to see my hackathon projects, check out my <a href="projects.html">projects page</a>!`;
+    return `Oh man, I LOVE hackathons! I discovered them in my second year and they completely changed my perspective. I've won several, including my first blockchain hackathon which was super memorable. Hackathons are where I met amazing people and discovered interesting technologies. They're also where I use AI tools to their full potential - combining my coding skills with prompt engineering to build things fast. If you want to see my hackathon projects, check out my <a href="/projects">projects page</a>!`;
   }
 
   // Skills / Programming
@@ -312,7 +307,7 @@ function generateIntelligentResponse(message) {
 
   // Projects
   if (lowerMessage.includes('project') || lowerMessage.includes('built') || lowerMessage.includes('created') || lowerMessage.includes('work on')) {
-    return `I've worked on some really cool projects! Some highlights: my AI Pathology Copilot for healthcare diagnostics (won the Doctolib hackathon!), a Virtual Processor Simulator in C (8 GitHub stars), an AI Code Review Bot (Blackbox AI hackathon), and blockchain projects that got me my first hackathon win. I've also built full-stack apps, mobile apps with Flutter, and automation tools. You can see all 16+ projects on my <a href="projects.html">projects page</a>. What type of project interests you - AI, healthcare, blockchain, or something else?`;
+    return `I've worked on some really cool projects! Some highlights: my AI Pathology Copilot for healthcare diagnostics (won the Doctolib hackathon!), a Virtual Processor Simulator in C (8 GitHub stars), an AI Code Review Bot (Blackbox AI hackathon), and blockchain projects that got me my first hackathon win. I've also built full-stack apps, mobile apps with Flutter, and automation tools. You can see all 16+ projects on my <a href="/projects">projects page</a>. What type of project interests you - AI, healthcare, blockchain, or something else?`;
   }
 
   // Healthcare/Medical projects
@@ -332,7 +327,7 @@ function generateIntelligentResponse(message) {
 
   // Contact / Collaboration
   if (lowerMessage.includes('contact') || lowerMessage.includes('reach') || lowerMessage.includes('email') || lowerMessage.includes('collaborate') || lowerMessage.includes('work together')) {
-    return `I'd love to connect! You can reach me through the <a href="index.html#contact">contact form</a> on my website, or find me on <a href="https://github.com/gderamchi" target="_blank">GitHub</a> and <a href="https://www.linkedin.com/in/guillaume-deramchi/" target="_blank">LinkedIn</a>. Whether it's about a project, hackathon, or just to chat about tech, feel free to reach out!`;
+    return `I'd love to connect! You can reach me through the <a href="/#contact">contact form</a> on my website, or find me on <a href="https://github.com/gderamchi" target="_blank">GitHub</a> and <a href="https://www.linkedin.com/in/guillaume-deramchi/" target="_blank">LinkedIn</a>. Whether it's about a project, hackathon, or just to chat about tech, feel free to reach out!`;
   }
 
   // Toulouse
@@ -346,7 +341,7 @@ function generateIntelligentResponse(message) {
   }
 
   // Default response
-  return `That's an interesting question! While I can share general info about my background, experience, and interests, for more specific questions or detailed discussions, I'd recommend <a href="index.html#contact">reaching out directly</a>. I'm always happy to chat! Is there something specific about my experience, projects, or skills you'd like to know more about?`;
+  return `That's an interesting question! While I can share general info about my background, experience, and interests, for more specific questions or detailed discussions, I'd recommend <a href="/#contact">reaching out directly</a>. I'm always happy to chat! Is there something specific about my experience, projects, or skills you'd like to know more about?`;
 }
 
 // Convert markdown to HTML

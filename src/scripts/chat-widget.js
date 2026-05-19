@@ -5,7 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // Don't show widget on chat page itself
-  if (window.location.pathname.includes('chat.html')) {
+  if (window.location.pathname.includes('chat.html') || window.location.pathname === '/chat') {
     return;
   }
 
@@ -39,7 +39,7 @@ function createChatWidget() {
   const tooltip = widget.querySelector('.chat-widget-tooltip');
 
   btn.addEventListener('click', () => {
-    window.location.href = 'chat.html';
+    window.location.href = '/chat';
   });
 
   // Show tooltip on hover

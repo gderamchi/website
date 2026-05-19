@@ -212,7 +212,7 @@ The chatbot can intelligently respond to questions about:
 - All files are ready for production
 - No external dependencies beyond existing ones
 - Works with current build process
-- Compatible with GitHub Pages
+- Compatible with Vercel static hosting plus `/api/chat`
 
 ## Summary
 The AI chat feature is fully implemented with:
