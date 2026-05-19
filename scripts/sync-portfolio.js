@@ -19,7 +19,7 @@ async function syncPortfolio() {
   // Get configuration from environment or use defaults
   const username = process.env.GITHUB_USERNAME || 'gderamchi';
   const token = process.env.GITHUB_TOKEN;
-  const blackboxApiKey = process.env.BLACKBOX_API;
+  const openaiApiKey = process.env.OPENAI_API_KEY || process.env.BLACKBOX_API || process.env.BLACKBOX_API_KEY;
 
   // Organizations to check for contributions
   const organizations = process.env.GITHUB_ORGS
@@ -34,12 +34,11 @@ async function syncPortfolio() {
   // AI features: Using premium models (GPT-4 + DALL-E 3) for best quality
   const useAI = true; // Enabled: Using paid models for optimal results
 
-  if (!blackboxApiKey) {
-    console.warn('⚠️  No BLACKBOX_API found. AI enhancements will be skipped.');
-    console.warn('   Set BLACKBOX_API environment variable for AI-generated descriptions and images.\n');
+  if (!openaiApiKey) {
+    console.warn('⚠️  No OPENAI_API_KEY found. AI enhancements will be skipped.');
+    console.warn('   Set OPENAI_API_KEY environment variable for AI-generated descriptions and images.\n');
   } else if (!useAI) {
     console.warn('ℹ️  AI features temporarily disabled - using fallback system.');
-    console.warn('   Waiting for correct Blackbox API endpoint documentation.\n');
   }
 
   try {
@@ -70,14 +69,14 @@ async function syncPortfolio() {
 
       try {
         // AI-powered relevance check (if API key available)
-        if (blackboxApiKey && useAI) {
+        if (openaiApiKey && useAI) {
           const relevanceCheck = await isProjectRelevant({
             name: repo.name,
             description: repo.description,
             topics: repo.topics,
             language: repo.language,
             stars: repo.stargazers_count
-          }, blackboxApiKey);
+          }, openaiApiKey);
 
           if (!relevanceCheck.isRelevant) {
             console.log(`  🚫 Filtered out: ${relevanceCheck.reason}`);
@@ -207,10 +206,10 @@ async function syncPortfolio() {
           // Continue with fresh generation
         }
 
-        if (!hasExistingEnhancement && blackboxApiKey && useAI) {
+        if (!hasExistingEnhancement && openaiApiKey && useAI) {
           try {
             console.log(`  🤖 Generating AI title and description...`);
-            const enhanced = await enhanceProjectDescription(projectForEnhancement, blackboxApiKey);
+            const enhanced = await enhanceProjectDescription(projectForEnhancement, openaiApiKey);
             title = enhanced.title;
             description = enhanced.description;
             console.log(`  ✓ AI enhancement complete`);
@@ -229,11 +228,11 @@ async function syncPortfolio() {
         // Use existing image if available
         if (existingImagePath) {
           imagePath = existingImagePath;
-        } else if (blackboxApiKey && useAI) {
+        } else if (openaiApiKey && useAI) {
           try {
             console.log(`  🎨 Generating AI image...`);
             const projectWithTitle = { ...projectForEnhancement, title, description };
-            imagePath = await generateProjectImageAI(projectWithTitle, blackboxApiKey);
+            imagePath = await generateProjectImageAI(projectWithTitle, openaiApiKey);
           } catch (imageError) {
             console.error(`  ⚠️  AI image generation failed, using default`);
             imagePath = 'src/assets/images/projects/default.webp';
@@ -282,9 +281,9 @@ async function syncPortfolio() {
 
       // Check against all previously processed projects
       for (const existing of processedProjects) {
-        if (blackboxApiKey && useAI) {
+        if (openaiApiKey && useAI) {
           // Use AI to detect duplicates
-          const duplicateCheck = await areProjectsDuplicate(project, existing, blackboxApiKey);
+          const duplicateCheck = await areProjectsDuplicate(project, existing, openaiApiKey);
 
           if (duplicateCheck.isDuplicate) {
             isDuplicate = true;
@@ -356,7 +355,7 @@ async function syncPortfolio() {
       }
 
       // Small delay to avoid rate limiting
-      if (blackboxApiKey && useAI) {
+      if (openaiApiKey && useAI) {
         await new Promise(resolve => setTimeout(resolve, 200));
       }
     }

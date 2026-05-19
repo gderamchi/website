@@ -148,9 +148,9 @@ The chatbot can intelligently respond to questions about:
 ## Technical Implementation
 
 ### API Integration
-- Primary: BLACKBOX AI API (with fallback)
-- Endpoint: `https://api.blackbox.ai/v1/chat/completions`
-- Model: `blackboxai`
+- Primary: OpenAI Responses API (with fallback)
+- Endpoint: `https://api.openai.com/v1/responses`
+- Model: `OPENAI_MODEL` or `gpt-5.4-mini`
 - Fallback: Intelligent keyword-based responses
 
 ### Data Persistence
@@ -200,7 +200,7 @@ The chatbot can intelligently respond to questions about:
 - Responsive design for all screen sizes
 
 ## Future Enhancements (Optional)
-- [ ] Real BLACKBOX API integration with authentication
+- [ ] Tune OpenAI prompts and model settings from live usage
 - [ ] More sophisticated NLP for better responses
 - [ ] Conversation context awareness
 - [ ] Export chat history feature

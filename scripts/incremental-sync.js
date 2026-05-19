@@ -22,15 +22,15 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
   console.log(`📦 Processing repository: ${repoFullName}\n`);
 
   const token = process.env.GITHUB_TOKEN;
-  const blackboxApiKey = process.env.BLACKBOX_API;
+  const openaiApiKey = process.env.OPENAI_API_KEY || process.env.BLACKBOX_API || process.env.BLACKBOX_API_KEY;
   const username = process.env.GITHUB_USERNAME || repoOwner;
 
   if (!token) {
     console.warn('⚠️  No GITHUB_TOKEN found. API rate limits will be lower.\n');
   }
 
-  if (!blackboxApiKey) {
-    console.warn('⚠️  No BLACKBOX_API found. AI enhancements will be skipped.\n');
+  if (!openaiApiKey) {
+    console.warn('⚠️  No OPENAI_API_KEY found. AI enhancements will be skipped.\n');
   }
 
   try {
@@ -133,14 +133,14 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
     // Step 5: New project - Check relevance with AI
     console.log(`🆕 New project detected - checking relevance...`);
 
-    if (blackboxApiKey) {
+    if (openaiApiKey) {
       const relevanceCheck = await isProjectRelevant({
         name: repoInfo.name,
         description: repoInfo.description,
         topics: repoInfo.topics,
         language: repoInfo.language,
         stars: repoInfo.stargazers_count
-      }, blackboxApiKey);
+      }, openaiApiKey);
 
       if (!relevanceCheck.isRelevant) {
         console.log(`  🚫 Not relevant: ${relevanceCheck.reason}`);
@@ -182,7 +182,7 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
     const topics = generateTopics(repoInfo, details.languages);
 
     // AI enhancement for title and description
-    if (blackboxApiKey) {
+    if (openaiApiKey) {
       try {
         console.log(`  🤖 Generating AI title and description...`);
         const projectForEnhancement = {
@@ -192,7 +192,7 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
           language: repoInfo.language
         };
 
-        const enhanced = await enhanceProjectDescription(projectForEnhancement, blackboxApiKey);
+        const enhanced = await enhanceProjectDescription(projectForEnhancement, openaiApiKey);
         title = enhanced.title;
         description = enhanced.description;
         console.log(`  ✓ AI enhancement complete`);
@@ -205,7 +205,7 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
     // Generate AI image
     let imagePath = 'src/assets/images/projects/default.webp';
 
-    if (blackboxApiKey) {
+    if (openaiApiKey) {
       try {
         console.log(`  🎨 Generating AI image...`);
         const projectWithTitle = {
@@ -216,7 +216,7 @@ async function incrementalSync(repoFullName, repoOwner, repoName) {
           language: repoInfo.language
         };
 
-        imagePath = await generateProjectImageAI(projectWithTitle, blackboxApiKey);
+        imagePath = await generateProjectImageAI(projectWithTitle, openaiApiKey);
         console.log(`  ✓ Image generated: ${imagePath}`);
       } catch (error) {
         console.error(`  ⚠️  AI image generation failed, using default`);

@@ -1,15 +1,21 @@
 import fetch from 'node-fetch';
 import fs from 'fs';
 import path from 'path';
+import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const OPENAI_RESPONSES_URL = 'https://api.openai.com/v1/responses';
+const OPENAI_IMAGES_URL = 'https://api.openai.com/v1/images/generations';
+const DEFAULT_TEXT_MODEL = process.env.OPENAI_MODEL || 'gpt-5.4-mini';
+const DEFAULT_IMAGE_MODEL = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1';
+const DEFAULT_IMAGE_SIZE = process.env.OPENAI_IMAGE_SIZE || '1024x1024';
 
 /**
- * Enhance project title and description using Blackbox AI
+ * Enhance project title and description using OpenAI
  * @param {Object} project - Project object with name, description, topics
- * @param {string} apiKey - Blackbox API key
+ * @param {string} apiKey - OpenAI API key
  * @returns {Promise<Object>} Enhanced project with title and description
  */
 export async function enhanceProjectDescription(project, apiKey) {
@@ -40,38 +46,13 @@ Format your response ONLY as valid JSON with no additional text:
 }`;
 
   try {
-    // Use correct Blackbox API endpoint with required model parameter
-    const response = await fetch('https://api.blackbox.ai/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: 'blackboxai/openai/gpt-4o',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a technical writer. Respond ONLY with valid JSON, no markdown, no code blocks, no additional text.'
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 256,
-        stream: false
-      })
+    const data = await createTextResponse(apiKey, {
+      instructions: 'You are a technical writer. Respond ONLY with valid JSON, no markdown, no code blocks, no additional text.',
+      input: prompt,
+      temperature: 0.7,
+      maxOutputTokens: 256,
     });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`API error ${response.status}: ${errorText}`);
-    }
-
-    const data = await response.json();
-    let content = data.choices?.[0]?.message?.content || data.response || '';
+    let content = extractOutputText(data);
 
     // Clean up response - remove markdown code blocks if present
     content = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
@@ -109,9 +90,9 @@ function formatTitle(name) {
 }
 
 /**
- * Generate project image using Blackbox AI FLUX model
+ * Generate project image using OpenAI Images API
  * @param {Object} project - Project object
- * @param {string} apiKey - Blackbox API key
+ * @param {string} apiKey - OpenAI API key
  * @returns {Promise<string>} Path to generated image
  */
 export async function generateProjectImageAI(project, apiKey) {
@@ -135,21 +116,17 @@ CRITICAL REQUIREMENTS:
 Style: Clean geometric professional design, modern tech aesthetic, purple and cyan gradient background, simple icons or abstract shapes representing the technology/concept, minimalist composition, high contrast, suitable for developer portfolio card thumbnail.`;
 
   try {
-    // Use Blackbox AI with OpenJourney model for image generation
-    const response = await fetch('https://api.blackbox.ai/chat/completions', {
+    const response = await fetch(OPENAI_IMAGES_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: 'blackboxai/black-forest-labs/flux-1.1-pro-ultra',
-        messages: [
-          {
-            role: 'user',
-            content: prompt
-          }
-        ]
+        model: DEFAULT_IMAGE_MODEL,
+        prompt,
+        n: 1,
+        size: DEFAULT_IMAGE_SIZE
       })
     });
 
@@ -161,7 +138,7 @@ Style: Clean geometric professional design, modern tech aesthetic, purple and cy
     const data = await response.json();
 
     // Extract image data from response
-    const imageContent = data.choices?.[0]?.message?.content;
+    const imageContent = data.data?.[0];
 
     if (!imageContent) {
       throw new Error('No image data in response');
@@ -169,17 +146,16 @@ Style: Clean geometric professional design, modern tech aesthetic, purple and cy
 
     // Check if it's a URL or base64 data
     let buffer;
-    if (typeof imageContent === 'string' && imageContent.startsWith('http')) {
+    if (typeof imageContent.url === 'string' && imageContent.url.startsWith('http')) {
       // It's a URL - download it
-      const imageResponse = await fetch(imageContent);
+      const imageResponse = await fetch(imageContent.url);
       if (!imageResponse.ok) {
         throw new Error(`Failed to download image: ${imageResponse.status}`);
       }
       buffer = await imageResponse.arrayBuffer();
-    } else if (typeof imageContent === 'string' && imageContent.includes('base64')) {
+    } else if (typeof imageContent.b64_json === 'string') {
       // It's base64 data
-      const base64Data = imageContent.replace(/^data:image\/\w+;base64,/, '');
-      buffer = Buffer.from(base64Data, 'base64');
+      buffer = Buffer.from(imageContent.b64_json, 'base64');
     } else {
       throw new Error('Unknown image data format');
     }
@@ -191,7 +167,8 @@ Style: Clean geometric professional design, modern tech aesthetic, purple and cy
     }
 
     const imagePath = path.join(projectsDir, `${project.name}.webp`);
-    fs.writeFileSync(imagePath, Buffer.from(buffer));
+    const webpBuffer = await sharp(Buffer.from(buffer)).webp({ quality: 88 }).toBuffer();
+    fs.writeFileSync(imagePath, webpBuffer);
 
     console.log(`  ✓ Generated image: ${project.name}.webp`);
     return `images/projects/${project.name}.webp`;
@@ -200,4 +177,45 @@ Style: Clean geometric professional design, modern tech aesthetic, purple and cy
     console.error(`  ✗ Failed to generate image for ${project.name}:`, error.message);
     return 'images/projects/default.webp';
   }
+}
+
+async function createTextResponse(apiKey, { instructions, input, temperature, maxOutputTokens }) {
+  const response = await fetch(OPENAI_RESPONSES_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      model: DEFAULT_TEXT_MODEL,
+      instructions,
+      input,
+      temperature,
+      max_output_tokens: maxOutputTokens
+    })
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`OpenAI API error ${response.status}: ${errorText}`);
+  }
+
+  return response.json();
+}
+
+function extractOutputText(data) {
+  if (typeof data.output_text === 'string' && data.output_text.trim()) {
+    return data.output_text.trim();
+  }
+
+  const chunks = [];
+  for (const item of data.output || []) {
+    for (const content of item.content || []) {
+      if (typeof content.text === 'string') {
+        chunks.push(content.text);
+      }
+    }
+  }
+
+  return chunks.join('\n').trim();
 }

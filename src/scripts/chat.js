@@ -1,6 +1,6 @@
 /**
  * AI Chat System - Guillaume Deramchi's Personal Assistant
- * Powered by BLACKBOX AI API
+ * Powered by OpenAI API
  */
 
 // System prompt that defines Guillaume's personality and knowledge
@@ -206,7 +206,7 @@ async function handleSubmit(e) {
   }
 }
 
-// Get AI response from BLACKBOX API
+// Get AI response from OpenAI API
 async function getAIResponse(userMessage) {
   // Add user message to history
   conversationHistory.push({
@@ -229,7 +229,6 @@ async function getAIResponse(userMessage) {
           },
           ...conversationHistory
         ],
-        model: 'blackboxai/google/gemini-2.5-flash-preview-05-20',
         max_tokens: 500,
         temperature: 0.7
       })

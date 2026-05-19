@@ -81,8 +81,12 @@ still connected.
 Required production environment variable for the chat API:
 
 ```bash
-BLACKBOX_API_KEY=<your-blackbox-api-key>
+OPENAI_API_KEY=<your-openai-api-key>
+OPENAI_MODEL=gpt-5.4-mini # optional
 ```
+
+The runtime also accepts the old `BLACKBOX_API` secret name as a compatibility
+fallback if it already stores an OpenAI key.
 
 ## 🌙 Dark Mode
 
