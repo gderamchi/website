@@ -206,79 +206,6 @@ body.dark-mode::before {
   background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
 }
 
-/* Particles Canvas */
-#particles-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* Floating Blobs Background */
-.background-blobs {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: -2;
-  pointer-events: none;
-}
-
-.blob {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.3;
-  animation: float 20s ease-in-out infinite;
-  pointer-events: none;
-  z-index: -2;
-  will-change: transform;
-}
-
-.blob-1 {
-  width: 300px;
-  height: 300px;
-  background: var(--gradient-primary);
-  top: 10%;
-  left: 5%;
-  animation-delay: 0s;
-}
-
-.blob-2 {
-  width: 250px;
-  height: 250px;
-  background: var(--gradient-secondary);
-  top: 50%;
-  right: 5%;
-  animation-delay: -5s;
-}
-
-.blob-3 {
-  width: 200px;
-  height: 200px;
-  background: var(--gradient-accent);
-  bottom: 10%;
-  left: 30%;
-  animation-delay: -10s;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  33% {
-    transform: translate(30px, -50px) rotate(120deg);
-  }
-  66% {
-    transform: translate(-20px, 20px) rotate(240deg);
-  }
-}
-
 /* ============================================
    3. TYPOGRAPHY
    ============================================ */
@@ -642,26 +569,6 @@ nav {
 @keyframes pulse {
   0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
   50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.1); }
-}
-
-/* Scroll Indicator */
-.scroll-indicator {
-  position: absolute;
-  bottom: var(--space-8);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
-  color: var(--color-text-tertiary);
-  font-size: var(--font-size-sm);
-  animation: bounce 2s ease-in-out infinite;
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(-10px); }
 }
 
 /* ============================================
@@ -1911,28 +1818,6 @@ body.dark-mode .project-image-container {
   will-change: width;
 }
 
-/* Fix 7: Scroll Indicator Positioning */
-.scroll-indicator {
-  position: absolute;
-  bottom: var(--space-8);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
-  color: var(--color-text-tertiary);
-  font-size: var(--font-size-sm);
-  animation: bounce 2s ease-in-out infinite;
-  z-index: 10;
-}
-
-@media (max-width: 768px) {
-  .scroll-indicator {
-    display: none;
-  }
-}
-
 /* Fix 8: Profile Image Sizing */
 .profile-image-wrapper {
   position: relative;
@@ -2045,20 +1930,8 @@ body.dark-mode .project-image-container {
   z-index: 1;
 }
 
-/* Fix 13: Floating Blobs Performance */
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.3;
-  animation: float 20s ease-in-out infinite;
-  will-change: transform;
-}
-
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
-  .blob,
-  .scroll-indicator,
   .hero-image-glow,
   .profile-glow {
     animation: none;

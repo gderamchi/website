@@ -1,26 +1,7 @@
 /* ============================================
    DESIGN ENHANCEMENTS
-   Interactive Particles, 3D Tilt, Smooth Animations
+   3D Tilt, Smooth Animations
    ============================================ */
-
-/* ============================================
-   1. PARTICLE CANVAS
-   ============================================ */
-
-#particles-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.9;
-}
-
-body.dark-mode #particles-canvas {
-  opacity: 1;
-}
 
 /* ============================================
    2. 3D TILT ENHANCEMENTS
@@ -461,9 +442,6 @@ body.dark-mode #particles-canvas {
     transform: none !important;
   }
   
-  #particles-canvas {
-    display: none;
-  }
 }
 
 /* ============================================
@@ -485,10 +463,6 @@ body.dark-mode #particles-canvas {
     transform: translateY(20px);
   }
   
-  /* Reduce particle count on mobile (handled in JS) */
-  #particles-canvas {
-    opacity: 0.4;
-  }
 }
 
 @media (max-width: 480px) {
@@ -524,7 +498,6 @@ body.dark-mode .skeleton {
    ============================================ */
 
 @media print {
-  #particles-canvas,
   .scroll-progress,
   .tilt-glare,
   .page-transition {
